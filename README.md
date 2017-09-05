@@ -2,9 +2,6 @@
 
 Test stateful streaming, and joining streams in various technologies.
 
-Currently supporting
-* spark_16
-
 ## Use case
 
 We have 2 streams:
@@ -15,6 +12,19 @@ We have 2 streams:
 * **user_update** is a stream with relatively low velocity, and it contains some additional information about users (UserCategoryUpdate(userId: String, category: String, timestamp: Long))
 
 Our goal is to join those 2 streams, and create an shared state where we will store, the current category for each users. And produce a new stream with the enriched user profile.
+
+
+### Currently supporting
+* spark_16
+
+### Todo:
+* flink
+* spark 2.x
+* kafka-streams
+* storm
+* heron
+* apex
+* samza
 
 
 ## Requirements
