@@ -60,7 +60,7 @@ object Main {
 
   def config(xs: Array[String]): GeneratorConfig = {
 
-    lazy val emptyConfig = GeneratorConfig(1, 10, 2, "user_info", "user_update", "localhost:9092", "http://localhost:8081")
+    lazy val emptyConfig = GeneratorConfig(1, 100, 2, "user_info", "user_update", "localhost:9092", "http://localhost:8081")
 
     lazy val parser = new OptionParser[GeneratorConfig]("scopt") {
       head("scopt", "3.x")
