@@ -1,5 +1,6 @@
 package eu.ideata.streaming.spark16
 
+import java.time.{Instant, LocalDateTime}
 import java.util.Properties
 
 import com.sksamuel.avro4s.RecordFormat
@@ -39,7 +40,7 @@ object EnrichStreams {
 
         val category = state.getOption().getOrElse("")
 
-        ui.map{ case UserInfo(userId, timestamp, booleanFlag, subCategory, someValue, intValue) =>  UserInfoWithCategory(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue) }
+        ui.map{ case UserInfo(userId, timestamp, booleanFlag, subCategory, someValue, intValue) =>  UserInfoWithCategory(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli)}
 
       }}
     }
@@ -48,11 +49,11 @@ object EnrichStreams {
 
     val userUpdateStream: InputDStream[(Object, Object)] = KafkaUtils.createDirectStream[Object, Object, KafkaAvroDecoder, KafkaAvroDecoder](ssc, kafkaParams, Set(appConf.userCategoryUpdateTopic))
 
-    //We have to consume all the data here, user state should be an kafka connect compacted topic, but we still risk loosing some data, best approach will be just to read the whole phoenix table with the latest timestamp
-    //val initalUserState = KafkaUtils.createRDD[Object, Object, KafkaAvroDecoder, KafkaAvroDecoder](ssc, kafkaParams, Set(userCategoryUpdateTopic))
+    //We have to consume all the data here, user state should be an kafka connect compacted topic
+    //val initalUserState = KafkaUtils.createRDD[Object, Object, KafkaAvroDecoder, KafkaAvroDecoder](ssc, kafkaParams, Set(userCategoryUpdateTopic)) //something
 
 
-    val kafkaSink = ssc.sparkContext.broadcast(props)
+    val kafkaProps = ssc.sparkContext.broadcast(props)
 
     val targetTopic = ssc.sparkContext.broadcast(appConf.kafkaTargetTopic)
 
@@ -90,7 +91,7 @@ object EnrichStreams {
         val formater = RecordFormat[UserInfoWithCategory]
 
         val topic = targetTopic.value
-        val kafkaParams = kafkaSink.value
+        val kafkaParams = kafkaProps.value
 
         val producer = new KafkaProducer[Object, Object](kafkaParams)
 

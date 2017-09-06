@@ -1,17 +1,15 @@
 package scala.eu.ideata.streaming.generator
 
+import java.time.Instant
 import java.util.Properties
 
 import scala.util.Random
 import akka.actor.Actor
 import akka.event.{Logging, LoggingAdapter}
-import com.github.nscala_time.time.Imports._
 import com.sksamuel.avro4s.RecordFormat
 import eu.ideata.streaming.core.{UserCategoryUpdate, UserInfo}
 import eu.ideata.streaming.messages.{GenerateUserCategoryUpdate, GenerateUserInfo}
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
-
-
 
 class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryModulo: Int, val userInfoTopic: String, userUpateTopic: String, val props: Properties) extends Actor {
 
@@ -20,8 +18,6 @@ class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryMo
   val generators = new DataGenerators(usersFrom, usersTo, categoryModulo, log)
   val userInfoFormat = RecordFormat[UserInfo]
   val userUpdateFormat = RecordFormat[UserCategoryUpdate]
-
-
 
   val producer = new KafkaProducer[Object, Object](props)
 
@@ -72,12 +68,12 @@ class DataGenerators(val userIdFrom: Int, val userIdTo: Int, categoryModulo: Int
 
   def randomUserInfo(user: String): UserInfo = {
     val subCategory = r.nextInt(3).toString
-    UserInfo(user, DateTime.now().getMillis, r.nextBoolean(), subCategory, r.nextFloat(), r.nextInt(1000))
+    UserInfo(user, Instant.now().toEpochMilli, r.nextBoolean(), subCategory, r.nextFloat(), r.nextInt(1000))
   }
 
   def randomUserCategory(user: String): UserCategoryUpdate = {
     val category = r.nextInt(1024).toString
-    val timestamp = DateTime.now().getMillis
+    val timestamp = Instant.now().toEpochMilli
     UserCategoryUpdate(user, category, timestamp)
   }
 }

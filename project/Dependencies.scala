@@ -61,4 +61,14 @@ object Dependencies {
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.4.4"
     )
   }
+
+  lazy val flinkDeps = {
+    val flinkVersion =  "1.3.2"
+    Seq(
+      "org.apache.flink" %% "flink-streaming-scala" % flinkVersion,
+      "org.apache.flink" %% "flink-scala" % flinkVersion,
+      "org.apache.flink" %% "flink-clients" % flinkVersion,
+      "org.apache.flink" %% "flink-connector-kafka-0.10" % flinkVersion
+    )
+  }
 }
