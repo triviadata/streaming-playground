@@ -16,17 +16,16 @@ Our goal is to join those 2 streams, and create an shared state where we will st
 
 
 ### Currently supporting
-* spark_16
+* spark 1.6.2
+* flink 1.3.1
 
 ### Todo:
-* flink
 * spark 2.x
 * kafka-streams
 * storm
 * heron
 * apex
 * samza
-
 
 ## Requirements
 
@@ -50,4 +49,11 @@ Our goal is to join those 2 streams, and create an shared state where we will st
 * run one of the streaming platforms
     * for spark_1_6
         * sbt spark16/run
+        
+    * for flink
+        * download flink 1.3.1
+        * run ${flink_directory}/bin/start-local.sh
+        * go to project root directory
+        * build fat jar using sbt assembly
+        * run ${flink_directory}/flink-1.3.2/bin/flink run flink/target/scala-2.11/flink-assembly-0.1.0-SNAPSHOT.jar --port 9000
 

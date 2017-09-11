@@ -8,16 +8,13 @@ import java.time.Instant
 import java.util.Properties
 
 import eu.ideata.streaming.core._
+import eu.ideata.streaming.flink.schemaregistry.{ConfluentRegistryDeserialization, ConfluentRegistrySerialization, KafkaKV}
 import org.apache.flink.streaming.api.scala._
 
-import scala.collection.JavaConverters._
-import io.confluent.kafka.serializers.{AbstractKafkaAvroSerDeConfig, KafkaAvroDeserializer, KafkaAvroSerializer}
 import org.apache.avro.generic.GenericRecord
 import org.apache.avro.specific.SpecificData
 import org.apache.flink.api.common.functions.RichMapFunction
 import org.apache.flink.api.common.state.{MapState, MapStateDescriptor}
-import org.apache.flink.api.common.typeinfo.TypeInformation
-import org.apache.flink.api.java.typeutils.TypeExtractor
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.runtime.state.filesystem.FsStateBackend
 import org.apache.flink.streaming.api.functions.co.{RichCoFlatMapFunction, RichCoMapFunction}
@@ -128,65 +125,5 @@ object StateMap extends RichCoFlatMapFunction[UserInfoWrapper, UserCategoryUpdat
     out.close()
   }
 }
-
-case class ConfluentRegistryDeserialization(topic: String, schemaRegistryUrl: String) extends KeyedDeserializationSchema[(String, GenericRecord)] {
-
-
-  @transient lazy val valueDeserializer = {
-    val deserializer = new KafkaAvroDeserializer()
-    deserializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, false)
-
-    deserializer
-  }
-
-  @transient lazy val keyDeserializer = {
-    val deserializer = new KafkaAvroDeserializer()
-    deserializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava,  true)
-    deserializer
-  }
-
-  override def isEndOfStream(nextElement: (String, GenericRecord)): Boolean = false
-
-  override def deserialize(messageKey: Array[Byte], message: Array[Byte],
-                           topic: String, partition: Int, offset: Long): (String, GenericRecord) = {
-
-    val key = keyDeserializer.deserialize(topic, messageKey).asInstanceOf[String]
-    val value = valueDeserializer.deserialize(topic, message).asInstanceOf[GenericRecord]
-
-    (key, value)
-  }
-
-  override def getProducedType: TypeInformation[(String, GenericRecord)] =
-    TypeExtractor.getForClass(classOf[(String, GenericRecord)])
-}
-
-
-
-case class KafkaKV(key: String, value: GenericRecord)
-
-case class ConfluentRegistrySerialization(topic: String, schemaRegistryUrl: String) extends KeyedSerializationSchema[KafkaKV]{
-
-  @transient lazy val valueSerializer = {
-    val serializer = new KafkaAvroSerializer()
-    serializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, false)
-    serializer
-  }
-
-  @transient lazy val keySerializer = {
-    val serializer = new KafkaAvroSerializer()
-    serializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, true)
-    serializer
-  }
-
-  override def serializeKey(keyedMessages: KafkaKV): Array[Byte] =
-    keySerializer.serialize(topic, keyedMessages.key)
-
-  override def getTargetTopic(element: KafkaKV): String = topic
-
-  override def serializeValue(keyedMessages: KafkaKV): Array[Byte] =
-    valueSerializer.serialize(topic, keyedMessages.value)
-}
-
-
 
 

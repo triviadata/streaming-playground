@@ -1,12 +1,10 @@
 package eu.ideata.streaming.spark16
 
-import java.time.{Instant, LocalDateTime}
+import java.time.Instant
 import java.util.Properties
-
-import com.sksamuel.avro4s.RecordFormat
-import eu.ideata.streaming.core.{UserCategoryUpdateWrapper, UserInfoWrapper, UserInfoWithCategoryWrapper}
+import eu.ideata.streaming.core._
 import io.confluent.kafka.serializers.KafkaAvroDecoder
-import org.apache.avro.generic.GenericRecord
+import org.apache.avro.specific.SpecificData
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming._
@@ -62,20 +60,20 @@ object EnrichStreams {
       .numPartitions(4)
 
     val s1: DStream[(String, UserInfoWrapper)] = userInfoStream.mapPartitions(itr => {
-      val format = RecordFormat[UserInfoWrapper]
+      val data = new SpecificData()
 
       itr.map { case (k,v) => {
-        val u = format.from(v.asInstanceOf[GenericRecord])
+        val u = UserInfoWrapper.fromJava(data.deepCopy(UserInfo.getClassSchema, v).asInstanceOf[UserInfo])
         u.userId -> u
       }}
     })
 
 
     val s2: DStream[(String, UserCategoryUpdateWrapper)] = userUpdateStream.mapPartitions(itr => {
-      val format = RecordFormat[UserCategoryUpdateWrapper]
+      val data = new SpecificData()
 
       itr.map{ case (k,v) => {
-        val u = format.from(v.asInstanceOf[GenericRecord])
+        val u = UserCategoryUpdateWrapper.fromJava(data.deepCopy(UserCategoryUpdate.getClassSchema, v).asInstanceOf[UserCategoryUpdate])
         u.userId -> u
       }}
     })
@@ -88,15 +86,13 @@ object EnrichStreams {
     stateStream.foreachRDD( rdd => {
       rdd.foreachPartition(partition => {
 
-        val formater = RecordFormat[UserInfoWithCategoryWrapper]
-
         val topic = targetTopic.value
         val kafkaParams = kafkaProps.value
 
         val producer = new KafkaProducer[Object, Object](kafkaParams)
 
         partition.foreach(record => {
-          val message = new ProducerRecord[Object, Object](topic, record.userId, formater.to(record))
+          val message = new ProducerRecord[Object, Object](topic, record.userId, record.asJava)
           producer.send(message)
         })
       })
