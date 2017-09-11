@@ -55,5 +55,5 @@ Our goal is to join those 2 streams, and create an shared state where we will st
         * run ${flink_directory}/bin/start-local.sh
         * go to project root directory
         * build fat jar using sbt assembly
-        * run ${flink_directory}/flink-1.3.2/bin/flink run flink/target/scala-2.11/flink-assembly-0.1.0-SNAPSHOT.jar --port 9000
+        * run ${flink_directory}/bin/flink run flink/target/scala-2.11/flink-assembly-0.1.0-SNAPSHOT.jar --port 9000
 
