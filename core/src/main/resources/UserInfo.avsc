@@ -1,0 +1,13 @@
+ {
+       "type": "record",
+       "name": "UserInfo",
+       "namespace": "eu.ideata.streaming.core",
+       "fields": [
+           { "name" : "userId", "type" : "string" },
+           { "name" : "timestamp", "type": "long" },
+           { "name" : "booleanFlag", "type": "boolean" },
+           { "name" : "subCategory", "type": "string" },
+           { "name" : "someValue", "type": "float" },
+           { "name" : "intValue", "type": "int" }
+       ]
+   }

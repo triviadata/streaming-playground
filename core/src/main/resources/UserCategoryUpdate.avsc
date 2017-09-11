@@ -1,0 +1,10 @@
+{
+     "type": "record",
+     "name": "UserCategoryUpdate",
+     "namespace": "eu.ideata.streaming.core",
+     "fields": [
+         { "name" : "userId", "type" : "string" },
+         { "name" : "category", "type": "string" },
+         { "name" : "timestamp", "type": "long" }
+     ]
+ }

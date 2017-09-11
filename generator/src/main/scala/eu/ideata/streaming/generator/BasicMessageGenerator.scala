@@ -7,7 +7,7 @@ import scala.util.Random
 import akka.actor.Actor
 import akka.event.{Logging, LoggingAdapter}
 import com.sksamuel.avro4s.RecordFormat
-import eu.ideata.streaming.core.{UserCategoryUpdate, UserInfo}
+import eu.ideata.streaming.core.{UserCategoryUpdateWrapper, UserInfoWrapper}
 import eu.ideata.streaming.messages.{GenerateUserCategoryUpdate, GenerateUserInfo}
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
@@ -16,8 +16,8 @@ class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryMo
   val log: LoggingAdapter = Logging(context.system, this)
 
   val generators = new DataGenerators(usersFrom, usersTo, categoryModulo, log)
-  val userInfoFormat = RecordFormat[UserInfo]
-  val userUpdateFormat = RecordFormat[UserCategoryUpdate]
+  val userInfoFormat = RecordFormat[UserInfoWrapper]
+  val userUpdateFormat = RecordFormat[UserCategoryUpdateWrapper]
 
   val producer = new KafkaProducer[Object, Object](props)
 
@@ -55,25 +55,25 @@ class DataGenerators(val userIdFrom: Int, val userIdTo: Int, categoryModulo: Int
 
   log.info(s"User count: ${users.size}")
 
-  def generateUserInfo: List[UserInfo] = {
+  def generateUserInfo: List[UserInfoWrapper] = {
     val size = r.nextInt(users.size / 3)
     log.info(s"Random ${size} user info")
 
     r.shuffle(users).take(size).map(randomUserInfo)
   }
 
-  def generateUserUpdate: List[UserCategoryUpdate] = r.shuffle(users).take(10).map(randomUserCategory)
+  def generateUserUpdate: List[UserCategoryUpdateWrapper] = r.shuffle(users).take(10).map(randomUserCategory)
 
   def sha256Hash(text: String) : String = String.format("%064x", new java.math.BigInteger(1, java.security.MessageDigest.getInstance("SHA-256").digest(text.getBytes("UTF-8"))))
 
-  def randomUserInfo(user: String): UserInfo = {
+  def randomUserInfo(user: String): UserInfoWrapper = {
     val subCategory = r.nextInt(3).toString
-    UserInfo(user, Instant.now().toEpochMilli, r.nextBoolean(), subCategory, r.nextFloat(), r.nextInt(1000))
+    UserInfoWrapper(user, Instant.now().toEpochMilli, r.nextBoolean(), subCategory, r.nextFloat(), r.nextInt(1000))
   }
 
-  def randomUserCategory(user: String): UserCategoryUpdate = {
+  def randomUserCategory(user: String): UserCategoryUpdateWrapper = {
     val category = r.nextInt(1024).toString
     val timestamp = Instant.now().toEpochMilli
-    UserCategoryUpdate(user, category, timestamp)
+    UserCategoryUpdateWrapper(user, category, timestamp)
   }
 }

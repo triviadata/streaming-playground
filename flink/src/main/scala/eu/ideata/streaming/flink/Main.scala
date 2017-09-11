@@ -8,13 +8,16 @@ import java.time.Instant
 import java.util.Properties
 
 import com.sksamuel.avro4s.{FromRecord, RecordFormat, SchemaFor, ToRecord}
-import eu.ideata.streaming.core.{UserCategoryUpdate, UserInfo, UserInfoWithCategory}
+import eu.ideata.streaming.core._
+import eu.ideata.streaming.flink.ToUserInfo.spec
 import org.apache.flink.streaming.api.scala._
 
 import scala.collection.JavaConverters._
 import org.apache.flink.streaming.api.windowing.time.Time
 import io.confluent.kafka.serializers.{AbstractKafkaAvroSerDeConfig, KafkaAvroDeserializer, KafkaAvroSerializer}
+import org.apache.avro.Schema
 import org.apache.avro.generic.GenericRecord
+import org.apache.avro.specific.SpecificData
 import org.apache.flink.api.common.functions.RichMapFunction
 import org.apache.flink.api.common.state.{MapState, MapStateDescriptor}
 import org.apache.flink.api.common.typeinfo.TypeInformation
@@ -77,27 +80,33 @@ object Main {
   }
 }
 
-object ToUserInfo extends RichMapFunction[(String, GenericRecord), UserInfo] {
-  @transient lazy val format = RecordFormat[UserInfo]
+object ToUserInfo extends RichMapFunction[(String, GenericRecord), UserInfoWrapper] {
 
-  def map(in: (String, GenericRecord)): UserInfo = format.from(in._2)
+  @transient lazy val spec = SpecificData.get()
 
-}
-
-object ToUserCategoryUpdate extends RichMapFunction[(String, GenericRecord), UserCategoryUpdate] {
-  @transient lazy val format = RecordFormat[UserCategoryUpdate]
-
-  def map(in: (String, GenericRecord)): UserCategoryUpdate = format.from(in._2)
-}
-
-object ToUserWithCategory extends RichMapFunction[UserInfoWithCategory, KafkaKV] {
-  @transient lazy val format = RecordFormat[UserInfoWithCategory]
-
-  def map(in: UserInfoWithCategory): KafkaKV = KafkaKV(in.userId, format.to(in))
+  def map(in: (String, GenericRecord)): UserInfoWrapper = {
+    val data = spec.deepCopy(UserInfo.SCHEMA$, in._2).asInstanceOf[UserInfo]
+    UserInfoWrapper.fromJava(data)
+  }
 
 }
 
-object StateMap extends RichCoFlatMapFunction[UserInfo, UserCategoryUpdate, UserInfoWithCategory]{
+object ToUserCategoryUpdate extends RichMapFunction[(String, GenericRecord), UserCategoryUpdateWrapper] {
+  @transient lazy val spec = SpecificData.get()
+
+  def map(in: (String, GenericRecord)): UserCategoryUpdateWrapper ={
+    val data = spec.deepCopy(UserCategoryUpdate.SCHEMA$, in._2).asInstanceOf[UserCategoryUpdate]
+    UserCategoryUpdateWrapper.fromJava(data)
+  }
+}
+
+object ToUserWithCategory extends RichMapFunction[UserInfoWithCategoryWrapper, KafkaKV] {
+
+  def map(in: UserInfoWithCategoryWrapper): KafkaKV = KafkaKV(in.userId, in.asJava)
+
+}
+
+object StateMap extends RichCoFlatMapFunction[UserInfoWrapper, UserCategoryUpdateWrapper, UserInfoWithCategoryWrapper]{
 
   private var userCategoryState: MapState[String, String] = _
 
@@ -107,18 +116,18 @@ object StateMap extends RichCoFlatMapFunction[UserInfo, UserCategoryUpdate, User
     )
   }
 
-  override def flatMap2(value: UserCategoryUpdate, out: Collector[UserInfoWithCategory]): Unit = {
+  override def flatMap2(value: UserCategoryUpdateWrapper, out: Collector[UserInfoWithCategoryWrapper]): Unit = {
     userCategoryState.put(value.userId, value.userId)
     out.close()
   }
 
-  override def flatMap1(value: UserInfo, out: Collector[UserInfoWithCategory]): Unit = {
+  override def flatMap1(value: UserInfoWrapper, out: Collector[UserInfoWithCategoryWrapper]): Unit = {
 
     val category = if(userCategoryState.contains(value.userId)) userCategoryState.get(value.userId) else ""
 
-    val UserInfo(userId, timestamp, booleanFlag, subCategory, someValue, intValue) = value
+    val UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue) = value
 
-    val enriched = UserInfoWithCategory(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli)
+    val enriched = UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, "flink")
 
     out.collect(enriched)
     out.close()
@@ -127,22 +136,17 @@ object StateMap extends RichCoFlatMapFunction[UserInfo, UserCategoryUpdate, User
 
 case class ConfluentRegistryDeserialization(topic: String, schemaRegistryUrl: String) extends KeyedDeserializationSchema[(String, GenericRecord)] {
 
-  // Flink needs the serializer to be serializable => this "@transient lazy val" does the trick
+
   @transient lazy val valueDeserializer = {
     val deserializer = new KafkaAvroDeserializer()
-    deserializer.configure(
-      // other schema-registry configuration parameters can be passed, see the configure() code
-      // for details (among other things, schema cache size)
-      Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava,
-      false)
+    deserializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, false)
+
     deserializer
   }
 
   @transient lazy val keyDeserializer = {
     val deserializer = new KafkaAvroDeserializer()
-    deserializer.configure(
-      Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava,
-      true)
+    deserializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava,  true)
     deserializer
   }
 
@@ -169,17 +173,13 @@ case class ConfluentRegistrySerialization(topic: String, schemaRegistryUrl: Stri
 
   @transient lazy val valueSerializer = {
     val serializer = new KafkaAvroSerializer()
-    serializer.configure(
-      Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava,
-      false)
+    serializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, false)
     serializer
   }
 
   @transient lazy val keySerializer = {
     val serializer = new KafkaAvroSerializer()
-    serializer.configure(
-      Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava,
-      true)
+    serializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, true)
     serializer
   }
 

@@ -34,6 +34,13 @@ object Dependencies {
       )
     }
 
+  lazy val avro = {
+    val version = "1.8.2"
+    Seq(
+      "org.apache.avro" % "avro" % version
+    )
+  }
+
   val kafkaAvroSerde = {
     val confluentVersion = "3.1.2"
     Seq("io.confluent" % "kafka-avro-serializer" % confluentVersion excludeAll ExclusionRule(name = "jackson-databind"),

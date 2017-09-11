@@ -4,7 +4,7 @@ import java.time.{Instant, LocalDateTime}
 import java.util.Properties
 
 import com.sksamuel.avro4s.RecordFormat
-import eu.ideata.streaming.core.{UserCategoryUpdate, UserInfo, UserInfoWithCategory}
+import eu.ideata.streaming.core.{UserCategoryUpdateWrapper, UserInfoWrapper, UserInfoWithCategoryWrapper}
 import io.confluent.kafka.serializers.KafkaAvroDecoder
 import org.apache.avro.generic.GenericRecord
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
@@ -34,13 +34,13 @@ object EnrichStreams {
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, appConf.kafkaServerUrl)
     props.put("schema.registry.url", appConf.schemaRegistryUrl)
 
-    def updateStateForUsers(batchTime: Time, key: String, value: Option[(Option[UserInfo], Option[UserCategoryUpdate])], state: State[String]): Option[UserInfoWithCategory] = {
+    def updateStateForUsers(batchTime: Time, key: String, value: Option[(Option[UserInfoWrapper], Option[UserCategoryUpdateWrapper])], state: State[String]): Option[UserInfoWithCategoryWrapper] = {
       value.flatMap{ case(ui, uu) => {
         uu.foreach(u => state.update(u.category))
 
         val category = state.getOption().getOrElse("")
 
-        ui.map{ case UserInfo(userId, timestamp, booleanFlag, subCategory, someValue, intValue) =>  UserInfoWithCategory(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli)}
+        ui.map{ case UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue) =>  UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, "spark_16")}
 
       }}
     }
@@ -61,8 +61,8 @@ object EnrichStreams {
       .initialState(ssc.sparkContext.emptyRDD[(String,String)])
       .numPartitions(4)
 
-    val s1: DStream[(String, UserInfo)] = userInfoStream.mapPartitions(itr => {
-      val format = RecordFormat[UserInfo]
+    val s1: DStream[(String, UserInfoWrapper)] = userInfoStream.mapPartitions(itr => {
+      val format = RecordFormat[UserInfoWrapper]
 
       itr.map { case (k,v) => {
         val u = format.from(v.asInstanceOf[GenericRecord])
@@ -71,8 +71,8 @@ object EnrichStreams {
     })
 
 
-    val s2: DStream[(String, UserCategoryUpdate)] = userUpdateStream.mapPartitions(itr => {
-      val format = RecordFormat[UserCategoryUpdate]
+    val s2: DStream[(String, UserCategoryUpdateWrapper)] = userUpdateStream.mapPartitions(itr => {
+      val format = RecordFormat[UserCategoryUpdateWrapper]
 
       itr.map{ case (k,v) => {
         val u = format.from(v.asInstanceOf[GenericRecord])
@@ -88,7 +88,7 @@ object EnrichStreams {
     stateStream.foreachRDD( rdd => {
       rdd.foreachPartition(partition => {
 
-        val formater = RecordFormat[UserInfoWithCategory]
+        val formater = RecordFormat[UserInfoWithCategoryWrapper]
 
         val topic = targetTopic.value
         val kafkaParams = kafkaProps.value

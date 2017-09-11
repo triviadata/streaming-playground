@@ -15,7 +15,8 @@ lazy val shared = List(
 lazy val core = (project in file ("core"))
     .settings(shared: _*)
     .settings(
-      name := "core"
+      name := "core",
+      libraryDependencies ++= avro
     )
 
 lazy val generator = (project in file("generator"))
