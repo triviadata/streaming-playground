@@ -6,7 +6,6 @@ import java.util.Properties
 import scala.util.Random
 import akka.actor.Actor
 import akka.event.{Logging, LoggingAdapter}
-import com.sksamuel.avro4s.RecordFormat
 import eu.ideata.streaming.core.{UserCategoryUpdateWrapper, UserInfoWrapper}
 import eu.ideata.streaming.messages.{GenerateUserCategoryUpdate, GenerateUserInfo}
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
@@ -16,8 +15,6 @@ class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryMo
   val log: LoggingAdapter = Logging(context.system, this)
 
   val generators = new DataGenerators(usersFrom, usersTo, categoryModulo, log)
-  val userInfoFormat = RecordFormat[UserInfoWrapper]
-  val userUpdateFormat = RecordFormat[UserCategoryUpdateWrapper]
 
   val producer = new KafkaProducer[Object, Object](props)
 
@@ -26,7 +23,7 @@ class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryMo
 
       val size = generators
         .generateUserInfo
-        .map(info => new ProducerRecord[Object, Object](userInfoTopic, info.userId, userInfoFormat.to(info)))
+        .map(info => new ProducerRecord[Object, Object](userInfoTopic, info.userId, info.asJava))
         .map(producer.send)
         .size
 
@@ -37,7 +34,7 @@ class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryMo
 
       val size = generators
         .generateUserUpdate
-        .map(update => new ProducerRecord[Object, Object](userUpateTopic, update.userId, userUpdateFormat.to(update)))
+        .map(update => new ProducerRecord[Object, Object](userUpateTopic, update.userId, update.asJava))
         .map(producer.send)
         .size
 

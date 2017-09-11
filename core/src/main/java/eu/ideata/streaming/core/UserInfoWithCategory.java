@@ -11,17 +11,17 @@ import org.apache.avro.specific.SpecificData;
 @org.apache.avro.specific.AvroGenerated
 public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = 170777388673687900L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfoWithCategory\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"category\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"booleanFlag\",\"type\":\"boolean\"},{\"name\":\"subCategory\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"someValue\",\"type\":\"float\"},{\"name\":\"intValue\",\"type\":\"int\"},{\"name\":\"updated\",\"type\":\"long\"},{\"name\":\"streamingSource\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfoWithCategory\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"category\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"booleanFlag\",\"type\":\"boolean\"},{\"name\":\"subCategory\",\"type\":\"string\"},{\"name\":\"someValue\",\"type\":\"float\"},{\"name\":\"intValue\",\"type\":\"int\"},{\"name\":\"updated\",\"type\":\"long\"},{\"name\":\"streamingSource\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
-  @Deprecated public java.lang.String userId;
-  @Deprecated public java.lang.String category;
+  @Deprecated public java.lang.CharSequence userId;
+  @Deprecated public java.lang.CharSequence category;
   @Deprecated public long timestamp;
   @Deprecated public boolean booleanFlag;
-  @Deprecated public java.lang.String subCategory;
+  @Deprecated public java.lang.CharSequence subCategory;
   @Deprecated public float someValue;
   @Deprecated public int intValue;
   @Deprecated public long updated;
-  @Deprecated public java.lang.String streamingSource;
+  @Deprecated public java.lang.CharSequence streamingSource;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -42,7 +42,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * @param updated The new value for updated
    * @param streamingSource The new value for streamingSource
    */
-  public UserInfoWithCategory(java.lang.String userId, java.lang.String category, java.lang.Long timestamp, java.lang.Boolean booleanFlag, java.lang.String subCategory, java.lang.Float someValue, java.lang.Integer intValue, java.lang.Long updated, java.lang.String streamingSource) {
+  public UserInfoWithCategory(java.lang.CharSequence userId, java.lang.CharSequence category, java.lang.Long timestamp, java.lang.Boolean booleanFlag, java.lang.CharSequence subCategory, java.lang.Float someValue, java.lang.Integer intValue, java.lang.Long updated, java.lang.CharSequence streamingSource) {
     this.userId = userId;
     this.category = category;
     this.timestamp = timestamp;
@@ -75,15 +75,15 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: userId = (java.lang.String)value$; break;
-    case 1: category = (java.lang.String)value$; break;
+    case 0: userId = (java.lang.CharSequence)value$; break;
+    case 1: category = (java.lang.CharSequence)value$; break;
     case 2: timestamp = (java.lang.Long)value$; break;
     case 3: booleanFlag = (java.lang.Boolean)value$; break;
-    case 4: subCategory = (java.lang.String)value$; break;
+    case 4: subCategory = (java.lang.CharSequence)value$; break;
     case 5: someValue = (java.lang.Float)value$; break;
     case 6: intValue = (java.lang.Integer)value$; break;
     case 7: updated = (java.lang.Long)value$; break;
-    case 8: streamingSource = (java.lang.String)value$; break;
+    case 8: streamingSource = (java.lang.CharSequence)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -92,7 +92,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * Gets the value of the 'userId' field.
    * @return The value of the 'userId' field.
    */
-  public java.lang.String getUserId() {
+  public java.lang.CharSequence getUserId() {
     return userId;
   }
 
@@ -100,7 +100,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * Sets the value of the 'userId' field.
    * @param value the value to set.
    */
-  public void setUserId(java.lang.String value) {
+  public void setUserId(java.lang.CharSequence value) {
     this.userId = value;
   }
 
@@ -108,7 +108,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * Gets the value of the 'category' field.
    * @return The value of the 'category' field.
    */
-  public java.lang.String getCategory() {
+  public java.lang.CharSequence getCategory() {
     return category;
   }
 
@@ -116,7 +116,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * Sets the value of the 'category' field.
    * @param value the value to set.
    */
-  public void setCategory(java.lang.String value) {
+  public void setCategory(java.lang.CharSequence value) {
     this.category = value;
   }
 
@@ -156,7 +156,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * Gets the value of the 'subCategory' field.
    * @return The value of the 'subCategory' field.
    */
-  public java.lang.String getSubCategory() {
+  public java.lang.CharSequence getSubCategory() {
     return subCategory;
   }
 
@@ -164,7 +164,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * Sets the value of the 'subCategory' field.
    * @param value the value to set.
    */
-  public void setSubCategory(java.lang.String value) {
+  public void setSubCategory(java.lang.CharSequence value) {
     this.subCategory = value;
   }
 
@@ -220,7 +220,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * Gets the value of the 'streamingSource' field.
    * @return The value of the 'streamingSource' field.
    */
-  public java.lang.String getStreamingSource() {
+  public java.lang.CharSequence getStreamingSource() {
     return streamingSource;
   }
 
@@ -228,7 +228,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * Sets the value of the 'streamingSource' field.
    * @param value the value to set.
    */
-  public void setStreamingSource(java.lang.String value) {
+  public void setStreamingSource(java.lang.CharSequence value) {
     this.streamingSource = value;
   }
 
@@ -264,15 +264,15 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<UserInfoWithCategory>
     implements org.apache.avro.data.RecordBuilder<UserInfoWithCategory> {
 
-    private java.lang.String userId;
-    private java.lang.String category;
+    private java.lang.CharSequence userId;
+    private java.lang.CharSequence category;
     private long timestamp;
     private boolean booleanFlag;
-    private java.lang.String subCategory;
+    private java.lang.CharSequence subCategory;
     private float someValue;
     private int intValue;
     private long updated;
-    private java.lang.String streamingSource;
+    private java.lang.CharSequence streamingSource;
 
     /** Creates a new Builder */
     private Builder() {
@@ -371,7 +371,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       * Gets the value of the 'userId' field.
       * @return The value.
       */
-    public java.lang.String getUserId() {
+    public java.lang.CharSequence getUserId() {
       return userId;
     }
 
@@ -380,7 +380,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       * @param value The value of 'userId'.
       * @return This builder.
       */
-    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setUserId(java.lang.String value) {
+    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setUserId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.userId = value;
       fieldSetFlags()[0] = true;
@@ -410,7 +410,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       * Gets the value of the 'category' field.
       * @return The value.
       */
-    public java.lang.String getCategory() {
+    public java.lang.CharSequence getCategory() {
       return category;
     }
 
@@ -419,7 +419,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       * @param value The value of 'category'.
       * @return This builder.
       */
-    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setCategory(java.lang.String value) {
+    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setCategory(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.category = value;
       fieldSetFlags()[1] = true;
@@ -525,7 +525,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       * Gets the value of the 'subCategory' field.
       * @return The value.
       */
-    public java.lang.String getSubCategory() {
+    public java.lang.CharSequence getSubCategory() {
       return subCategory;
     }
 
@@ -534,7 +534,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       * @param value The value of 'subCategory'.
       * @return This builder.
       */
-    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setSubCategory(java.lang.String value) {
+    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setSubCategory(java.lang.CharSequence value) {
       validate(fields()[4], value);
       this.subCategory = value;
       fieldSetFlags()[4] = true;
@@ -678,7 +678,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       * Gets the value of the 'streamingSource' field.
       * @return The value.
       */
-    public java.lang.String getStreamingSource() {
+    public java.lang.CharSequence getStreamingSource() {
       return streamingSource;
     }
 
@@ -687,7 +687,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       * @param value The value of 'streamingSource'.
       * @return This builder.
       */
-    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setStreamingSource(java.lang.String value) {
+    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setStreamingSource(java.lang.CharSequence value) {
       validate(fields()[8], value);
       this.streamingSource = value;
       fieldSetFlags()[8] = true;
@@ -717,15 +717,15 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
     public UserInfoWithCategory build() {
       try {
         UserInfoWithCategory record = new UserInfoWithCategory();
-        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.String) defaultValue(fields()[0]);
-        record.category = fieldSetFlags()[1] ? this.category : (java.lang.String) defaultValue(fields()[1]);
+        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.CharSequence) defaultValue(fields()[0]);
+        record.category = fieldSetFlags()[1] ? this.category : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.timestamp = fieldSetFlags()[2] ? this.timestamp : (java.lang.Long) defaultValue(fields()[2]);
         record.booleanFlag = fieldSetFlags()[3] ? this.booleanFlag : (java.lang.Boolean) defaultValue(fields()[3]);
-        record.subCategory = fieldSetFlags()[4] ? this.subCategory : (java.lang.String) defaultValue(fields()[4]);
+        record.subCategory = fieldSetFlags()[4] ? this.subCategory : (java.lang.CharSequence) defaultValue(fields()[4]);
         record.someValue = fieldSetFlags()[5] ? this.someValue : (java.lang.Float) defaultValue(fields()[5]);
         record.intValue = fieldSetFlags()[6] ? this.intValue : (java.lang.Integer) defaultValue(fields()[6]);
         record.updated = fieldSetFlags()[7] ? this.updated : (java.lang.Long) defaultValue(fields()[7]);
-        record.streamingSource = fieldSetFlags()[8] ? this.streamingSource : (java.lang.String) defaultValue(fields()[8]);
+        record.streamingSource = fieldSetFlags()[8] ? this.streamingSource : (java.lang.CharSequence) defaultValue(fields()[8]);
         return record;
       } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

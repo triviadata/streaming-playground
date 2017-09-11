@@ -7,15 +7,11 @@ package eu.ideata.streaming.flink
 import java.time.Instant
 import java.util.Properties
 
-import com.sksamuel.avro4s.{FromRecord, RecordFormat, SchemaFor, ToRecord}
 import eu.ideata.streaming.core._
-import eu.ideata.streaming.flink.ToUserInfo.spec
 import org.apache.flink.streaming.api.scala._
 
 import scala.collection.JavaConverters._
-import org.apache.flink.streaming.api.windowing.time.Time
 import io.confluent.kafka.serializers.{AbstractKafkaAvroSerDeConfig, KafkaAvroDeserializer, KafkaAvroSerializer}
-import org.apache.avro.Schema
 import org.apache.avro.generic.GenericRecord
 import org.apache.avro.specific.SpecificData
 import org.apache.flink.api.common.functions.RichMapFunction
@@ -23,7 +19,6 @@ import org.apache.flink.api.common.state.{MapState, MapStateDescriptor}
 import org.apache.flink.api.common.typeinfo.TypeInformation
 import org.apache.flink.api.java.typeutils.TypeExtractor
 import org.apache.flink.configuration.Configuration
-import org.apache.flink.optimizer.operators.MapDescriptor
 import org.apache.flink.runtime.state.filesystem.FsStateBackend
 import org.apache.flink.streaming.api.functions.co.{RichCoFlatMapFunction, RichCoMapFunction}
 import org.apache.flink.streaming.util.serialization.{KeyedDeserializationSchema, KeyedSerializationSchema, SimpleStringSchema}
@@ -82,20 +77,20 @@ object Main {
 
 object ToUserInfo extends RichMapFunction[(String, GenericRecord), UserInfoWrapper] {
 
-  @transient lazy val spec = SpecificData.get()
+  @transient lazy val spec = new SpecificData()
 
   def map(in: (String, GenericRecord)): UserInfoWrapper = {
-    val data = spec.deepCopy(UserInfo.SCHEMA$, in._2).asInstanceOf[UserInfo]
+    val data = spec.deepCopy(UserInfo.getClassSchema, in._2).asInstanceOf[UserInfo]
     UserInfoWrapper.fromJava(data)
   }
 
 }
 
 object ToUserCategoryUpdate extends RichMapFunction[(String, GenericRecord), UserCategoryUpdateWrapper] {
-  @transient lazy val spec = SpecificData.get()
+  @transient lazy val spec = new SpecificData()
 
   def map(in: (String, GenericRecord)): UserCategoryUpdateWrapper ={
-    val data = spec.deepCopy(UserCategoryUpdate.SCHEMA$, in._2).asInstanceOf[UserCategoryUpdate]
+    val data = spec.deepCopy(UserCategoryUpdate.getClassSchema, in._2).asInstanceOf[UserCategoryUpdate]
     UserCategoryUpdateWrapper.fromJava(data)
   }
 }

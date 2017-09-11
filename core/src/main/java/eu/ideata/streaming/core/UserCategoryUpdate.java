@@ -11,10 +11,10 @@ import org.apache.avro.specific.SpecificData;
 @org.apache.avro.specific.AvroGenerated
 public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = 6115888122383663930L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserCategoryUpdate\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"category\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"timestamp\",\"type\":\"long\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserCategoryUpdate\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"category\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
-  @Deprecated public java.lang.String userId;
-  @Deprecated public java.lang.String category;
+  @Deprecated public java.lang.CharSequence userId;
+  @Deprecated public java.lang.CharSequence category;
   @Deprecated public long timestamp;
 
   /**
@@ -30,7 +30,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
    * @param category The new value for category
    * @param timestamp The new value for timestamp
    */
-  public UserCategoryUpdate(java.lang.String userId, java.lang.String category, java.lang.Long timestamp) {
+  public UserCategoryUpdate(java.lang.CharSequence userId, java.lang.CharSequence category, java.lang.Long timestamp) {
     this.userId = userId;
     this.category = category;
     this.timestamp = timestamp;
@@ -51,8 +51,8 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: userId = (java.lang.String)value$; break;
-    case 1: category = (java.lang.String)value$; break;
+    case 0: userId = (java.lang.CharSequence)value$; break;
+    case 1: category = (java.lang.CharSequence)value$; break;
     case 2: timestamp = (java.lang.Long)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
@@ -62,7 +62,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
    * Gets the value of the 'userId' field.
    * @return The value of the 'userId' field.
    */
-  public java.lang.String getUserId() {
+  public java.lang.CharSequence getUserId() {
     return userId;
   }
 
@@ -70,7 +70,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
    * Sets the value of the 'userId' field.
    * @param value the value to set.
    */
-  public void setUserId(java.lang.String value) {
+  public void setUserId(java.lang.CharSequence value) {
     this.userId = value;
   }
 
@@ -78,7 +78,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
    * Gets the value of the 'category' field.
    * @return The value of the 'category' field.
    */
-  public java.lang.String getCategory() {
+  public java.lang.CharSequence getCategory() {
     return category;
   }
 
@@ -86,7 +86,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
    * Sets the value of the 'category' field.
    * @param value the value to set.
    */
-  public void setCategory(java.lang.String value) {
+  public void setCategory(java.lang.CharSequence value) {
     this.category = value;
   }
 
@@ -138,8 +138,8 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<UserCategoryUpdate>
     implements org.apache.avro.data.RecordBuilder<UserCategoryUpdate> {
 
-    private java.lang.String userId;
-    private java.lang.String category;
+    private java.lang.CharSequence userId;
+    private java.lang.CharSequence category;
     private long timestamp;
 
     /** Creates a new Builder */
@@ -191,7 +191,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
       * Gets the value of the 'userId' field.
       * @return The value.
       */
-    public java.lang.String getUserId() {
+    public java.lang.CharSequence getUserId() {
       return userId;
     }
 
@@ -200,7 +200,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'userId'.
       * @return This builder.
       */
-    public eu.ideata.streaming.core.UserCategoryUpdate.Builder setUserId(java.lang.String value) {
+    public eu.ideata.streaming.core.UserCategoryUpdate.Builder setUserId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.userId = value;
       fieldSetFlags()[0] = true;
@@ -230,7 +230,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
       * Gets the value of the 'category' field.
       * @return The value.
       */
-    public java.lang.String getCategory() {
+    public java.lang.CharSequence getCategory() {
       return category;
     }
 
@@ -239,7 +239,7 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
       * @param value The value of 'category'.
       * @return This builder.
       */
-    public eu.ideata.streaming.core.UserCategoryUpdate.Builder setCategory(java.lang.String value) {
+    public eu.ideata.streaming.core.UserCategoryUpdate.Builder setCategory(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.category = value;
       fieldSetFlags()[1] = true;
@@ -307,8 +307,8 @@ public class UserCategoryUpdate extends org.apache.avro.specific.SpecificRecordB
     public UserCategoryUpdate build() {
       try {
         UserCategoryUpdate record = new UserCategoryUpdate();
-        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.String) defaultValue(fields()[0]);
-        record.category = fieldSetFlags()[1] ? this.category : (java.lang.String) defaultValue(fields()[1]);
+        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.CharSequence) defaultValue(fields()[0]);
+        record.category = fieldSetFlags()[1] ? this.category : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.timestamp = fieldSetFlags()[2] ? this.timestamp : (java.lang.Long) defaultValue(fields()[2]);
         return record;
       } catch (Exception e) {

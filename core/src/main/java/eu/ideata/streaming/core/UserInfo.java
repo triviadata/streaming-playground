@@ -11,12 +11,12 @@ import org.apache.avro.specific.SpecificData;
 @org.apache.avro.specific.AvroGenerated
 public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = 8795558432313671980L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfo\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"booleanFlag\",\"type\":\"boolean\"},{\"name\":\"subCategory\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"someValue\",\"type\":\"float\"},{\"name\":\"intValue\",\"type\":\"int\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfo\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"booleanFlag\",\"type\":\"boolean\"},{\"name\":\"subCategory\",\"type\":\"string\"},{\"name\":\"someValue\",\"type\":\"float\"},{\"name\":\"intValue\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
-  @Deprecated public java.lang.String userId;
+  @Deprecated public java.lang.CharSequence userId;
   @Deprecated public long timestamp;
   @Deprecated public boolean booleanFlag;
-  @Deprecated public java.lang.String subCategory;
+  @Deprecated public java.lang.CharSequence subCategory;
   @Deprecated public float someValue;
   @Deprecated public int intValue;
 
@@ -36,7 +36,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
    * @param someValue The new value for someValue
    * @param intValue The new value for intValue
    */
-  public UserInfo(java.lang.String userId, java.lang.Long timestamp, java.lang.Boolean booleanFlag, java.lang.String subCategory, java.lang.Float someValue, java.lang.Integer intValue) {
+  public UserInfo(java.lang.CharSequence userId, java.lang.Long timestamp, java.lang.Boolean booleanFlag, java.lang.CharSequence subCategory, java.lang.Float someValue, java.lang.Integer intValue) {
     this.userId = userId;
     this.timestamp = timestamp;
     this.booleanFlag = booleanFlag;
@@ -63,10 +63,10 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: userId = (java.lang.String)value$; break;
+    case 0: userId = (java.lang.CharSequence)value$; break;
     case 1: timestamp = (java.lang.Long)value$; break;
     case 2: booleanFlag = (java.lang.Boolean)value$; break;
-    case 3: subCategory = (java.lang.String)value$; break;
+    case 3: subCategory = (java.lang.CharSequence)value$; break;
     case 4: someValue = (java.lang.Float)value$; break;
     case 5: intValue = (java.lang.Integer)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
@@ -77,7 +77,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
    * Gets the value of the 'userId' field.
    * @return The value of the 'userId' field.
    */
-  public java.lang.String getUserId() {
+  public java.lang.CharSequence getUserId() {
     return userId;
   }
 
@@ -85,7 +85,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
    * Sets the value of the 'userId' field.
    * @param value the value to set.
    */
-  public void setUserId(java.lang.String value) {
+  public void setUserId(java.lang.CharSequence value) {
     this.userId = value;
   }
 
@@ -125,7 +125,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
    * Gets the value of the 'subCategory' field.
    * @return The value of the 'subCategory' field.
    */
-  public java.lang.String getSubCategory() {
+  public java.lang.CharSequence getSubCategory() {
     return subCategory;
   }
 
@@ -133,7 +133,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
    * Sets the value of the 'subCategory' field.
    * @param value the value to set.
    */
-  public void setSubCategory(java.lang.String value) {
+  public void setSubCategory(java.lang.CharSequence value) {
     this.subCategory = value;
   }
 
@@ -201,10 +201,10 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<UserInfo>
     implements org.apache.avro.data.RecordBuilder<UserInfo> {
 
-    private java.lang.String userId;
+    private java.lang.CharSequence userId;
     private long timestamp;
     private boolean booleanFlag;
-    private java.lang.String subCategory;
+    private java.lang.CharSequence subCategory;
     private float someValue;
     private int intValue;
 
@@ -281,7 +281,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       * Gets the value of the 'userId' field.
       * @return The value.
       */
-    public java.lang.String getUserId() {
+    public java.lang.CharSequence getUserId() {
       return userId;
     }
 
@@ -290,7 +290,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'userId'.
       * @return This builder.
       */
-    public eu.ideata.streaming.core.UserInfo.Builder setUserId(java.lang.String value) {
+    public eu.ideata.streaming.core.UserInfo.Builder setUserId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.userId = value;
       fieldSetFlags()[0] = true;
@@ -396,7 +396,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       * Gets the value of the 'subCategory' field.
       * @return The value.
       */
-    public java.lang.String getSubCategory() {
+    public java.lang.CharSequence getSubCategory() {
       return subCategory;
     }
 
@@ -405,7 +405,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'subCategory'.
       * @return This builder.
       */
-    public eu.ideata.streaming.core.UserInfo.Builder setSubCategory(java.lang.String value) {
+    public eu.ideata.streaming.core.UserInfo.Builder setSubCategory(java.lang.CharSequence value) {
       validate(fields()[3], value);
       this.subCategory = value;
       fieldSetFlags()[3] = true;
@@ -511,10 +511,10 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
     public UserInfo build() {
       try {
         UserInfo record = new UserInfo();
-        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.String) defaultValue(fields()[0]);
+        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.timestamp = fieldSetFlags()[1] ? this.timestamp : (java.lang.Long) defaultValue(fields()[1]);
         record.booleanFlag = fieldSetFlags()[2] ? this.booleanFlag : (java.lang.Boolean) defaultValue(fields()[2]);
-        record.subCategory = fieldSetFlags()[3] ? this.subCategory : (java.lang.String) defaultValue(fields()[3]);
+        record.subCategory = fieldSetFlags()[3] ? this.subCategory : (java.lang.CharSequence) defaultValue(fields()[3]);
         record.someValue = fieldSetFlags()[4] ? this.someValue : (java.lang.Float) defaultValue(fields()[4]);
         record.intValue = fieldSetFlags()[5] ? this.intValue : (java.lang.Integer) defaultValue(fields()[5]);
         return record;

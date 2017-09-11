@@ -23,7 +23,7 @@ lazy val generator = (project in file("generator"))
   .dependsOn(core)
   .settings(shared: _*)
   .settings(
-    libraryDependencies ++= akka ++ avro4s ++ kafkaAvroSerde ++ kafkaClient ++ scopt,
+    libraryDependencies ++= akka ++ kafkaAvroSerde ++ kafkaClient ++ scopt ++ avro,
     name:= "generator",
     mainClass in (Compile, run) := Some("eu.ideata.streaming.main.Main")
   )
@@ -42,7 +42,7 @@ lazy val flink = (project in file("flink"))
   .settings(shared: _*)
   .settings(
     name := "flink",
-    libraryDependencies ++= flinkDeps ++ kafkaAvroSerde ++ avro4s ++ scopt
+    libraryDependencies ++= flinkDeps ++ kafkaAvroSerde ++ scopt ++ avro
   )
 
 lazy val root = (project in file(".")).aggregate(generator, core, flink)
