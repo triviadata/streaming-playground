@@ -5,6 +5,7 @@ import org.apache.avro.generic.GenericRecord
 import org.apache.flink.api.common.typeinfo.TypeInformation
 import org.apache.flink.api.java.typeutils.TypeExtractor
 import org.apache.flink.streaming.util.serialization.KeyedDeserializationSchema
+import scala.collection.JavaConverters._
 
 case class ConfluentRegistryDeserialization(topic: String, schemaRegistryUrl: String) extends KeyedDeserializationSchema[(String, GenericRecord)] {
 

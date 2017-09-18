@@ -19,10 +19,12 @@ object EnrichStreams {
 
     val appConf = Config.getConfig(args)
 
-    val kafkaParams = Map("metadata.broker.list" -> appConf.kafkaServerUrl,
+    val kafkaParams = Map(
+      "metadata.broker.list" -> appConf.kafkaServerUrl,
       "schema.registry.url" -> appConf.schemaRegistryUrl,
       "zookeeper.connect" -> appConf.zookeeperUrl,
-      "group.id" -> "kafka-spark_1_6-enrich-streaming"
+      "group.id" -> "kafka-spark_1_6-enrich-streaming",
+      "auto.offset.reset" -> "smallest"
     )
 
     val props = new Properties()

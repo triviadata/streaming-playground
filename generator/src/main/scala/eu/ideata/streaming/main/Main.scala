@@ -3,7 +3,7 @@ package eu.ideata.streaming.main
 import java.util.Properties
 
 import akka.actor.{ActorSystem, Props}
-import eu.ideata.streaming.messages.{GenerateUserCategoryUpdate, GenerateUserInfo}
+import eu.ideata.streaming.messages.{GenerateUserCategoryUpdate, GenerateUserInfo, InitialUpdate}
 import org.apache.kafka.clients.producer.ProducerConfig
 import scopt.OptionParser
 
@@ -27,8 +27,10 @@ object Main {
 
     val actor = system.actorOf(actorProps)
 
-    system.scheduler.schedule(0 millis, appConfig.userInfoGenerationIterval millis, actor, GenerateUserInfo)
-    system.scheduler.schedule(0 millis, appConfig.userUpdateGenerationIterval millis, actor, GenerateUserCategoryUpdate)
+    actor ! InitialUpdate
+
+    system.scheduler.schedule(1000 millis, appConfig.userInfoGenerationIterval millis, actor, GenerateUserInfo)
+    system.scheduler.schedule(2000 millis, appConfig.userUpdateGenerationIterval millis, actor, GenerateUserCategoryUpdate)
 
     Await.result(system.whenTerminated, 10 days)
 

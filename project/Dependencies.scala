@@ -2,6 +2,7 @@ import sbt._
 
 object Dependencies {
 
+  val kafkaVersion = "0.10.1.0"
 
   lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.0.3"
 
@@ -49,8 +50,14 @@ object Dependencies {
   }
 
   val kafkaClient = {
-    val kafkaVersion = "0.10.1.0"
     Seq("org.apache.kafka" % "kafka-clients" % kafkaVersion)
+  }
+
+  val kafkaStreamsDeps = {
+    Seq(
+      "org.apache.kafka" % "kafka-streams" % kafkaVersion,
+      "io.confluent" % "kafka-avro-serializer" % "3.1.2"
+    )
   }
 
   lazy val scopt = {

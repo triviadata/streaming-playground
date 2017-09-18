@@ -34,26 +34,31 @@ object Main {
     val sinkProperties = new Properties()
 
     sinkProperties.setProperty("bootstrap.servers", "localhost:9092")
-    sinkProperties.setProperty("group.id", "test")
+    sinkProperties.setProperty("group.id", "sink-test")
 
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
     val userInfo = new FlinkKafkaConsumer010("user_info", new ConfluentRegistryDeserialization("user_info",  "http://localhost:8081"), sourcePropertis)
 
+    userInfo.setStartFromEarliest()
+
     val userCategory = new FlinkKafkaConsumer010("user_update", new ConfluentRegistryDeserialization("user_update",  "http://localhost:8081"), sourcePropertis)
+
+    userCategory.setStartFromEarliest()
 
     val userInfoStream = env
       .addSource(userInfo)
       .map(ToUserInfo)
+      .keyBy("userId")
 
     val userCategoryStream = env
       .addSource(userCategory)
       .map(ToUserCategoryUpdate)
+      .keyBy("userId")
 
    val enriched: DataStream[KafkaKV] =  userInfoStream
       .connect(userCategoryStream)
-      .keyBy("userId", "userId")
       .flatMap(StateMap)
       .map(ToUserWithCategory)
 
@@ -73,7 +78,6 @@ object Main {
 }
 
 object ToUserInfo extends RichMapFunction[(String, GenericRecord), UserInfoWrapper] {
-
   @transient lazy val spec = new SpecificData()
 
   def map(in: (String, GenericRecord)): UserInfoWrapper = {
