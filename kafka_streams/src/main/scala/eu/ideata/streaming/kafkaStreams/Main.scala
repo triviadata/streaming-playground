@@ -18,7 +18,7 @@ object UserInfoCategoryJoiner extends ValueJoiner[UserInfo, UserCategoryUpdate, 
       if(value2 != null){
         new UserInfoWithCategory(value1.getUserId, value2.getCategory, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
       } else {
-        new UserInfoWithCategory(value1.getUserId, "", value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
+        new UserInfoWithCategory(value1.getUserId, "empty", value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
       }
     }
   }
@@ -49,7 +49,7 @@ object Pipe {
 
     val userInfoStream: KStream[String, UserInfo] = builder.stream(keySerde, userInfoSerde, "user_info")
 
-    val userCategoryTable: KTable[String, UserCategoryUpdate] = builder.table(keySerde, categoryUpdateSerde, "user_category", "user_category_compacted")
+    val userCategoryTable: KTable[String, UserCategoryUpdate] = builder.table(keySerde, categoryUpdateSerde, "user_update", "user_category_compacted")
 
     val joined: KStream[String, UserInfoWithCategory] = userInfoStream
       .leftJoin(userCategoryTable, UserInfoCategoryJoiner)

@@ -18,10 +18,10 @@ Our goal is to join those 2 streams, and create an shared state where we will st
 ### Currently supporting
 * spark 1.6.2
 * flink 1.3.1
+* kafka-streams 3.1.2
 
 ### Todo:
 * spark 2.x
-* kafka-streams
 * storm
 * heron
 * apex
@@ -56,4 +56,7 @@ Our goal is to join those 2 streams, and create an shared state where we will st
         * go to project root directory
         * build fat jar using sbt assembly
         * run ${flink_directory}/bin/flink run flink/target/scala-2.11/flink-assembly-0.1.0-SNAPSHOT.jar --port 9000
+        
+    * for kafka-streams
+        * sbt kafkaStreams/run
 
