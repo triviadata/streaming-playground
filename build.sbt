@@ -50,10 +50,10 @@ lazy val kafkaStreams = (project in file("kafka_streams"))
   .settings(shared: _*)
   .settings(
     name := "kafkaStreams",
-    libraryDependencies ++= kafkaStreamsDeps
+    libraryDependencies ++= kafkaStreamsDeps ++ scopt
   )
 
-lazy val root = (project in file(".")).aggregate(generator, core, flink)
+lazy val root = (project in file(".")).aggregate(generator, core, flink, kafkaStreams)
   .settings(shared: _*)
   .settings(
     name := "root"

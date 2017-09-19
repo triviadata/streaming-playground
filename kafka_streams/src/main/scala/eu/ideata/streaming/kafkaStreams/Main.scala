@@ -4,7 +4,7 @@ import java.time.Instant
 import java.util.Properties
 
 import eu.ideata.streaming.core.{UserCategoryUpdate, UserInfo, UserInfoWithCategory}
-import eu.ideata.streaming.kafkaStreams.utils.SpecificAvroSerde
+import eu.ideata.streaming.kafkaStreams.utils.{Config, SpecificAvroSerde}
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.{KafkaStreams, StreamsConfig}
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -18,7 +18,7 @@ object UserInfoCategoryJoiner extends ValueJoiner[UserInfo, UserCategoryUpdate, 
       if(value2 != null){
         new UserInfoWithCategory(value1.getUserId, value2.getCategory, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
       } else {
-        new UserInfoWithCategory(value1.getUserId, "empty", value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
+        new UserInfoWithCategory(value1.getUserId, null, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
       }
     }
   }
@@ -28,33 +28,38 @@ object Pipe {
   val builder = new KStreamBuilder
 
   def main(args: Array[String]): Unit = {
+
+    val conf = Config.getConfig(args)
+
     def config: Properties = {
       val p = new Properties()
       p.put(StreamsConfig.APPLICATION_ID_CONFIG, "enrich-streams")
-      p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "http://localhost:9092")
-      p.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081")
+      p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, conf.kafkaServerUrl)
+      p.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, conf.schemaRegistryUrl)
       p.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
       p
     }
 
+    val schemaRegistryConf = Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> conf.schemaRegistryUrl).asJava
+
     val keySerde = Serdes.String
     val userInfoSerde = new SpecificAvroSerde[UserInfo]
-    userInfoSerde.configure(Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> "http://localhost:8081").asJava, false)
+    userInfoSerde.configure(schemaRegistryConf, false)
 
     val categoryUpdateSerde = new SpecificAvroSerde[UserCategoryUpdate]
-    categoryUpdateSerde.configure(Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> "http://localhost:8081").asJava, false)
+    categoryUpdateSerde.configure(schemaRegistryConf, false)
 
     val sinkSerde = new SpecificAvroSerde[UserInfoWithCategory]
-    sinkSerde.configure(Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> "http://localhost:8081").asJava, false)
+    sinkSerde.configure(schemaRegistryConf, false)
 
-    val userInfoStream: KStream[String, UserInfo] = builder.stream(keySerde, userInfoSerde, "user_info")
+    val userInfoStream: KStream[String, UserInfo] = builder.stream(keySerde, userInfoSerde, conf.userInfoTopic)
 
-    val userCategoryTable: KTable[String, UserCategoryUpdate] = builder.table(keySerde, categoryUpdateSerde, "user_update", "user_category_compacted")
+    val userCategoryTable: KTable[String, UserCategoryUpdate] = builder.table(keySerde, categoryUpdateSerde, conf.userCategoryUpdateTopic, "user_category_compacted")
 
     val joined: KStream[String, UserInfoWithCategory] = userInfoStream
       .leftJoin(userCategoryTable, UserInfoCategoryJoiner)
 
-    joined.to(keySerde,sinkSerde, "enriched_user" )
+    joined.to(keySerde,sinkSerde, conf.kafkaTargetTopic)
 
     val stream = new KafkaStreams(builder, config)
 

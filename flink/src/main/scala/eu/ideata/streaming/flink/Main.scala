@@ -10,15 +10,15 @@ import java.util.Properties
 import eu.ideata.streaming.core._
 import eu.ideata.streaming.flink.schemaregistry.{ConfluentRegistryDeserialization, ConfluentRegistrySerialization, KafkaKV}
 import org.apache.flink.streaming.api.scala._
-
 import org.apache.avro.generic.GenericRecord
 import org.apache.avro.specific.SpecificData
 import org.apache.flink.api.common.functions.RichMapFunction
 import org.apache.flink.api.common.state.{MapState, MapStateDescriptor}
+import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.runtime.state.filesystem.FsStateBackend
-import org.apache.flink.streaming.api.functions.co.{RichCoFlatMapFunction, RichCoMapFunction}
-import org.apache.flink.streaming.util.serialization.{KeyedDeserializationSchema, KeyedSerializationSchema, SimpleStringSchema}
+import org.apache.flink.streaming.api.functions.co.RichCoFlatMapFunction
+import org.apache.flink.streaming.util.serialization.KeyedSerializationSchema
 import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer010, FlinkKafkaProducer010}
 import org.apache.flink.util.Collector
 
@@ -26,24 +26,34 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
+    val params = ParameterTool.fromArgs(args)
+
+    val kafkaUrl = params.get("kafkaServerUrl", "localhost:9092")
+    val schemaRegistryUrl = params.get("schemaRegistryUrl",  "http://localhost:8081")
+    val userInfoTopic = params.get("userInfoTopic",  "user_info")
+    val userCategoryUpdateTopic = params.get("userCategoryUpdateTopic", "user_update")
+    val targetTopic = params.get("kafkaTargetTopic", "enriched_user")
+    val flushOnCheckpoint = params.getBoolean("flushOnCheckpoint", false)
+    val checkpointingInterval = params.getInt("checkpointingInterval", 1000)
+    val stateLocation = params.get("stateLocation", "file:///Users/mbarak/projects/ideata/streaming-playground/checkpoints")
+
     val sourcePropertis = new Properties()
 
-    sourcePropertis.setProperty("bootstrap.servers", "localhost:9092")
-    sourcePropertis.setProperty("group.id", "test")
+    sourcePropertis.setProperty("bootstrap.servers", kafkaUrl)
+    sourcePropertis.setProperty("group.id", "flink-streaming")
 
     val sinkProperties = new Properties()
 
-    sinkProperties.setProperty("bootstrap.servers", "localhost:9092")
-    sinkProperties.setProperty("group.id", "sink-test")
-
+    sinkProperties.setProperty("bootstrap.servers", kafkaUrl)
+    sinkProperties.setProperty("group.id", "flink-sink")
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
-    val userInfo = new FlinkKafkaConsumer010("user_info", new ConfluentRegistryDeserialization("user_info",  "http://localhost:8081"), sourcePropertis)
+    val userInfo = new FlinkKafkaConsumer010(userInfoTopic, new ConfluentRegistryDeserialization(userInfoTopic,  schemaRegistryUrl), sourcePropertis)
 
     userInfo.setStartFromEarliest()
 
-    val userCategory = new FlinkKafkaConsumer010("user_update", new ConfluentRegistryDeserialization("user_update",  "http://localhost:8081"), sourcePropertis)
+    val userCategory = new FlinkKafkaConsumer010(userCategoryUpdateTopic, new ConfluentRegistryDeserialization(userCategoryUpdateTopic,  schemaRegistryUrl), sourcePropertis)
 
     userCategory.setStartFromEarliest()
 
@@ -62,18 +72,18 @@ object Main {
       .flatMap(StateMap)
       .map(ToUserWithCategory)
 
-    val sinkSerializer: KeyedSerializationSchema[KafkaKV] = new ConfluentRegistrySerialization("enriched_user", "http://localhost:8081")
+    val sinkSerializer: KeyedSerializationSchema[KafkaKV] = new ConfluentRegistrySerialization(targetTopic, schemaRegistryUrl)
 
     val sink = FlinkKafkaProducer010.writeToKafkaWithTimestamps(
       enriched.javaStream,
-      "enriched_user",
+      targetTopic,
       sinkSerializer, sinkProperties)
 
-    sink.setFlushOnCheckpoint(true)
+    sink.setFlushOnCheckpoint(flushOnCheckpoint)
 
-    env.enableCheckpointing(1000)
-    env.setStateBackend(new FsStateBackend("file:///Users/mbarak/projects/ideata/streaming-playground/checkpoints"))
-    env.execute("Simple consumption")
+    env.enableCheckpointing(checkpointingInterval)
+    env.setStateBackend(new FsStateBackend(stateLocation))
+    env.execute("Flink stateful streaming example")
   }
 }
 
@@ -84,7 +94,6 @@ object ToUserInfo extends RichMapFunction[(String, GenericRecord), UserInfoWrapp
     val data = spec.deepCopy(UserInfo.getClassSchema, in._2).asInstanceOf[UserInfo]
     UserInfoWrapper.fromJava(data)
   }
-
 }
 
 object ToUserCategoryUpdate extends RichMapFunction[(String, GenericRecord), UserCategoryUpdateWrapper] {
