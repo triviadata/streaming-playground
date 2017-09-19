@@ -29,5 +29,5 @@ CREATE TABLE user_category_update_original (userId STRING, category STRING, time
 ```
 
 ```sql
-CREATE STREAM enriched_user_original WITH (kafka_topic='enriched_user_kafka_stream', value_format='JSON') as SELECT user_info_original.userId, user_category_update_original.category, user_info_original.timestamp, booleanFlag, subCategory, someValue, intValue from user_info_original LEFT JOIN user_category_update_original ON user_info_original.userId = user_category_update_original.userId;
+CREATE STREAM enriched_user_original WITH (kafka_topic='enriched_user_kafka_stream', value_format='JSON') as SELECT user_info_original.userId as userId, user_category_update_original.category as category, user_info_original.timestamp as timestamp, booleanFlag, subCategory, someValue, intValue from user_info_original LEFT JOIN user_category_update_original ON user_info_original.userId = user_category_update_original.userId PARTITION BY userId ;
 ```
