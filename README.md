@@ -19,6 +19,7 @@ Our goal is to join those 2 streams, and create an shared state where we will st
 * spark 1.6.2
 * flink 1.3.1
 * kafka-streams 3.1.2
+* ksql
 
 ### Todo:
 * spark 2.x
@@ -59,4 +60,8 @@ Our goal is to join those 2 streams, and create an shared state where we will st
         
     * for kafka-streams
         * sbt kafkaStreams/run
+        
+    * for ksql
+        * check out the guide at kafka_streams/README.md 
+        
 
