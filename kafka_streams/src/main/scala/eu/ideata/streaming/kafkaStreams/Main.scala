@@ -15,11 +15,8 @@ import scala.collection.JavaConverters._
 
 object UserInfoCategoryJoiner extends ValueJoiner[UserInfo, UserCategoryUpdate, UserInfoWithCategory] {
   override def apply(value1: UserInfo, value2: UserCategoryUpdate): UserInfoWithCategory = {
-      if(value2 != null){
-        new UserInfoWithCategory(value1.getUserId, value2.getCategory, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
-      } else {
-        new UserInfoWithCategory(value1.getUserId, null, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
-      }
+      val category = Option(value2).map(_.getCategory).getOrElse(null)
+      new UserInfoWithCategory(value1.getUserId, category, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
     }
   }
 
