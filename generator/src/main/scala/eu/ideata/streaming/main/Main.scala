@@ -5,11 +5,16 @@ import java.util.Properties
 import akka.actor.{ActorSystem, Props}
 import eu.ideata.streaming.messages.{GenerateUserCategoryUpdate, GenerateUserInfo, InitialUpdate}
 import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.serialization.StringSerializer
 import scopt.OptionParser
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.eu.ideata.streaming.generator.BasicMessageGenerator
+
+sealed trait MessageFormat
+object AvroMessage extends MessageFormat
+object JsonMessage extends MessageFormat
 
 object Main {
 
@@ -21,9 +26,9 @@ object Main {
     implicit val ec = scala.concurrent.ExecutionContext.global
 
     val appConfig = config(args)
-    val kafkaProps = getProps(appConfig)
+    val kafkaProps = getProps(appConfig, appConfig.messageFormat)
 
-    val actorProps = Props( new BasicMessageGenerator(appConfig.userIdFrom, appConfig.userIdTo, appConfig.categoryCount, appConfig.userInfoTopic, appConfig.userInfoUpdateTopic, kafkaProps))
+    val actorProps = Props( new BasicMessageGenerator(appConfig.userIdFrom, appConfig.userIdTo, appConfig.categoryCount, appConfig.userInfoTopic, appConfig.userInfoUpdateTopic, kafkaProps, appConfig.messageFormat))
 
     val actor = system.actorOf(actorProps)
 
@@ -44,16 +49,27 @@ object Main {
                              kafakServerUrl: String,
                              schemaRegistryUrl: String,
                              userInfoGenerationIterval: Int = 100,
-                             userUpdateGenerationIterval: Int = 180000
+                             userUpdateGenerationIterval: Int = 180000,
+                             messageFormat: MessageFormat = JsonMessage
                             )
 
 
-  def getProps(config: GeneratorConfig): Properties = {
+  def getProps(config: GeneratorConfig, messageFormat: MessageFormat): Properties = {
 
     val props = new Properties()
 
-    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[io.confluent.kafka.serializers.KafkaAvroSerializer])
-    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[io.confluent.kafka.serializers.KafkaAvroSerializer])
+    messageFormat match {
+      case AvroMessage =>
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[io.confluent.kafka.serializers.KafkaAvroSerializer])
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[io.confluent.kafka.serializers.KafkaAvroSerializer])
+
+      case JsonMessage =>
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[org.apache.kafka.common.serialization.StringSerializer])
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[org.apache.kafka.common.serialization.StringSerializer])
+
+    }
+
+
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.kafakServerUrl)
     props.put("schema.registry.url", config.schemaRegistryUrl)
 
@@ -120,6 +136,16 @@ object Main {
         .action {
           case (s, conf) => conf.copy(categoryCount = s)
         }
+
+      opt[String]("messageFormat")
+        .validate{
+          case s if(s == "json" | s == "avro") => Right(s)
+          case _ => Left("Valid options are json or avro")
+        }.action{
+          case ("json", conf) => conf.copy(messageFormat = JsonMessage)
+          case ("avro", conf) => conf.copy(messageFormat = AvroMessage)
+
+      }
     }
     parser.parse(xs, emptyConfig).getOrElse(emptyConfig)
   }

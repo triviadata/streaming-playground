@@ -1,8 +1,8 @@
 package eu.ideata.streaming.flink.schemaregistry
 
-import KafkaKV
 import io.confluent.kafka.serializers.{AbstractKafkaAvroSerDeConfig, KafkaAvroSerializer}
 import org.apache.flink.streaming.util.serialization.KeyedSerializationSchema
+import scala.collection.JavaConverters._
 
 case class ConfluentRegistrySerialization(topic: String, schemaRegistryUrl: String) extends KeyedSerializationSchema[KafkaKV]{
 

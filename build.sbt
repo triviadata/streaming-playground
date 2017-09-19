@@ -23,7 +23,7 @@ lazy val generator = (project in file("generator"))
   .dependsOn(core)
   .settings(shared: _*)
   .settings(
-    libraryDependencies ++= akka ++ kafkaAvroSerde ++ kafkaClient ++ scopt ++ avro,
+    libraryDependencies ++= akka ++ kafkaAvroSerde ++ kafkaClient ++ scopt ++ avro ++ circle,
     name:= "generator",
     mainClass in (Compile, run) := Some("eu.ideata.streaming.main.Main")
   )

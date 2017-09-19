@@ -7,10 +7,13 @@ import scala.util.Random
 import akka.actor.Actor
 import akka.event.{Logging, LoggingAdapter}
 import eu.ideata.streaming.core.{UserCategoryUpdateWrapper, UserInfoWrapper}
+import eu.ideata.streaming.main.{AvroMessage, JsonMessage, MessageFormat}
 import eu.ideata.streaming.messages.{GenerateUserCategoryUpdate, GenerateUserInfo, InitialUpdate}
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
+import io.circe.generic.auto._
+import io.circe.syntax._
 
-class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryModulo: Int, val userInfoTopic: String, userUpateTopic: String, val props: Properties) extends Actor {
+class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryModulo: Int, val userInfoTopic: String, userUpateTopic: String, val props: Properties, messageFormat: MessageFormat) extends Actor {
 
   val log: LoggingAdapter = Logging(context.system, this)
 
@@ -18,39 +21,75 @@ class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryMo
 
   val generators = new DataGenerators(usersFrom, usersTo, categoryModulo, log)
 
-  val producer = new KafkaProducer[Object, Object](props)
+
+  var avroProducer: KafkaProducer[Object, Object] = _
+  var jsonProducer: KafkaProducer[String, String] = _
+
+
+  messageFormat match {
+    case AvroMessage => avroProducer = new KafkaProducer[Object, Object](props)
+    case JsonMessage => jsonProducer = new KafkaProducer[String, String](props)
+  }
 
   def receive = {
     case GenerateUserInfo => {
 
-      val size = generators
+      val users = generators
         .generateUserInfo
-        .map(info => new ProducerRecord[Object, Object](userInfoTopic, info.userId, info.asJava))
-        .map(producer.send)
-        .size
+
+      val size = {
+        messageFormat match {
+          case AvroMessage => users
+            .map(info => new ProducerRecord[Object, Object](userInfoTopic, info.userId, info.asJava))
+            .map(avroProducer.send)
+
+          case JsonMessage => users.map(info =>  new ProducerRecord[String, String](userInfoTopic, info.userId, info.asJson.noSpaces))
+            .map(jsonProducer.send)
+        }
+      }.size
+
 
       total += size
 
-      log.info(s"GenerateUserInfo generated: ${size} messages Total user info sent: ${total}")
+      log.info(s"GenerateUserInfo generated: ${size} formated as: ${messageFormat} Total user info sent: ${total}")
     }
 
     case GenerateUserCategoryUpdate => {
 
-      val size = generators
+      val users = generators
         .generateUserUpdate
-        .map(update => new ProducerRecord[Object, Object](userUpateTopic, update.userId, update.asJava))
-        .map(producer.send)
-        .size
+
+      val size = {
+        messageFormat match {
+          case AvroMessage =>
+            users.map(update => new ProducerRecord[Object, Object](userUpateTopic, update.userId, update.asJava))
+            .map(avroProducer.send)
+
+          case JsonMessage =>
+            users.map(update => new ProducerRecord[String, String](userUpateTopic, update.userId, update.asJson.noSpaces))
+              .map(jsonProducer.send)
+        }
+      }.size
 
       log.info(s"GenerateUserCategoryUpdate ${size} messages")
 
     }
     case InitialUpdate => {
-      val size = generators
+      val users = generators
         .generateInitialUpdate
-        .map(update => new ProducerRecord[Object, Object](userUpateTopic, update.userId, update.asJava))
-        .map(producer.send)
-        .size
+
+
+      val size = {
+        messageFormat match {
+          case AvroMessage =>
+            users.map(update => new ProducerRecord[Object, Object](userUpateTopic, update.userId, update.asJava))
+              .map(avroProducer.send)
+
+          case JsonMessage =>
+            users.map(update => new ProducerRecord[String, String](userUpateTopic, update.userId, update.asJson.noSpaces))
+              .map(jsonProducer.send)
+        }
+      }.size
 
       log.info(s"GenerateUserCategoryUpdate Initialization ${size} messages")
 

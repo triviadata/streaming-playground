@@ -2,7 +2,7 @@ import sbt._
 
 object Dependencies {
 
-  val kafkaVersion = "0.10.1.0"
+
 
   lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.0.3"
 
@@ -49,16 +49,19 @@ object Dependencies {
     )
   }
 
-  val kafkaClient = {
-    Seq("org.apache.kafka" % "kafka-clients" % kafkaVersion)
-  }
 
-  val kafkaStreamsDeps = {
-    Seq(
-      "org.apache.kafka" % "kafka-streams" % kafkaVersion,
-      "io.confluent" % "kafka-avro-serializer" % "3.1.2"
+  lazy val (kafkaClient,kafkaStreamsDeps)  = {
+    val kafkaVersion = "0.10.1.0"
+
+    (
+      Seq("org.apache.kafka" % "kafka-clients" % kafkaVersion),
+      Seq(
+        "org.apache.kafka" % "kafka-streams" % kafkaVersion,
+        "io.confluent" % "kafka-avro-serializer" % "3.1.2"
+      )
     )
   }
+
 
   lazy val scopt = {
     val version = "3.6.0"
@@ -84,5 +87,14 @@ object Dependencies {
       "org.apache.flink" %% "flink-clients" % flinkVersion,
       "org.apache.flink" %% "flink-connector-kafka-0.10" % flinkVersion
     )
+  }
+
+  lazy val circle = {
+    val circeVersion = "0.8.0"
+    Seq(
+      "io.circe" %% "circe-core",
+      "io.circe" %% "circe-generic",
+      "io.circe" %% "circe-parser"
+    ).map(_ % circeVersion)
   }
 }
