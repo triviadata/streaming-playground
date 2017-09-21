@@ -36,6 +36,7 @@ object Main {
     val flushOnCheckpoint = params.getBoolean("flushOnCheckpoint", false)
     val checkpointingInterval = params.getInt("checkpointingInterval", 1000)
     val stateLocation = params.get("stateLocation", "file:///Users/mbarak/projects/ideata/streaming-playground/checkpoints")
+    val fromBeginning = params.getBoolean("fromBeginning", false)
 
     val sourcePropertis = new Properties()
 
@@ -51,11 +52,10 @@ object Main {
 
     val userInfo = new FlinkKafkaConsumer010(userInfoTopic, new ConfluentRegistryDeserialization(userInfoTopic,  schemaRegistryUrl), sourcePropertis)
 
-    userInfo.setStartFromEarliest()
-
     val userCategory = new FlinkKafkaConsumer010(userCategoryUpdateTopic, new ConfluentRegistryDeserialization(userCategoryUpdateTopic,  schemaRegistryUrl), sourcePropertis)
 
-    userCategory.setStartFromEarliest()
+    if(fromBeginning) userInfo.setStartFromEarliest()
+    if(fromBeginning) userCategory.setStartFromEarliest()
 
     val userInfoStream = env
       .addSource(userInfo)

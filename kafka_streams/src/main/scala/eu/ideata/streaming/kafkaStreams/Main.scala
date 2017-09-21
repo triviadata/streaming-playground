@@ -33,7 +33,9 @@ object Pipe {
       p.put(StreamsConfig.APPLICATION_ID_CONFIG, "enrich-streams")
       p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, conf.kafkaServerUrl)
       p.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, conf.schemaRegistryUrl)
-      p.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+
+      if(conf.fromBeginning) p.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+
       p
     }
 

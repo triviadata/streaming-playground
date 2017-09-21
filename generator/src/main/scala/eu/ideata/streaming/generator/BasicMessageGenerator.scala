@@ -25,7 +25,6 @@ class BasicMessageGenerator(val usersFrom: Int, val usersTo: Int, val categoryMo
   var avroProducer: KafkaProducer[Object, Object] = _
   var jsonProducer: KafkaProducer[String, String] = _
 
-
   messageFormat match {
     case AvroMessage => avroProducer = new KafkaProducer[Object, Object](props)
     case JsonMessage => jsonProducer = new KafkaProducer[String, String](props)

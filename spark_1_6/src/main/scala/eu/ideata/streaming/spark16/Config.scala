@@ -3,11 +3,11 @@ package eu.ideata.streaming.spark16
 import scopt.OptionParser
 
 object Config {
-  case class StreamingConfig(seconds: Int, kafkaServerUrl: String, schemaRegistryUrl: String, userInfoTopic: String, userCategoryUpdateTopic: String, zookeeperUrl: String, kafkaTargetTopic: String)
+  case class StreamingConfig(seconds: Int, kafkaServerUrl: String, schemaRegistryUrl: String, userInfoTopic: String, userCategoryUpdateTopic: String, zookeeperUrl: String, kafkaTargetTopic: String, fromBeginning: Boolean, local: Boolean, statePartitionCount: Int)
 
   def getConfig(args: Array[String]): StreamingConfig = {
 
-    lazy val emptyConf = StreamingConfig(5, "localhost:9092", "http://localhost:8081", "user_info", "user_update", "localhost:2181", "enriched_user")
+    lazy val emptyConf = StreamingConfig(5, "localhost:9092", "http://localhost:8081", "user_info", "user_update", "localhost:2181", "enriched_user", false, true, 1)
 
     lazy val parser = new OptionParser[StreamingConfig]("scopt") {
       opt[Int]("seconds")
@@ -51,6 +51,23 @@ object Config {
         .action {
           case (s, conf) => conf.copy(kafkaTargetTopic = s)
         }.text("In seconds")
+
+      opt[Boolean]("fromBeginning")
+        .optional()
+        .action{
+          case (s,conf) => conf.copy(fromBeginning =  s)
+        }
+
+      opt[Boolean]("local")
+        .optional()
+        .action{
+          case (s,conf) => conf.copy(local = s)
+        }
+      opt[Int]("statePartitionCount")
+        .optional()
+        .action{
+          case (s,conf) => conf.copy(statePartitionCount = s)
+        }
     }
 
     parser.parse(args, emptyConf).getOrElse(emptyConf)
