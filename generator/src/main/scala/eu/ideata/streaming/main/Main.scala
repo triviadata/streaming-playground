@@ -46,7 +46,7 @@ object Main {
                              categoryCount: Int,
                              userInfoTopic: String,
                              userInfoUpdateTopic: String,
-                             kafakServerUrl: String,
+                             kafkaServerUrl: String,
                              schemaRegistryUrl: String,
                              userInfoGenerationIterval: Int = 100,
                              userUpdateGenerationIterval: Int = 180000,
@@ -70,7 +70,7 @@ object Main {
     }
 
 
-    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.kafakServerUrl)
+    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.kafkaServerUrl)
     props.put("schema.registry.url", config.schemaRegistryUrl)
 
     props
@@ -107,10 +107,10 @@ object Main {
           case (s, conf) => conf.copy(userInfoUpdateTopic = s)
         }
 
-      opt[String]("kafakServerUrl")
+      opt[String]("kafkaServerUrl")
         .optional()
         .action {
-          case (s, conf) => conf.copy(kafakServerUrl = s)
+          case (s, conf) => conf.copy(kafkaServerUrl = s)
         }
 
       opt[String]("schemaRegistryUrl")

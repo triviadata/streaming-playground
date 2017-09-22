@@ -2,7 +2,7 @@ import Dependencies._
 
 lazy val shared = List(
     organization := "eu.ideata",
-    scalaVersion := "2.11.7",
+    scalaVersion := "2.10.5",
     version      := "0.1.0-SNAPSHOT",
     name := "streaming-playground",
     libraryDependencies += scalaTest % Test,
@@ -12,47 +12,27 @@ lazy val shared = List(
     )
   )
 
-lazy val core = (project in file ("core"))
-    .settings(shared: _*)
-    .settings(
-      name := "core",
-      libraryDependencies ++= avro
-    )
+javacOptions ++= Seq("-source", "1.7", "-target", "1.7")
 
-lazy val generator = (project in file("generator"))
-  .dependsOn(core)
+lazy val core = (project in file ("core"))
   .settings(shared: _*)
   .settings(
-    libraryDependencies ++= akka ++ kafkaAvroSerde ++ kafkaClient ++ scopt ++ avro ++ circle,
-    name:= "generator",
-    mainClass in (Compile, run) := Some("eu.ideata.streaming.main.Main")
+    scalaVersion := "2.10.5",
+    name := "core",
+    libraryDependencies ++= avro
   )
 
 lazy val spark16 = (project in file("spark_1_6"))
   .dependsOn(core)
   .settings(shared: _*)
   .settings(
+    scalaVersion := "2.10.6",
     name := "spark16",
-    libraryDependencies ++= spark16Deps ++ kafkaAvroSerde ++ avro4s ++ kafkaClient ++ scopt
+    libraryDependencies ++= spark16Deps ++ kafkaAvroSerde ++ kafkaClient ++ scopt
   )
 
-lazy val flink = (project in file("flink"))
-  .dependsOn(core)
-  .settings(shared: _*)
-  .settings(
-    name := "flink",
-    libraryDependencies ++= flinkDeps ++ kafkaAvroSerde ++ scopt ++ avro
-  )
 
-lazy val kafkaStreams = (project in file("kafka_streams"))
-  .dependsOn(core)
-  .settings(shared: _*)
-  .settings(
-    name := "kafkaStreams",
-    libraryDependencies ++= kafkaStreamsDeps ++ scopt
-  )
-
-lazy val root = (project in file(".")).aggregate(generator, core, flink, kafkaStreams, spark16)
+lazy val root = (project in file(".")).aggregate(core, spark16)
   .settings(shared: _*)
   .settings(
     name := "streaming-playground"

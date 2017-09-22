@@ -28,13 +28,6 @@ object Dependencies {
     )
   }
 
-  lazy val avro4s = {
-    val version = "1.7.0"
-      Seq(
-        "com.sksamuel.avro4s" %% "avro4s-core" % version
-      )
-    }
-
   lazy val avro = {
     val version = "1.8.2"
     Seq(

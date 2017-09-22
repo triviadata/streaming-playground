@@ -34,7 +34,7 @@ object EnrichStreamsConfig {
           case (s, conf) => conf.copy(userInfoTopic = s)
         }
 
-      opt[String]("userCategoryUpdateTopic")
+      opt[String]("userInfoUpdateTopic")
         .optional()
         .action {
           case (s, conf) => conf.copy(userCategoryUpdateTopic = s)

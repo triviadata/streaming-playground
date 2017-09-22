@@ -16,12 +16,11 @@ import org.apache.spark.streaming.kafka.KafkaUtils
 object EnrichStreams {
 
   def main(args: Array[String]): Unit = {
-
-    val appConf = EnrichStreamsConfig.getConfig(args)
-
-    val sparkConf = {
+    val (sparkConf, appConf) = {
       val conf = new SparkConf().setAppName("kafka-streaming-test")
-      if(appConf.local) conf.setMaster("local[*]").set("spark.driver.allowMultipleContexts", "true") else conf
+      val appConf = EnrichStreamsConfig.getConfig(args)
+
+      if(appConf.local) (conf.setMaster("local[*]").set("spark.driver.allowMultipleContexts", "true"), appConf) else (conf, appConf)
     }
 
     val ssc = new StreamingContext(sparkConf, Seconds(appConf.seconds))
