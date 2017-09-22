@@ -111,7 +111,7 @@ object EnrichStreams {
       }
     )
 
-    ssc.checkpoint("checkpoint/")
+    ssc.checkpoint(appConf.checkpointDir)
 
     ssc.start()
 

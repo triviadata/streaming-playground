@@ -123,13 +123,13 @@ object Main {
         .optional()
         .action {
           case (s, conf) => conf.copy(userInfoGenerationIterval = s)
-        }.text("In seconds")
+        }.text("In mili seconds")
 
       opt[Int]("userUpdateGenerationIterval")
         .optional()
         .action {
           case (s, conf) => conf.copy(userUpdateGenerationIterval = s)
-        }.text("In seconds")
+        }.text("In mili seconds")
 
       opt[Int]("categoryCount")
         .optional()

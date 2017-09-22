@@ -55,6 +55,8 @@ object Pipe {
 
     val userCategoryTable: KTable[String, UserCategoryUpdate] = builder.table(keySerde, categoryUpdateSerde, conf.userCategoryUpdateTopic, "user_category_compacted")
 
+
+
     val joined: KStream[String, UserInfoWithCategory] = userInfoStream
       .leftJoin(userCategoryTable, UserInfoCategoryJoiner)
 
