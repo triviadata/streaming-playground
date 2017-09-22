@@ -72,9 +72,9 @@ object Dependencies {
 
   lazy val spark16Deps = {
     Seq(
-      "org.apache.spark" %% "spark-core" % "1.6.2" excludeAll ExclusionRule(name = "jackson-databind"),
-      "org.apache.spark" %% "spark-streaming" % "1.6.2",
-      "org.apache.spark" %% "spark-streaming-kafka" % "1.6.2",
+      "org.apache.spark" %% "spark-core" % "1.6.0" % "provided" excludeAll ExclusionRule(name = "jackson-databind"),
+      "org.apache.spark" %% "spark-streaming" % "1.6.0" % "provided",
+      "org.apache.spark" %% "spark-streaming-kafka" % "1.6.0" % "provided",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.4.4"
     )
   }

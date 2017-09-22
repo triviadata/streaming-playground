@@ -2,7 +2,7 @@ package eu.ideata.streaming.spark16
 
 import scopt.OptionParser
 
-object Config {
+object EnrichStreamsConfig {
   case class StreamingConfig(seconds: Int, kafkaServerUrl: String, schemaRegistryUrl: String, userInfoTopic: String, userCategoryUpdateTopic: String, zookeeperUrl: String, kafkaTargetTopic: String, fromBeginning: Boolean, local: Boolean, statePartitionCount: Int, checkpointDir: String)
 
   def getConfig(args: Array[String]): StreamingConfig = {

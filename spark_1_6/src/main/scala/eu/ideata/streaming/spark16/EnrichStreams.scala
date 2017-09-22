@@ -17,7 +17,7 @@ object EnrichStreams {
 
   def main(args: Array[String]): Unit = {
 
-    val appConf = Config.getConfig(args)
+    val appConf = EnrichStreamsConfig.getConfig(args)
 
     val sparkConf = {
       val conf = new SparkConf().setAppName("kafka-streaming-test")
