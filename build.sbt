@@ -13,6 +13,7 @@ lazy val shared = List(
   )
 
 javacOptions ++= Seq("-source", "1.7")
+scalacOptions += "-target:jvm-1.7"
 
 lazy val core = (project in file ("core"))
   .settings(shared: _*)

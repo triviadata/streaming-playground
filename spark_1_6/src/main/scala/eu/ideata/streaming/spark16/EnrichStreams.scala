@@ -5,9 +5,11 @@ import java.util.Properties
 
 import eu.ideata.streaming.core._
 import io.confluent.kafka.serializers.{KafkaAvroDecoder, KafkaAvroDeserializer, KafkaAvroDeserializerConfig}
+import org.apache.avro.specific.SpecificData
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
 import org.apache.spark.SparkConf
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.dstream.{DStream, InputDStream}
 import org.apache.spark.streaming.kafka.KafkaUtils
@@ -19,21 +21,19 @@ object EnrichStreams {
     val (sparkConf, appConf) = {
       val conf = new SparkConf().setAppName("kafka-streaming-test")
       val appConf = EnrichStreamsConfig.getConfig(args)
-
       if(appConf.local) (conf.setMaster("local[*]").set("spark.driver.allowMultipleContexts", "true"), appConf) else (conf, appConf)
     }
 
     val ssc = new StreamingContext(sparkConf, Seconds(appConf.seconds))
+
+    val sparkGroup: Broadcast[String] = ssc.sparkContext.broadcast(appConf.sparkGroup)
 
     val kafkaParams: Map[String, String] = {
       val params: Map[String,String] = Map(
         "metadata.broker.list" -> appConf.kafkaServerUrl,
         "schema.registry.url" -> appConf.schemaRegistryUrl,
         "zookeeper.connect" -> appConf.zookeeperUrl,
-        "group.id" -> "kafka-spark_1_6-enrich-streaming",
-        ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG -> classOf[KafkaAvroDeserializer].getName,
-        ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG -> classOf[KafkaAvroDeserializer].getName,
-        KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG -> "true"
+        "group.id" -> appConf.groupId
       )
 
       if (appConf.fromBeginning) params ++ Map(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG -> "smallest") else params
@@ -54,7 +54,7 @@ object EnrichStreams {
 
         val category = state.getOption().getOrElse("")
 
-        ui.map{ case UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue) =>  UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, "spark_16")}
+        ui.map{ case UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue) =>  UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, sparkGroup.value)}
 
       }}
     }
@@ -76,16 +76,19 @@ object EnrichStreams {
       .numPartitions(appConf.statePartitionCount)
 
     val s1: DStream[(String, UserInfoWrapper)] = userInfoStream.mapPartitions(itr => {
+      lazy val spec = new SpecificData()
+
       itr.map { case (k,v) => {
-        val u = UserInfoWrapper.fromJava(v.asInstanceOf[UserInfo])
+        val u = UserInfoWrapper.fromJava(spec.deepCopy(UserInfo.getClassSchema, v).asInstanceOf[UserInfo])
         u.userId -> u
       }}
     })
 
     val s2: DStream[(String, UserCategoryUpdateWrapper)] = userUpdateStream.mapPartitions(itr => {
+      lazy val spec = new SpecificData()
 
       itr.map{ case (k,v) => {
-        val u = UserCategoryUpdateWrapper.fromJava(v.asInstanceOf[UserCategoryUpdate])
+        val u = UserCategoryUpdateWrapper.fromJava(spec.deepCopy(UserCategoryUpdate.getClassSchema, v).asInstanceOf[UserCategoryUpdate])
         u.userId -> u
       }}
     })
