@@ -26,6 +26,8 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
+    val r = new scala.util.Random(31)
+
     val params = ParameterTool.fromArgs(args)
 
     val kafkaUrl = params.get("kafkaServerUrl", "localhost:9092")
@@ -37,16 +39,17 @@ object Main {
     val checkpointingInterval = params.getInt("checkpointingInterval", 1000)
     val stateLocation = params.get("stateLocation", "file:///Users/mbarak/projects/ideata/streaming-playground/checkpoints")
     val fromBeginning = params.getBoolean("fromBeginning", false)
+    val flinkRunId = params.get("flinkRunId", "flink")
 
     val sourcePropertis = new Properties()
 
     sourcePropertis.setProperty("bootstrap.servers", kafkaUrl)
-    sourcePropertis.setProperty("group.id", "flink-streaming")
+    sourcePropertis.setProperty("group.id", "flink-streaming_" + r.nextString(64))
 
     val sinkProperties = new Properties()
 
     sinkProperties.setProperty("bootstrap.servers", kafkaUrl)
-    sinkProperties.setProperty("group.id", "flink-sink")
+    sinkProperties.setProperty("group.id", "flink-sink_" + r.nextString(64))
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
@@ -66,6 +69,9 @@ object Main {
       .addSource(userCategory)
       .map(ToUserCategoryUpdate)
       .keyBy("userId")
+
+
+    val StateMap = new StateMap(flinkRunId)
 
    val enriched: DataStream[KafkaKV] =  userInfoStream
       .connect(userCategoryStream)
@@ -111,7 +117,7 @@ object ToUserWithCategory extends RichMapFunction[UserInfoWithCategoryWrapper, K
 
 }
 
-object StateMap extends RichCoFlatMapFunction[UserInfoWrapper, UserCategoryUpdateWrapper, UserInfoWithCategoryWrapper]{
+class StateMap(val runId: String) extends RichCoFlatMapFunction[UserInfoWrapper, UserCategoryUpdateWrapper, UserInfoWithCategoryWrapper]{
 
   private var userCategoryState: MapState[String, String] = _
 
@@ -132,7 +138,7 @@ object StateMap extends RichCoFlatMapFunction[UserInfoWrapper, UserCategoryUpdat
 
     val UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue) = value
 
-    val enriched = UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, "flink")
+    val enriched = UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, runId)
 
     out.collect(enriched)
     out.close()

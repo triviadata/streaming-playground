@@ -28,14 +28,6 @@ lazy val generator = (project in file("generator"))
     mainClass in (Compile, run) := Some("eu.ideata.streaming.main.Main")
   )
 
-lazy val spark16 = (project in file("spark_1_6"))
-  .dependsOn(core)
-  .settings(shared: _*)
-  .settings(
-    name := "spark16",
-    libraryDependencies ++= spark16Deps ++ kafkaAvroSerde ++ avro4s ++ kafkaClient ++ scopt
-  )
-
 lazy val flink = (project in file("flink"))
   .dependsOn(core)
   .settings(shared: _*)
@@ -52,7 +44,7 @@ lazy val kafkaStreams = (project in file("kafka_streams"))
     libraryDependencies ++= kafkaStreamsDeps ++ scopt
   )
 
-lazy val root = (project in file(".")).aggregate(generator, core, flink, kafkaStreams, spark16)
+lazy val root = (project in file(".")).aggregate(generator, core, flink, kafkaStreams)
   .settings(shared: _*)
   .settings(
     name := "streaming-playground"
