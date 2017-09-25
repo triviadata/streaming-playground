@@ -15,7 +15,7 @@ import scala.collection.JavaConverters._
 
 class UserInfoCategoryJoiner(val streamingSource: String) extends ValueJoiner[UserInfo, UserCategoryUpdate, UserInfoWithCategory] {
   override def apply(value1: UserInfo, value2: UserCategoryUpdate): UserInfoWithCategory = {
-      val category = Option(value2).map(_.getCategory).getOrElse(null)
+      val category = Option(value2).map(_.getCategory).getOrElse("")
       new UserInfoWithCategory(value1.getUserId, category, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, streamingSource)
     }
   }
