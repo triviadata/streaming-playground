@@ -75,5 +75,7 @@ Our goal is to join those 2 streams, and create an shared state where we will st
 
 
 <sup>1)</sup> Processing 11.6 mil of pregenerated messages from Kafka topic
+
 <sup>2)</sup> Processing XY mil of pregenerated messages from Kafka topic - same as smoke test but
+
 <sup>3)</sup> Processing XY mil of generated messages. Messages are generated on the fly.
