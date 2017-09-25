@@ -65,3 +65,15 @@ Our goal is to join those 2 streams, and create an shared state where we will st
         * check out the guide at kafka_streams/README.md 
         
 
+### Testcase 1: Joining Streams
+
+|                        | Smoke test<sup>1)</sup> (seconds) | Pregenerated Data<sup>2)</sup> (seconds) | Using Data Generator<sup>3)</sup> (seconds) | 
+| ---------------------- | --------------------------------: | ----------------------------------------:| ------------------------------------------: |
+| Spark Streaming (1.6)  | 10.759                            |                                          |                                             |
+| Flink (1.3)            |                                   |                                          |                                             |
+| Kafka Streams (3.3.0)  |                                   |                                          |                                             |
+
+
+<sup>1)</sup> Processing 11.6 mil of pregenerated messages from Kafka topic
+<sup>2)</sup> Processing XY mil of pregenerated messages from Kafka topic - same as smoke test but
+<sup>3)</sup> Processing XY mil of generated messages. Messages are generated on the fly.
