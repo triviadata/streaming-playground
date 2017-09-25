@@ -26,7 +26,7 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
-    val r = new scala.util.Random(31)
+    val r = new scala.util.Random()
 
     val params = ParameterTool.fromArgs(args)
 

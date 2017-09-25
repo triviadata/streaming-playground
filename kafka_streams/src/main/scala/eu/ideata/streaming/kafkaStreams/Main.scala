@@ -13,10 +13,10 @@ import org.apache.kafka.streams.kstream.{KStream, KStreamBuilder, KTable, ValueJ
 
 import scala.collection.JavaConverters._
 
-object UserInfoCategoryJoiner extends ValueJoiner[UserInfo, UserCategoryUpdate, UserInfoWithCategory] {
+class UserInfoCategoryJoiner(val streamingSource: String) extends ValueJoiner[UserInfo, UserCategoryUpdate, UserInfoWithCategory] {
   override def apply(value1: UserInfo, value2: UserCategoryUpdate): UserInfoWithCategory = {
       val category = Option(value2).map(_.getCategory).getOrElse(null)
-      new UserInfoWithCategory(value1.getUserId, category, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, "kafka-streams")
+      new UserInfoWithCategory(value1.getUserId, category, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, streamingSource)
     }
   }
 
@@ -55,10 +55,10 @@ object Pipe {
 
     val userCategoryTable: KTable[String, UserCategoryUpdate] = builder.table(keySerde, categoryUpdateSerde, conf.userCategoryUpdateTopic, "user_category_compacted")
 
-
+    val userInfoCategoryJoiner = new UserInfoCategoryJoiner(conf.streamingSource)
 
     val joined: KStream[String, UserInfoWithCategory] = userInfoStream
-      .leftJoin(userCategoryTable, UserInfoCategoryJoiner)
+      .leftJoin(userCategoryTable, userInfoCategoryJoiner)
 
     joined.to(keySerde,sinkSerde, conf.kafkaTargetTopic)
 
