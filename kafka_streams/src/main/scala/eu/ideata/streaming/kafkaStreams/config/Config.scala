@@ -3,11 +3,11 @@ package eu.ideata.streaming.kafkaStreams.config
 import scopt.OptionParser
 
 object Config {
-  case class StreamingConfig(kafkaServerUrl: String, schemaRegistryUrl: String, userInfoTopic: String, userCategoryUpdateTopic: String, zookeeperUrl: String, kafkaTargetTopic: String, fromBeginning: Boolean, streamingSource: String,  applicationId: String)
+  case class StreamingConfig(kafkaServerUrl: String, schemaRegistryUrl: String, userInfoTopic: String, userCategoryUpdateTopic: String, zookeeperUrl: String, kafkaTargetTopic: String, fromBeginning: Boolean, streamingSource: String,  applicationId: String, threads: Int)
 
   def getConfig(args: Array[String]): StreamingConfig = {
 
-    lazy val emptyConf = StreamingConfig("http://localhost:9092", "http://localhost:8081", "user_info", "user_update", "localhost:2181", "enriched_user", false, "kafka-streams", "kafka_streams")
+    lazy val emptyConf = StreamingConfig("http://localhost:9092", "http://localhost:8081", "user_info", "user_update", "localhost:2181", "enriched_user", false, "kafka-streams", "kafka_streams", 1)
 
     lazy val parser = new OptionParser[StreamingConfig]("scopt") {
 
@@ -62,6 +62,12 @@ object Config {
         .optional()
         .action{
           case (s, conf) => conf.copy(applicationId = s)
+        }
+
+      opt[Int]("threads")
+        .optional()
+        .action {
+          case (s, conf) => conf.copy(threads = s)
         }
     }
 

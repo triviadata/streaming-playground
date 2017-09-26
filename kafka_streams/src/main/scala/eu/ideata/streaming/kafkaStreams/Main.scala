@@ -5,7 +5,7 @@ import java.util.Properties
 
 import eu.ideata.streaming.core.{UserCategoryUpdate, UserInfo, UserInfoWithCategory}
 import eu.ideata.streaming.kafkaStreams.config.Config
-import eu.ideata.streaming.kafkaStreams.serialization.{GenericAvroSerde, SpecificAvroSerde}
+import eu.ideata.streaming.kafkaStreams.serialization.SpecificAvroSerde
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.{KafkaStreams, StreamsConfig}
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -17,7 +17,7 @@ import scala.collection.JavaConverters._
 class UserInfoCategoryJoiner(val streamingSource: String) extends ValueJoiner[UserInfo, UserCategoryUpdate, UserInfoWithCategory] {
   override def apply(value1: UserInfo, value2: UserCategoryUpdate): UserInfoWithCategory = {
       val category = Option(value2).map(_.getCategory).getOrElse("")
-      new UserInfoWithCategory(value1.getUserId, category, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().getEpochSecond, streamingSource)
+      new UserInfoWithCategory(value1.getUserId, category, value1.getTimestamp, value1.getBooleanFlag, value1.getSubCategory, value1.getSomeValue, value1.getIntValue, Instant.now().toEpochMilli, streamingSource)
     }
   }
 
@@ -32,9 +32,10 @@ object Pipe {
 
     def config: Properties = {
       val p = new Properties()
-      p.put(StreamsConfig.APPLICATION_ID_CONFIG, "enrich-streams_" + conf.applicationId)
+      p.put(StreamsConfig.APPLICATION_ID_CONFIG, conf.applicationId)
       p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, conf.kafkaServerUrl)
       p.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, conf.schemaRegistryUrl)
+      p.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, conf.threads.toString)
 
       if(conf.fromBeginning) p.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 

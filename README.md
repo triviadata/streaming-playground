@@ -70,8 +70,8 @@ Our goal is to join those 2 streams, and create an shared state where we will st
 |                        | Smoke test<sup>1)</sup> (seconds) | Pregenerated Data<sup>2)</sup> (seconds) | Using Data Generator<sup>3)</sup> (seconds) | 
 | ---------------------- | --------------------------------: | ----------------------------------------:| ------------------------------------------: |
 | Spark Streaming (1.6)  | 10.759                            |                                          |                                             |
-| Flink (1.3)            |                                   |                                          |                                             |
-| Kafka Streams (3.3.0)  |                                   |                                          |                                             |
+| Flink (1.3)            | 89.988                                  |                                          |                                             |
+| Kafka Streams (3.3.0)  | 32.207                                  |                                          |                                             |
 
 
 <sup>1)</sup> Processing 11.6 mil of pregenerated messages from Kafka topic
