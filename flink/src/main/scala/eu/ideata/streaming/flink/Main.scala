@@ -39,17 +39,17 @@ object Main {
     val checkpointingInterval = params.getInt("checkpointingInterval", 1000)
     val stateLocation = params.get("stateLocation", "file:///Users/mbarak/projects/ideata/streaming-playground/checkpoints")
     val fromBeginning = params.getBoolean("fromBeginning", false)
-    val flinkRunId = params.get("flinkRunId", "flink")
+    val applicationId = params.get("applicationId", "flink")
 
     val sourcePropertis = new Properties()
 
     sourcePropertis.setProperty("bootstrap.servers", kafkaUrl)
-    sourcePropertis.setProperty("group.id", "flink-streaming_" + r.nextString(64))
+    sourcePropertis.setProperty("group.id", "flink-streaming_" + applicationId)
 
     val sinkProperties = new Properties()
 
     sinkProperties.setProperty("bootstrap.servers", kafkaUrl)
-    sinkProperties.setProperty("group.id", "flink-sink_" + r.nextString(64))
+    sinkProperties.setProperty("group.id", "flink-sink_" + applicationId)
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
@@ -71,7 +71,7 @@ object Main {
       .keyBy("userId")
 
 
-    val StateMap = new StateMap(flinkRunId)
+    val StateMap = new StateMap(applicationId)
 
    val enriched: DataStream[KafkaKV] =  userInfoStream
       .connect(userCategoryStream)
@@ -136,9 +136,9 @@ class StateMap(val runId: String) extends RichCoFlatMapFunction[UserInfoWrapper,
 
     val category = if(userCategoryState.contains(value.userId)) userCategoryState.get(value.userId) else ""
 
-    val UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue) = value
+    val UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue, readTimeStamp) = value
 
-    val enriched = UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, runId)
+    val enriched = UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, runId, readTimeStamp)
 
     out.collect(enriched)
     out.close()

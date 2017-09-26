@@ -1,17 +1,17 @@
     {
-    "type": "record",
-    "name": "UserInfoWithCategory",
-    "namespace": "eu.ideata.streaming.core",
-     "fields": [
-            { "name" : "userId", "type" : "string" },
-            { "name" : "category", "type": "string" },
-            { "name" : "timestamp", "type": "long" },
-            { "name" : "booleanFlag", "type": "boolean" },
-            { "name" : "subCategory", "type": "string" },
-            { "name" : "someValue", "type": "float" },
-            { "name" : "intValue", "type": "int" },
-            { "name" : "updated", "type": "long" },
-            { "name" : "streamingSource", "type": "string" }
-
-        ]
-    }
+         "type": "record",
+         "name": "UserInfoWithCategory",
+         "namespace": "eu.ideata.streaming.core",
+          "fields": [
+                 { "name" : "userId", "type" : "string" },
+                 { "name" : "category", "type": "string" },
+                 { "name" : "timestamp", "type": "long" },
+                 { "name" : "booleanFlag", "type": "boolean" },
+                 { "name" : "subCategory", "type": "string" },
+                 { "name" : "someValue", "type": "float" },
+                 { "name" : "intValue", "type": "int" },
+                 { "name" : "updated", "type": "long" },
+                 { "name" : "streamingSource", "type": "string" },
+                 { "name" : "readTimeStamp", "type": ["null", "long"]}
+             ]
+}
