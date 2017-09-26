@@ -32,7 +32,7 @@ object Pipe {
 
     def config: Properties = {
       val p = new Properties()
-      p.put(StreamsConfig.APPLICATION_ID_CONFIG, "enrich-streams_" +  r.nextString(64))
+      p.put(StreamsConfig.APPLICATION_ID_CONFIG, "enrich-streams_" + conf.applicationId)
       p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, conf.kafkaServerUrl)
       p.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, conf.schemaRegistryUrl)
 
