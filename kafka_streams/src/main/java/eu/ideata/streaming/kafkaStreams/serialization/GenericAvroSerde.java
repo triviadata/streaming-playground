@@ -1,5 +1,6 @@
-package eu.ideata.streaming.kafkaStreams.utils;
+package eu.ideata.streaming.kafkaStreams.serialization;
 
+import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
@@ -10,32 +11,32 @@ import java.util.Map;
 
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 
-public class SpecificAvroSerde<T extends  org.apache.avro.specific.SpecificRecord> implements Serde<T> {
+public class GenericAvroSerde implements Serde<GenericRecord> {
 
-    private final Serde<T> inner;
+    private final Serde<GenericRecord> inner;
 
     /**
      * Constructor used by Kafka Streams.
      */
-    public SpecificAvroSerde() {
-        inner = Serdes.serdeFrom(new SpecificAvroSerializer<>(), new SpecificAvroDeserializer<>());
+    public GenericAvroSerde() {
+        inner = Serdes.serdeFrom(new GenericAvroSerializer(), new GenericAvroDeserializer());
     }
 
-    public SpecificAvroSerde(SchemaRegistryClient client) {
+    public GenericAvroSerde(SchemaRegistryClient client) {
         this(client, Collections.emptyMap());
     }
 
-    public SpecificAvroSerde(SchemaRegistryClient client, Map<String, ?> props) {
-        inner = Serdes.serdeFrom(new SpecificAvroSerializer<>(client, props), new SpecificAvroDeserializer<>(client, props));
+    public GenericAvroSerde(SchemaRegistryClient client, Map<String, ?> props) {
+        inner = Serdes.serdeFrom(new GenericAvroSerializer(client), new GenericAvroDeserializer(client, props));
     }
 
     @Override
-    public Serializer<T> serializer() {
+    public Serializer<GenericRecord> serializer() {
         return inner.serializer();
     }
 
     @Override
-    public Deserializer<T> deserializer() {
+    public Deserializer<GenericRecord> deserializer() {
         return inner.deserializer();
     }
 

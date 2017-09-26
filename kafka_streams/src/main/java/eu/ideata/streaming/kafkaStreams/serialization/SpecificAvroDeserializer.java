@@ -1,4 +1,4 @@
-package eu.ideata.streaming.kafkaStreams.utils;
+package eu.ideata.streaming.kafkaStreams.serialization;
 
 import org.apache.kafka.common.serialization.Deserializer;
 

@@ -51,7 +51,7 @@ object Dependencies {
 
 
   lazy val (kafkaClient,kafkaStreamsDeps)  = {
-    val kafkaVersion = "0.10.1.0"
+    val kafkaVersion = "0.10.2.0"
 
     (
       Seq("org.apache.kafka" % "kafka-clients" % kafkaVersion),

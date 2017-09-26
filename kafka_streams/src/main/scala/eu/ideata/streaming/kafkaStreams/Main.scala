@@ -4,7 +4,8 @@ import java.time.Instant
 import java.util.Properties
 
 import eu.ideata.streaming.core.{UserCategoryUpdate, UserInfo, UserInfoWithCategory}
-import eu.ideata.streaming.kafkaStreams.utils.{Config, SpecificAvroSerde}
+import eu.ideata.streaming.kafkaStreams.config.Config
+import eu.ideata.streaming.kafkaStreams.serialization.{GenericAvroSerde, SpecificAvroSerde}
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.{KafkaStreams, StreamsConfig}
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -23,6 +24,7 @@ class UserInfoCategoryJoiner(val streamingSource: String) extends ValueJoiner[Us
 object Pipe {
 
   val builder = new KStreamBuilder
+  val r = new scala.util.Random()
 
   def main(args: Array[String]): Unit = {
 
@@ -30,7 +32,7 @@ object Pipe {
 
     def config: Properties = {
       val p = new Properties()
-      p.put(StreamsConfig.APPLICATION_ID_CONFIG, "enrich-streams")
+      p.put(StreamsConfig.APPLICATION_ID_CONFIG, "enrich-streams_" +  r.nextString(64))
       p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, conf.kafkaServerUrl)
       p.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, conf.schemaRegistryUrl)
 
@@ -60,7 +62,7 @@ object Pipe {
     val joined: KStream[String, UserInfoWithCategory] = userInfoStream
       .leftJoin(userCategoryTable, userInfoCategoryJoiner)
 
-    joined.to(keySerde,sinkSerde, conf.kafkaTargetTopic)
+    joined.to(keySerde, sinkSerde, conf.kafkaTargetTopic)
 
     val stream = new KafkaStreams(builder, config)
 

@@ -1,4 +1,4 @@
-package eu.ideata.streaming.kafkaStreams.utils
+package eu.ideata.streaming.kafkaStreams.config
 
 import scopt.OptionParser
 
