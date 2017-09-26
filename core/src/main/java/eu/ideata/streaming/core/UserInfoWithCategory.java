@@ -10,8 +10,8 @@ import org.apache.avro.specific.SpecificData;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 170777388673687900L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfoWithCategory\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"category\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"booleanFlag\",\"type\":\"boolean\"},{\"name\":\"subCategory\",\"type\":\"string\"},{\"name\":\"someValue\",\"type\":\"float\"},{\"name\":\"intValue\",\"type\":\"int\"},{\"name\":\"updated\",\"type\":\"long\"},{\"name\":\"streamingSource\",\"type\":\"string\"}]}");
+  private static final long serialVersionUID = 8786063747669156614L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfoWithCategory\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"category\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"booleanFlag\",\"type\":\"boolean\"},{\"name\":\"subCategory\",\"type\":\"string\"},{\"name\":\"someValue\",\"type\":\"float\"},{\"name\":\"intValue\",\"type\":\"int\"},{\"name\":\"updated\",\"type\":\"long\"},{\"name\":\"streamingSource\",\"type\":\"string\"},{\"name\":\"readTimeStamp\",\"type\":\"long\",\"default\":0}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.CharSequence userId;
   @Deprecated public java.lang.CharSequence category;
@@ -22,6 +22,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
   @Deprecated public int intValue;
   @Deprecated public long updated;
   @Deprecated public java.lang.CharSequence streamingSource;
+  @Deprecated public long readTimeStamp;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -41,8 +42,9 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
    * @param intValue The new value for intValue
    * @param updated The new value for updated
    * @param streamingSource The new value for streamingSource
+   * @param readTimeStamp The new value for readTimeStamp
    */
-  public UserInfoWithCategory(java.lang.CharSequence userId, java.lang.CharSequence category, java.lang.Long timestamp, java.lang.Boolean booleanFlag, java.lang.CharSequence subCategory, java.lang.Float someValue, java.lang.Integer intValue, java.lang.Long updated, java.lang.CharSequence streamingSource) {
+  public UserInfoWithCategory(java.lang.CharSequence userId, java.lang.CharSequence category, java.lang.Long timestamp, java.lang.Boolean booleanFlag, java.lang.CharSequence subCategory, java.lang.Float someValue, java.lang.Integer intValue, java.lang.Long updated, java.lang.CharSequence streamingSource, java.lang.Long readTimeStamp) {
     this.userId = userId;
     this.category = category;
     this.timestamp = timestamp;
@@ -52,6 +54,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
     this.intValue = intValue;
     this.updated = updated;
     this.streamingSource = streamingSource;
+    this.readTimeStamp = readTimeStamp;
   }
 
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
@@ -67,6 +70,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
     case 6: return intValue;
     case 7: return updated;
     case 8: return streamingSource;
+    case 9: return readTimeStamp;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -84,6 +88,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
     case 6: intValue = (java.lang.Integer)value$; break;
     case 7: updated = (java.lang.Long)value$; break;
     case 8: streamingSource = (java.lang.CharSequence)value$; break;
+    case 9: readTimeStamp = (java.lang.Long)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -233,6 +238,22 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
   }
 
   /**
+   * Gets the value of the 'readTimeStamp' field.
+   * @return The value of the 'readTimeStamp' field.
+   */
+  public java.lang.Long getReadTimeStamp() {
+    return readTimeStamp;
+  }
+
+  /**
+   * Sets the value of the 'readTimeStamp' field.
+   * @param value the value to set.
+   */
+  public void setReadTimeStamp(java.lang.Long value) {
+    this.readTimeStamp = value;
+  }
+
+  /**
    * Creates a new UserInfoWithCategory RecordBuilder.
    * @return A new UserInfoWithCategory RecordBuilder
    */
@@ -273,6 +294,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
     private int intValue;
     private long updated;
     private java.lang.CharSequence streamingSource;
+    private long readTimeStamp;
 
     /** Creates a new Builder */
     private Builder() {
@@ -321,6 +343,10 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
         this.streamingSource = data().deepCopy(fields()[8].schema(), other.streamingSource);
         fieldSetFlags()[8] = true;
       }
+      if (isValidValue(fields()[9], other.readTimeStamp)) {
+        this.readTimeStamp = data().deepCopy(fields()[9].schema(), other.readTimeStamp);
+        fieldSetFlags()[9] = true;
+      }
     }
 
     /**
@@ -364,6 +390,10 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       if (isValidValue(fields()[8], other.streamingSource)) {
         this.streamingSource = data().deepCopy(fields()[8].schema(), other.streamingSource);
         fieldSetFlags()[8] = true;
+      }
+      if (isValidValue(fields()[9], other.readTimeStamp)) {
+        this.readTimeStamp = data().deepCopy(fields()[9].schema(), other.readTimeStamp);
+        fieldSetFlags()[9] = true;
       }
     }
 
@@ -713,6 +743,44 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
       return this;
     }
 
+    /**
+      * Gets the value of the 'readTimeStamp' field.
+      * @return The value.
+      */
+    public java.lang.Long getReadTimeStamp() {
+      return readTimeStamp;
+    }
+
+    /**
+      * Sets the value of the 'readTimeStamp' field.
+      * @param value The value of 'readTimeStamp'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfoWithCategory.Builder setReadTimeStamp(long value) {
+      validate(fields()[9], value);
+      this.readTimeStamp = value;
+      fieldSetFlags()[9] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'readTimeStamp' field has been set.
+      * @return True if the 'readTimeStamp' field has been set, false otherwise.
+      */
+    public boolean hasReadTimeStamp() {
+      return fieldSetFlags()[9];
+    }
+
+
+    /**
+      * Clears the value of the 'readTimeStamp' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfoWithCategory.Builder clearReadTimeStamp() {
+      fieldSetFlags()[9] = false;
+      return this;
+    }
+
     @Override
     public UserInfoWithCategory build() {
       try {
@@ -726,6 +794,7 @@ public class UserInfoWithCategory extends org.apache.avro.specific.SpecificRecor
         record.intValue = fieldSetFlags()[6] ? this.intValue : (java.lang.Integer) defaultValue(fields()[6]);
         record.updated = fieldSetFlags()[7] ? this.updated : (java.lang.Long) defaultValue(fields()[7]);
         record.streamingSource = fieldSetFlags()[8] ? this.streamingSource : (java.lang.CharSequence) defaultValue(fields()[8]);
+        record.readTimeStamp = fieldSetFlags()[9] ? this.readTimeStamp : (java.lang.Long) defaultValue(fields()[9]);
         return record;
       } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

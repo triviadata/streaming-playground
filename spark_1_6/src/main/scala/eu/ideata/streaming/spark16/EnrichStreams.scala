@@ -8,6 +8,7 @@ import io.confluent.kafka.serializers.{KafkaAvroDecoder, KafkaAvroDeserializer, 
 import org.apache.avro.specific.SpecificData
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
+import org.apache.kafka.common.serialization.StringSerializer
 import org.apache.spark.SparkConf
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.streaming._
@@ -26,14 +27,14 @@ object EnrichStreams {
 
     val ssc = new StreamingContext(sparkConf, Seconds(appConf.seconds))
 
-    val sparkGroup: Broadcast[String] = ssc.sparkContext.broadcast(appConf.sparkGroup)
+    val sparkGroup: Broadcast[String] = ssc.sparkContext.broadcast(appConf.applicationId)
 
     val kafkaParams: Map[String, String] = {
       val params: Map[String,String] = Map(
         "metadata.broker.list" -> appConf.kafkaServerUrl,
         "schema.registry.url" -> appConf.schemaRegistryUrl,
         "zookeeper.connect" -> appConf.zookeeperUrl,
-        "group.id" -> appConf.groupId
+        "group.id" -> appConf.applicationId
       )
 
       if (appConf.fromBeginning) params ++ Map(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG -> "smallest") else params
@@ -41,7 +42,7 @@ object EnrichStreams {
 
     val producerProperties = {
       val producerProperties = new Properties()
-      producerProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[io.confluent.kafka.serializers.KafkaAvroSerializer])
+      producerProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer])
       producerProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[io.confluent.kafka.serializers.KafkaAvroSerializer])
       producerProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, appConf.kafkaServerUrl)
       producerProperties.put("schema.registry.url", appConf.schemaRegistryUrl)
@@ -54,9 +55,10 @@ object EnrichStreams {
 
         val category = state.getOption().getOrElse("")
 
-        ui.map{ case UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue) =>  UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, sparkGroup.value)}
+        ui.map{ case UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue, readTimeStamp) =>  UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, sparkGroup.value, readTimeStamp) }
 
-      }}
+        }
+      }
     }
 
     val userInfoStream: InputDStream[(Object, Object)] = KafkaUtils.createDirectStream[Object, Object, KafkaAvroDecoder, KafkaAvroDecoder](ssc, kafkaParams, Set(appConf.userInfoTopic))
@@ -71,7 +73,7 @@ object EnrichStreams {
 
     val targetTopic = ssc.sparkContext.broadcast(appConf.kafkaTargetTopic)
 
-    val userUpdateStateSpec = StateSpec.function(updateStateForUsers _)
+    val userUpdateStateSpec: StateSpec[String, (Option[UserInfoWrapper], Option[UserCategoryUpdateWrapper]), String, UserInfoWithCategoryWrapper] = StateSpec.function(updateStateForUsers _)
       .initialState(ssc.sparkContext.emptyRDD[(String,String)])
       .numPartitions(appConf.statePartitionCount)
 
@@ -103,10 +105,10 @@ object EnrichStreams {
         val topic = targetTopic.value
         val kafkaParams = kafkaProps.value
 
-        val producer = new KafkaProducer[Object, Object](kafkaParams)
+        val producer = new KafkaProducer[String, Object](kafkaParams)
 
         partition.foreach(record => {
-            val message = new ProducerRecord[Object, Object](topic, record.userId, record.asJava)
+            val message = new ProducerRecord[String, Object](topic, record.userId, record.asJava)
             producer.send(message)
           })
         })
