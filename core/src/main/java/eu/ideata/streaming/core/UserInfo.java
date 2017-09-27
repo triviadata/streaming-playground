@@ -10,8 +10,8 @@ import org.apache.avro.specific.SpecificData;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 8795558432313671980L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfo\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"booleanFlag\",\"type\":\"boolean\"},{\"name\":\"subCategory\",\"type\":\"string\"},{\"name\":\"someValue\",\"type\":\"float\"},{\"name\":\"intValue\",\"type\":\"int\"}]}");
+  private static final long serialVersionUID = 8889302617048801268L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfo\",\"namespace\":\"eu.ideata.streaming.core\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"booleanFlag\",\"type\":\"boolean\"},{\"name\":\"subCategory\",\"type\":\"string\"},{\"name\":\"someValue\",\"type\":\"float\"},{\"name\":\"intValue\",\"type\":\"int\"},{\"name\":\"intValue2\",\"type\":[\"null\",\"int\"]},{\"name\":\"someValue2\",\"type\":[\"null\",\"float\"]},{\"name\":\"booleanFlag2\",\"type\":[\"null\",\"boolean\"]},{\"name\":\"intValue3\",\"type\":[\"null\",\"int\"]},{\"name\":\"someValue3\",\"type\":[\"null\",\"float\"]},{\"name\":\"booleanFlag3\",\"type\":[\"null\",\"boolean\"]},{\"name\":\"intValue4\",\"type\":[\"null\",\"int\"]},{\"name\":\"someValue4\",\"type\":[\"null\",\"float\"]},{\"name\":\"booleanFlag4\",\"type\":[\"null\",\"boolean\"]},{\"name\":\"subCategory2\",\"type\":[\"null\",\"string\"]},{\"name\":\"intValue5\",\"type\":[\"null\",\"int\"]},{\"name\":\"someValue5\",\"type\":[\"null\",\"float\"]},{\"name\":\"booleanFlag5\",\"type\":[\"null\",\"boolean\"]},{\"name\":\"intValue6\",\"type\":[\"null\",\"int\"]},{\"name\":\"someValue6\",\"type\":[\"null\",\"float\"]},{\"name\":\"booleanFlag6\",\"type\":[\"null\",\"boolean\"]},{\"name\":\"intValue7\",\"type\":[\"null\",\"int\"]},{\"name\":\"someValue7\",\"type\":[\"null\",\"float\"]},{\"name\":\"booleanFlag7\",\"type\":[\"null\",\"boolean\"]},{\"name\":\"someValue8\",\"type\":[\"null\",\"float\"]},{\"name\":\"booleanFlag8\",\"type\":[\"null\",\"boolean\"]},{\"name\":\"intValue9\",\"type\":[\"null\",\"int\"]},{\"name\":\"someValue9\",\"type\":[\"null\",\"float\"]},{\"name\":\"intValue10\",\"type\":[\"null\",\"int\"]},{\"name\":\"someValue10\",\"type\":[\"null\",\"float\"]}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.CharSequence userId;
   @Deprecated public long timestamp;
@@ -19,6 +19,31 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
   @Deprecated public java.lang.CharSequence subCategory;
   @Deprecated public float someValue;
   @Deprecated public int intValue;
+  @Deprecated public java.lang.Integer intValue2;
+  @Deprecated public java.lang.Float someValue2;
+  @Deprecated public java.lang.Boolean booleanFlag2;
+  @Deprecated public java.lang.Integer intValue3;
+  @Deprecated public java.lang.Float someValue3;
+  @Deprecated public java.lang.Boolean booleanFlag3;
+  @Deprecated public java.lang.Integer intValue4;
+  @Deprecated public java.lang.Float someValue4;
+  @Deprecated public java.lang.Boolean booleanFlag4;
+  @Deprecated public java.lang.CharSequence subCategory2;
+  @Deprecated public java.lang.Integer intValue5;
+  @Deprecated public java.lang.Float someValue5;
+  @Deprecated public java.lang.Boolean booleanFlag5;
+  @Deprecated public java.lang.Integer intValue6;
+  @Deprecated public java.lang.Float someValue6;
+  @Deprecated public java.lang.Boolean booleanFlag6;
+  @Deprecated public java.lang.Integer intValue7;
+  @Deprecated public java.lang.Float someValue7;
+  @Deprecated public java.lang.Boolean booleanFlag7;
+  @Deprecated public java.lang.Float someValue8;
+  @Deprecated public java.lang.Boolean booleanFlag8;
+  @Deprecated public java.lang.Integer intValue9;
+  @Deprecated public java.lang.Float someValue9;
+  @Deprecated public java.lang.Integer intValue10;
+  @Deprecated public java.lang.Float someValue10;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -35,14 +60,64 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
    * @param subCategory The new value for subCategory
    * @param someValue The new value for someValue
    * @param intValue The new value for intValue
+   * @param intValue2 The new value for intValue2
+   * @param someValue2 The new value for someValue2
+   * @param booleanFlag2 The new value for booleanFlag2
+   * @param intValue3 The new value for intValue3
+   * @param someValue3 The new value for someValue3
+   * @param booleanFlag3 The new value for booleanFlag3
+   * @param intValue4 The new value for intValue4
+   * @param someValue4 The new value for someValue4
+   * @param booleanFlag4 The new value for booleanFlag4
+   * @param subCategory2 The new value for subCategory2
+   * @param intValue5 The new value for intValue5
+   * @param someValue5 The new value for someValue5
+   * @param booleanFlag5 The new value for booleanFlag5
+   * @param intValue6 The new value for intValue6
+   * @param someValue6 The new value for someValue6
+   * @param booleanFlag6 The new value for booleanFlag6
+   * @param intValue7 The new value for intValue7
+   * @param someValue7 The new value for someValue7
+   * @param booleanFlag7 The new value for booleanFlag7
+   * @param someValue8 The new value for someValue8
+   * @param booleanFlag8 The new value for booleanFlag8
+   * @param intValue9 The new value for intValue9
+   * @param someValue9 The new value for someValue9
+   * @param intValue10 The new value for intValue10
+   * @param someValue10 The new value for someValue10
    */
-  public UserInfo(java.lang.CharSequence userId, java.lang.Long timestamp, java.lang.Boolean booleanFlag, java.lang.CharSequence subCategory, java.lang.Float someValue, java.lang.Integer intValue) {
+  public UserInfo(java.lang.CharSequence userId, java.lang.Long timestamp, java.lang.Boolean booleanFlag, java.lang.CharSequence subCategory, java.lang.Float someValue, java.lang.Integer intValue, java.lang.Integer intValue2, java.lang.Float someValue2, java.lang.Boolean booleanFlag2, java.lang.Integer intValue3, java.lang.Float someValue3, java.lang.Boolean booleanFlag3, java.lang.Integer intValue4, java.lang.Float someValue4, java.lang.Boolean booleanFlag4, java.lang.CharSequence subCategory2, java.lang.Integer intValue5, java.lang.Float someValue5, java.lang.Boolean booleanFlag5, java.lang.Integer intValue6, java.lang.Float someValue6, java.lang.Boolean booleanFlag6, java.lang.Integer intValue7, java.lang.Float someValue7, java.lang.Boolean booleanFlag7, java.lang.Float someValue8, java.lang.Boolean booleanFlag8, java.lang.Integer intValue9, java.lang.Float someValue9, java.lang.Integer intValue10, java.lang.Float someValue10) {
     this.userId = userId;
     this.timestamp = timestamp;
     this.booleanFlag = booleanFlag;
     this.subCategory = subCategory;
     this.someValue = someValue;
     this.intValue = intValue;
+    this.intValue2 = intValue2;
+    this.someValue2 = someValue2;
+    this.booleanFlag2 = booleanFlag2;
+    this.intValue3 = intValue3;
+    this.someValue3 = someValue3;
+    this.booleanFlag3 = booleanFlag3;
+    this.intValue4 = intValue4;
+    this.someValue4 = someValue4;
+    this.booleanFlag4 = booleanFlag4;
+    this.subCategory2 = subCategory2;
+    this.intValue5 = intValue5;
+    this.someValue5 = someValue5;
+    this.booleanFlag5 = booleanFlag5;
+    this.intValue6 = intValue6;
+    this.someValue6 = someValue6;
+    this.booleanFlag6 = booleanFlag6;
+    this.intValue7 = intValue7;
+    this.someValue7 = someValue7;
+    this.booleanFlag7 = booleanFlag7;
+    this.someValue8 = someValue8;
+    this.booleanFlag8 = booleanFlag8;
+    this.intValue9 = intValue9;
+    this.someValue9 = someValue9;
+    this.intValue10 = intValue10;
+    this.someValue10 = someValue10;
   }
 
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
@@ -55,6 +130,31 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
     case 3: return subCategory;
     case 4: return someValue;
     case 5: return intValue;
+    case 6: return intValue2;
+    case 7: return someValue2;
+    case 8: return booleanFlag2;
+    case 9: return intValue3;
+    case 10: return someValue3;
+    case 11: return booleanFlag3;
+    case 12: return intValue4;
+    case 13: return someValue4;
+    case 14: return booleanFlag4;
+    case 15: return subCategory2;
+    case 16: return intValue5;
+    case 17: return someValue5;
+    case 18: return booleanFlag5;
+    case 19: return intValue6;
+    case 20: return someValue6;
+    case 21: return booleanFlag6;
+    case 22: return intValue7;
+    case 23: return someValue7;
+    case 24: return booleanFlag7;
+    case 25: return someValue8;
+    case 26: return booleanFlag8;
+    case 27: return intValue9;
+    case 28: return someValue9;
+    case 29: return intValue10;
+    case 30: return someValue10;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -69,6 +169,31 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
     case 3: subCategory = (java.lang.CharSequence)value$; break;
     case 4: someValue = (java.lang.Float)value$; break;
     case 5: intValue = (java.lang.Integer)value$; break;
+    case 6: intValue2 = (java.lang.Integer)value$; break;
+    case 7: someValue2 = (java.lang.Float)value$; break;
+    case 8: booleanFlag2 = (java.lang.Boolean)value$; break;
+    case 9: intValue3 = (java.lang.Integer)value$; break;
+    case 10: someValue3 = (java.lang.Float)value$; break;
+    case 11: booleanFlag3 = (java.lang.Boolean)value$; break;
+    case 12: intValue4 = (java.lang.Integer)value$; break;
+    case 13: someValue4 = (java.lang.Float)value$; break;
+    case 14: booleanFlag4 = (java.lang.Boolean)value$; break;
+    case 15: subCategory2 = (java.lang.CharSequence)value$; break;
+    case 16: intValue5 = (java.lang.Integer)value$; break;
+    case 17: someValue5 = (java.lang.Float)value$; break;
+    case 18: booleanFlag5 = (java.lang.Boolean)value$; break;
+    case 19: intValue6 = (java.lang.Integer)value$; break;
+    case 20: someValue6 = (java.lang.Float)value$; break;
+    case 21: booleanFlag6 = (java.lang.Boolean)value$; break;
+    case 22: intValue7 = (java.lang.Integer)value$; break;
+    case 23: someValue7 = (java.lang.Float)value$; break;
+    case 24: booleanFlag7 = (java.lang.Boolean)value$; break;
+    case 25: someValue8 = (java.lang.Float)value$; break;
+    case 26: booleanFlag8 = (java.lang.Boolean)value$; break;
+    case 27: intValue9 = (java.lang.Integer)value$; break;
+    case 28: someValue9 = (java.lang.Float)value$; break;
+    case 29: intValue10 = (java.lang.Integer)value$; break;
+    case 30: someValue10 = (java.lang.Float)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -170,6 +295,406 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
   }
 
   /**
+   * Gets the value of the 'intValue2' field.
+   * @return The value of the 'intValue2' field.
+   */
+  public java.lang.Integer getIntValue2() {
+    return intValue2;
+  }
+
+  /**
+   * Sets the value of the 'intValue2' field.
+   * @param value the value to set.
+   */
+  public void setIntValue2(java.lang.Integer value) {
+    this.intValue2 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue2' field.
+   * @return The value of the 'someValue2' field.
+   */
+  public java.lang.Float getSomeValue2() {
+    return someValue2;
+  }
+
+  /**
+   * Sets the value of the 'someValue2' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue2(java.lang.Float value) {
+    this.someValue2 = value;
+  }
+
+  /**
+   * Gets the value of the 'booleanFlag2' field.
+   * @return The value of the 'booleanFlag2' field.
+   */
+  public java.lang.Boolean getBooleanFlag2() {
+    return booleanFlag2;
+  }
+
+  /**
+   * Sets the value of the 'booleanFlag2' field.
+   * @param value the value to set.
+   */
+  public void setBooleanFlag2(java.lang.Boolean value) {
+    this.booleanFlag2 = value;
+  }
+
+  /**
+   * Gets the value of the 'intValue3' field.
+   * @return The value of the 'intValue3' field.
+   */
+  public java.lang.Integer getIntValue3() {
+    return intValue3;
+  }
+
+  /**
+   * Sets the value of the 'intValue3' field.
+   * @param value the value to set.
+   */
+  public void setIntValue3(java.lang.Integer value) {
+    this.intValue3 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue3' field.
+   * @return The value of the 'someValue3' field.
+   */
+  public java.lang.Float getSomeValue3() {
+    return someValue3;
+  }
+
+  /**
+   * Sets the value of the 'someValue3' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue3(java.lang.Float value) {
+    this.someValue3 = value;
+  }
+
+  /**
+   * Gets the value of the 'booleanFlag3' field.
+   * @return The value of the 'booleanFlag3' field.
+   */
+  public java.lang.Boolean getBooleanFlag3() {
+    return booleanFlag3;
+  }
+
+  /**
+   * Sets the value of the 'booleanFlag3' field.
+   * @param value the value to set.
+   */
+  public void setBooleanFlag3(java.lang.Boolean value) {
+    this.booleanFlag3 = value;
+  }
+
+  /**
+   * Gets the value of the 'intValue4' field.
+   * @return The value of the 'intValue4' field.
+   */
+  public java.lang.Integer getIntValue4() {
+    return intValue4;
+  }
+
+  /**
+   * Sets the value of the 'intValue4' field.
+   * @param value the value to set.
+   */
+  public void setIntValue4(java.lang.Integer value) {
+    this.intValue4 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue4' field.
+   * @return The value of the 'someValue4' field.
+   */
+  public java.lang.Float getSomeValue4() {
+    return someValue4;
+  }
+
+  /**
+   * Sets the value of the 'someValue4' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue4(java.lang.Float value) {
+    this.someValue4 = value;
+  }
+
+  /**
+   * Gets the value of the 'booleanFlag4' field.
+   * @return The value of the 'booleanFlag4' field.
+   */
+  public java.lang.Boolean getBooleanFlag4() {
+    return booleanFlag4;
+  }
+
+  /**
+   * Sets the value of the 'booleanFlag4' field.
+   * @param value the value to set.
+   */
+  public void setBooleanFlag4(java.lang.Boolean value) {
+    this.booleanFlag4 = value;
+  }
+
+  /**
+   * Gets the value of the 'subCategory2' field.
+   * @return The value of the 'subCategory2' field.
+   */
+  public java.lang.CharSequence getSubCategory2() {
+    return subCategory2;
+  }
+
+  /**
+   * Sets the value of the 'subCategory2' field.
+   * @param value the value to set.
+   */
+  public void setSubCategory2(java.lang.CharSequence value) {
+    this.subCategory2 = value;
+  }
+
+  /**
+   * Gets the value of the 'intValue5' field.
+   * @return The value of the 'intValue5' field.
+   */
+  public java.lang.Integer getIntValue5() {
+    return intValue5;
+  }
+
+  /**
+   * Sets the value of the 'intValue5' field.
+   * @param value the value to set.
+   */
+  public void setIntValue5(java.lang.Integer value) {
+    this.intValue5 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue5' field.
+   * @return The value of the 'someValue5' field.
+   */
+  public java.lang.Float getSomeValue5() {
+    return someValue5;
+  }
+
+  /**
+   * Sets the value of the 'someValue5' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue5(java.lang.Float value) {
+    this.someValue5 = value;
+  }
+
+  /**
+   * Gets the value of the 'booleanFlag5' field.
+   * @return The value of the 'booleanFlag5' field.
+   */
+  public java.lang.Boolean getBooleanFlag5() {
+    return booleanFlag5;
+  }
+
+  /**
+   * Sets the value of the 'booleanFlag5' field.
+   * @param value the value to set.
+   */
+  public void setBooleanFlag5(java.lang.Boolean value) {
+    this.booleanFlag5 = value;
+  }
+
+  /**
+   * Gets the value of the 'intValue6' field.
+   * @return The value of the 'intValue6' field.
+   */
+  public java.lang.Integer getIntValue6() {
+    return intValue6;
+  }
+
+  /**
+   * Sets the value of the 'intValue6' field.
+   * @param value the value to set.
+   */
+  public void setIntValue6(java.lang.Integer value) {
+    this.intValue6 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue6' field.
+   * @return The value of the 'someValue6' field.
+   */
+  public java.lang.Float getSomeValue6() {
+    return someValue6;
+  }
+
+  /**
+   * Sets the value of the 'someValue6' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue6(java.lang.Float value) {
+    this.someValue6 = value;
+  }
+
+  /**
+   * Gets the value of the 'booleanFlag6' field.
+   * @return The value of the 'booleanFlag6' field.
+   */
+  public java.lang.Boolean getBooleanFlag6() {
+    return booleanFlag6;
+  }
+
+  /**
+   * Sets the value of the 'booleanFlag6' field.
+   * @param value the value to set.
+   */
+  public void setBooleanFlag6(java.lang.Boolean value) {
+    this.booleanFlag6 = value;
+  }
+
+  /**
+   * Gets the value of the 'intValue7' field.
+   * @return The value of the 'intValue7' field.
+   */
+  public java.lang.Integer getIntValue7() {
+    return intValue7;
+  }
+
+  /**
+   * Sets the value of the 'intValue7' field.
+   * @param value the value to set.
+   */
+  public void setIntValue7(java.lang.Integer value) {
+    this.intValue7 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue7' field.
+   * @return The value of the 'someValue7' field.
+   */
+  public java.lang.Float getSomeValue7() {
+    return someValue7;
+  }
+
+  /**
+   * Sets the value of the 'someValue7' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue7(java.lang.Float value) {
+    this.someValue7 = value;
+  }
+
+  /**
+   * Gets the value of the 'booleanFlag7' field.
+   * @return The value of the 'booleanFlag7' field.
+   */
+  public java.lang.Boolean getBooleanFlag7() {
+    return booleanFlag7;
+  }
+
+  /**
+   * Sets the value of the 'booleanFlag7' field.
+   * @param value the value to set.
+   */
+  public void setBooleanFlag7(java.lang.Boolean value) {
+    this.booleanFlag7 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue8' field.
+   * @return The value of the 'someValue8' field.
+   */
+  public java.lang.Float getSomeValue8() {
+    return someValue8;
+  }
+
+  /**
+   * Sets the value of the 'someValue8' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue8(java.lang.Float value) {
+    this.someValue8 = value;
+  }
+
+  /**
+   * Gets the value of the 'booleanFlag8' field.
+   * @return The value of the 'booleanFlag8' field.
+   */
+  public java.lang.Boolean getBooleanFlag8() {
+    return booleanFlag8;
+  }
+
+  /**
+   * Sets the value of the 'booleanFlag8' field.
+   * @param value the value to set.
+   */
+  public void setBooleanFlag8(java.lang.Boolean value) {
+    this.booleanFlag8 = value;
+  }
+
+  /**
+   * Gets the value of the 'intValue9' field.
+   * @return The value of the 'intValue9' field.
+   */
+  public java.lang.Integer getIntValue9() {
+    return intValue9;
+  }
+
+  /**
+   * Sets the value of the 'intValue9' field.
+   * @param value the value to set.
+   */
+  public void setIntValue9(java.lang.Integer value) {
+    this.intValue9 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue9' field.
+   * @return The value of the 'someValue9' field.
+   */
+  public java.lang.Float getSomeValue9() {
+    return someValue9;
+  }
+
+  /**
+   * Sets the value of the 'someValue9' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue9(java.lang.Float value) {
+    this.someValue9 = value;
+  }
+
+  /**
+   * Gets the value of the 'intValue10' field.
+   * @return The value of the 'intValue10' field.
+   */
+  public java.lang.Integer getIntValue10() {
+    return intValue10;
+  }
+
+  /**
+   * Sets the value of the 'intValue10' field.
+   * @param value the value to set.
+   */
+  public void setIntValue10(java.lang.Integer value) {
+    this.intValue10 = value;
+  }
+
+  /**
+   * Gets the value of the 'someValue10' field.
+   * @return The value of the 'someValue10' field.
+   */
+  public java.lang.Float getSomeValue10() {
+    return someValue10;
+  }
+
+  /**
+   * Sets the value of the 'someValue10' field.
+   * @param value the value to set.
+   */
+  public void setSomeValue10(java.lang.Float value) {
+    this.someValue10 = value;
+  }
+
+  /**
    * Creates a new UserInfo RecordBuilder.
    * @return A new UserInfo RecordBuilder
    */
@@ -207,6 +732,31 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
     private java.lang.CharSequence subCategory;
     private float someValue;
     private int intValue;
+    private java.lang.Integer intValue2;
+    private java.lang.Float someValue2;
+    private java.lang.Boolean booleanFlag2;
+    private java.lang.Integer intValue3;
+    private java.lang.Float someValue3;
+    private java.lang.Boolean booleanFlag3;
+    private java.lang.Integer intValue4;
+    private java.lang.Float someValue4;
+    private java.lang.Boolean booleanFlag4;
+    private java.lang.CharSequence subCategory2;
+    private java.lang.Integer intValue5;
+    private java.lang.Float someValue5;
+    private java.lang.Boolean booleanFlag5;
+    private java.lang.Integer intValue6;
+    private java.lang.Float someValue6;
+    private java.lang.Boolean booleanFlag6;
+    private java.lang.Integer intValue7;
+    private java.lang.Float someValue7;
+    private java.lang.Boolean booleanFlag7;
+    private java.lang.Float someValue8;
+    private java.lang.Boolean booleanFlag8;
+    private java.lang.Integer intValue9;
+    private java.lang.Float someValue9;
+    private java.lang.Integer intValue10;
+    private java.lang.Float someValue10;
 
     /** Creates a new Builder */
     private Builder() {
@@ -243,6 +793,106 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
         this.intValue = data().deepCopy(fields()[5].schema(), other.intValue);
         fieldSetFlags()[5] = true;
       }
+      if (isValidValue(fields()[6], other.intValue2)) {
+        this.intValue2 = data().deepCopy(fields()[6].schema(), other.intValue2);
+        fieldSetFlags()[6] = true;
+      }
+      if (isValidValue(fields()[7], other.someValue2)) {
+        this.someValue2 = data().deepCopy(fields()[7].schema(), other.someValue2);
+        fieldSetFlags()[7] = true;
+      }
+      if (isValidValue(fields()[8], other.booleanFlag2)) {
+        this.booleanFlag2 = data().deepCopy(fields()[8].schema(), other.booleanFlag2);
+        fieldSetFlags()[8] = true;
+      }
+      if (isValidValue(fields()[9], other.intValue3)) {
+        this.intValue3 = data().deepCopy(fields()[9].schema(), other.intValue3);
+        fieldSetFlags()[9] = true;
+      }
+      if (isValidValue(fields()[10], other.someValue3)) {
+        this.someValue3 = data().deepCopy(fields()[10].schema(), other.someValue3);
+        fieldSetFlags()[10] = true;
+      }
+      if (isValidValue(fields()[11], other.booleanFlag3)) {
+        this.booleanFlag3 = data().deepCopy(fields()[11].schema(), other.booleanFlag3);
+        fieldSetFlags()[11] = true;
+      }
+      if (isValidValue(fields()[12], other.intValue4)) {
+        this.intValue4 = data().deepCopy(fields()[12].schema(), other.intValue4);
+        fieldSetFlags()[12] = true;
+      }
+      if (isValidValue(fields()[13], other.someValue4)) {
+        this.someValue4 = data().deepCopy(fields()[13].schema(), other.someValue4);
+        fieldSetFlags()[13] = true;
+      }
+      if (isValidValue(fields()[14], other.booleanFlag4)) {
+        this.booleanFlag4 = data().deepCopy(fields()[14].schema(), other.booleanFlag4);
+        fieldSetFlags()[14] = true;
+      }
+      if (isValidValue(fields()[15], other.subCategory2)) {
+        this.subCategory2 = data().deepCopy(fields()[15].schema(), other.subCategory2);
+        fieldSetFlags()[15] = true;
+      }
+      if (isValidValue(fields()[16], other.intValue5)) {
+        this.intValue5 = data().deepCopy(fields()[16].schema(), other.intValue5);
+        fieldSetFlags()[16] = true;
+      }
+      if (isValidValue(fields()[17], other.someValue5)) {
+        this.someValue5 = data().deepCopy(fields()[17].schema(), other.someValue5);
+        fieldSetFlags()[17] = true;
+      }
+      if (isValidValue(fields()[18], other.booleanFlag5)) {
+        this.booleanFlag5 = data().deepCopy(fields()[18].schema(), other.booleanFlag5);
+        fieldSetFlags()[18] = true;
+      }
+      if (isValidValue(fields()[19], other.intValue6)) {
+        this.intValue6 = data().deepCopy(fields()[19].schema(), other.intValue6);
+        fieldSetFlags()[19] = true;
+      }
+      if (isValidValue(fields()[20], other.someValue6)) {
+        this.someValue6 = data().deepCopy(fields()[20].schema(), other.someValue6);
+        fieldSetFlags()[20] = true;
+      }
+      if (isValidValue(fields()[21], other.booleanFlag6)) {
+        this.booleanFlag6 = data().deepCopy(fields()[21].schema(), other.booleanFlag6);
+        fieldSetFlags()[21] = true;
+      }
+      if (isValidValue(fields()[22], other.intValue7)) {
+        this.intValue7 = data().deepCopy(fields()[22].schema(), other.intValue7);
+        fieldSetFlags()[22] = true;
+      }
+      if (isValidValue(fields()[23], other.someValue7)) {
+        this.someValue7 = data().deepCopy(fields()[23].schema(), other.someValue7);
+        fieldSetFlags()[23] = true;
+      }
+      if (isValidValue(fields()[24], other.booleanFlag7)) {
+        this.booleanFlag7 = data().deepCopy(fields()[24].schema(), other.booleanFlag7);
+        fieldSetFlags()[24] = true;
+      }
+      if (isValidValue(fields()[25], other.someValue8)) {
+        this.someValue8 = data().deepCopy(fields()[25].schema(), other.someValue8);
+        fieldSetFlags()[25] = true;
+      }
+      if (isValidValue(fields()[26], other.booleanFlag8)) {
+        this.booleanFlag8 = data().deepCopy(fields()[26].schema(), other.booleanFlag8);
+        fieldSetFlags()[26] = true;
+      }
+      if (isValidValue(fields()[27], other.intValue9)) {
+        this.intValue9 = data().deepCopy(fields()[27].schema(), other.intValue9);
+        fieldSetFlags()[27] = true;
+      }
+      if (isValidValue(fields()[28], other.someValue9)) {
+        this.someValue9 = data().deepCopy(fields()[28].schema(), other.someValue9);
+        fieldSetFlags()[28] = true;
+      }
+      if (isValidValue(fields()[29], other.intValue10)) {
+        this.intValue10 = data().deepCopy(fields()[29].schema(), other.intValue10);
+        fieldSetFlags()[29] = true;
+      }
+      if (isValidValue(fields()[30], other.someValue10)) {
+        this.someValue10 = data().deepCopy(fields()[30].schema(), other.someValue10);
+        fieldSetFlags()[30] = true;
+      }
     }
 
     /**
@@ -274,6 +924,106 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       if (isValidValue(fields()[5], other.intValue)) {
         this.intValue = data().deepCopy(fields()[5].schema(), other.intValue);
         fieldSetFlags()[5] = true;
+      }
+      if (isValidValue(fields()[6], other.intValue2)) {
+        this.intValue2 = data().deepCopy(fields()[6].schema(), other.intValue2);
+        fieldSetFlags()[6] = true;
+      }
+      if (isValidValue(fields()[7], other.someValue2)) {
+        this.someValue2 = data().deepCopy(fields()[7].schema(), other.someValue2);
+        fieldSetFlags()[7] = true;
+      }
+      if (isValidValue(fields()[8], other.booleanFlag2)) {
+        this.booleanFlag2 = data().deepCopy(fields()[8].schema(), other.booleanFlag2);
+        fieldSetFlags()[8] = true;
+      }
+      if (isValidValue(fields()[9], other.intValue3)) {
+        this.intValue3 = data().deepCopy(fields()[9].schema(), other.intValue3);
+        fieldSetFlags()[9] = true;
+      }
+      if (isValidValue(fields()[10], other.someValue3)) {
+        this.someValue3 = data().deepCopy(fields()[10].schema(), other.someValue3);
+        fieldSetFlags()[10] = true;
+      }
+      if (isValidValue(fields()[11], other.booleanFlag3)) {
+        this.booleanFlag3 = data().deepCopy(fields()[11].schema(), other.booleanFlag3);
+        fieldSetFlags()[11] = true;
+      }
+      if (isValidValue(fields()[12], other.intValue4)) {
+        this.intValue4 = data().deepCopy(fields()[12].schema(), other.intValue4);
+        fieldSetFlags()[12] = true;
+      }
+      if (isValidValue(fields()[13], other.someValue4)) {
+        this.someValue4 = data().deepCopy(fields()[13].schema(), other.someValue4);
+        fieldSetFlags()[13] = true;
+      }
+      if (isValidValue(fields()[14], other.booleanFlag4)) {
+        this.booleanFlag4 = data().deepCopy(fields()[14].schema(), other.booleanFlag4);
+        fieldSetFlags()[14] = true;
+      }
+      if (isValidValue(fields()[15], other.subCategory2)) {
+        this.subCategory2 = data().deepCopy(fields()[15].schema(), other.subCategory2);
+        fieldSetFlags()[15] = true;
+      }
+      if (isValidValue(fields()[16], other.intValue5)) {
+        this.intValue5 = data().deepCopy(fields()[16].schema(), other.intValue5);
+        fieldSetFlags()[16] = true;
+      }
+      if (isValidValue(fields()[17], other.someValue5)) {
+        this.someValue5 = data().deepCopy(fields()[17].schema(), other.someValue5);
+        fieldSetFlags()[17] = true;
+      }
+      if (isValidValue(fields()[18], other.booleanFlag5)) {
+        this.booleanFlag5 = data().deepCopy(fields()[18].schema(), other.booleanFlag5);
+        fieldSetFlags()[18] = true;
+      }
+      if (isValidValue(fields()[19], other.intValue6)) {
+        this.intValue6 = data().deepCopy(fields()[19].schema(), other.intValue6);
+        fieldSetFlags()[19] = true;
+      }
+      if (isValidValue(fields()[20], other.someValue6)) {
+        this.someValue6 = data().deepCopy(fields()[20].schema(), other.someValue6);
+        fieldSetFlags()[20] = true;
+      }
+      if (isValidValue(fields()[21], other.booleanFlag6)) {
+        this.booleanFlag6 = data().deepCopy(fields()[21].schema(), other.booleanFlag6);
+        fieldSetFlags()[21] = true;
+      }
+      if (isValidValue(fields()[22], other.intValue7)) {
+        this.intValue7 = data().deepCopy(fields()[22].schema(), other.intValue7);
+        fieldSetFlags()[22] = true;
+      }
+      if (isValidValue(fields()[23], other.someValue7)) {
+        this.someValue7 = data().deepCopy(fields()[23].schema(), other.someValue7);
+        fieldSetFlags()[23] = true;
+      }
+      if (isValidValue(fields()[24], other.booleanFlag7)) {
+        this.booleanFlag7 = data().deepCopy(fields()[24].schema(), other.booleanFlag7);
+        fieldSetFlags()[24] = true;
+      }
+      if (isValidValue(fields()[25], other.someValue8)) {
+        this.someValue8 = data().deepCopy(fields()[25].schema(), other.someValue8);
+        fieldSetFlags()[25] = true;
+      }
+      if (isValidValue(fields()[26], other.booleanFlag8)) {
+        this.booleanFlag8 = data().deepCopy(fields()[26].schema(), other.booleanFlag8);
+        fieldSetFlags()[26] = true;
+      }
+      if (isValidValue(fields()[27], other.intValue9)) {
+        this.intValue9 = data().deepCopy(fields()[27].schema(), other.intValue9);
+        fieldSetFlags()[27] = true;
+      }
+      if (isValidValue(fields()[28], other.someValue9)) {
+        this.someValue9 = data().deepCopy(fields()[28].schema(), other.someValue9);
+        fieldSetFlags()[28] = true;
+      }
+      if (isValidValue(fields()[29], other.intValue10)) {
+        this.intValue10 = data().deepCopy(fields()[29].schema(), other.intValue10);
+        fieldSetFlags()[29] = true;
+      }
+      if (isValidValue(fields()[30], other.someValue10)) {
+        this.someValue10 = data().deepCopy(fields()[30].schema(), other.someValue10);
+        fieldSetFlags()[30] = true;
       }
     }
 
@@ -507,6 +1257,981 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       return this;
     }
 
+    /**
+      * Gets the value of the 'intValue2' field.
+      * @return The value.
+      */
+    public java.lang.Integer getIntValue2() {
+      return intValue2;
+    }
+
+    /**
+      * Sets the value of the 'intValue2' field.
+      * @param value The value of 'intValue2'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setIntValue2(java.lang.Integer value) {
+      validate(fields()[6], value);
+      this.intValue2 = value;
+      fieldSetFlags()[6] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'intValue2' field has been set.
+      * @return True if the 'intValue2' field has been set, false otherwise.
+      */
+    public boolean hasIntValue2() {
+      return fieldSetFlags()[6];
+    }
+
+
+    /**
+      * Clears the value of the 'intValue2' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearIntValue2() {
+      intValue2 = null;
+      fieldSetFlags()[6] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue2' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue2() {
+      return someValue2;
+    }
+
+    /**
+      * Sets the value of the 'someValue2' field.
+      * @param value The value of 'someValue2'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue2(java.lang.Float value) {
+      validate(fields()[7], value);
+      this.someValue2 = value;
+      fieldSetFlags()[7] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue2' field has been set.
+      * @return True if the 'someValue2' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue2() {
+      return fieldSetFlags()[7];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue2' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue2() {
+      someValue2 = null;
+      fieldSetFlags()[7] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'booleanFlag2' field.
+      * @return The value.
+      */
+    public java.lang.Boolean getBooleanFlag2() {
+      return booleanFlag2;
+    }
+
+    /**
+      * Sets the value of the 'booleanFlag2' field.
+      * @param value The value of 'booleanFlag2'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setBooleanFlag2(java.lang.Boolean value) {
+      validate(fields()[8], value);
+      this.booleanFlag2 = value;
+      fieldSetFlags()[8] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'booleanFlag2' field has been set.
+      * @return True if the 'booleanFlag2' field has been set, false otherwise.
+      */
+    public boolean hasBooleanFlag2() {
+      return fieldSetFlags()[8];
+    }
+
+
+    /**
+      * Clears the value of the 'booleanFlag2' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearBooleanFlag2() {
+      booleanFlag2 = null;
+      fieldSetFlags()[8] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'intValue3' field.
+      * @return The value.
+      */
+    public java.lang.Integer getIntValue3() {
+      return intValue3;
+    }
+
+    /**
+      * Sets the value of the 'intValue3' field.
+      * @param value The value of 'intValue3'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setIntValue3(java.lang.Integer value) {
+      validate(fields()[9], value);
+      this.intValue3 = value;
+      fieldSetFlags()[9] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'intValue3' field has been set.
+      * @return True if the 'intValue3' field has been set, false otherwise.
+      */
+    public boolean hasIntValue3() {
+      return fieldSetFlags()[9];
+    }
+
+
+    /**
+      * Clears the value of the 'intValue3' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearIntValue3() {
+      intValue3 = null;
+      fieldSetFlags()[9] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue3' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue3() {
+      return someValue3;
+    }
+
+    /**
+      * Sets the value of the 'someValue3' field.
+      * @param value The value of 'someValue3'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue3(java.lang.Float value) {
+      validate(fields()[10], value);
+      this.someValue3 = value;
+      fieldSetFlags()[10] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue3' field has been set.
+      * @return True if the 'someValue3' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue3() {
+      return fieldSetFlags()[10];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue3' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue3() {
+      someValue3 = null;
+      fieldSetFlags()[10] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'booleanFlag3' field.
+      * @return The value.
+      */
+    public java.lang.Boolean getBooleanFlag3() {
+      return booleanFlag3;
+    }
+
+    /**
+      * Sets the value of the 'booleanFlag3' field.
+      * @param value The value of 'booleanFlag3'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setBooleanFlag3(java.lang.Boolean value) {
+      validate(fields()[11], value);
+      this.booleanFlag3 = value;
+      fieldSetFlags()[11] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'booleanFlag3' field has been set.
+      * @return True if the 'booleanFlag3' field has been set, false otherwise.
+      */
+    public boolean hasBooleanFlag3() {
+      return fieldSetFlags()[11];
+    }
+
+
+    /**
+      * Clears the value of the 'booleanFlag3' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearBooleanFlag3() {
+      booleanFlag3 = null;
+      fieldSetFlags()[11] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'intValue4' field.
+      * @return The value.
+      */
+    public java.lang.Integer getIntValue4() {
+      return intValue4;
+    }
+
+    /**
+      * Sets the value of the 'intValue4' field.
+      * @param value The value of 'intValue4'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setIntValue4(java.lang.Integer value) {
+      validate(fields()[12], value);
+      this.intValue4 = value;
+      fieldSetFlags()[12] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'intValue4' field has been set.
+      * @return True if the 'intValue4' field has been set, false otherwise.
+      */
+    public boolean hasIntValue4() {
+      return fieldSetFlags()[12];
+    }
+
+
+    /**
+      * Clears the value of the 'intValue4' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearIntValue4() {
+      intValue4 = null;
+      fieldSetFlags()[12] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue4' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue4() {
+      return someValue4;
+    }
+
+    /**
+      * Sets the value of the 'someValue4' field.
+      * @param value The value of 'someValue4'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue4(java.lang.Float value) {
+      validate(fields()[13], value);
+      this.someValue4 = value;
+      fieldSetFlags()[13] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue4' field has been set.
+      * @return True if the 'someValue4' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue4() {
+      return fieldSetFlags()[13];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue4' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue4() {
+      someValue4 = null;
+      fieldSetFlags()[13] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'booleanFlag4' field.
+      * @return The value.
+      */
+    public java.lang.Boolean getBooleanFlag4() {
+      return booleanFlag4;
+    }
+
+    /**
+      * Sets the value of the 'booleanFlag4' field.
+      * @param value The value of 'booleanFlag4'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setBooleanFlag4(java.lang.Boolean value) {
+      validate(fields()[14], value);
+      this.booleanFlag4 = value;
+      fieldSetFlags()[14] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'booleanFlag4' field has been set.
+      * @return True if the 'booleanFlag4' field has been set, false otherwise.
+      */
+    public boolean hasBooleanFlag4() {
+      return fieldSetFlags()[14];
+    }
+
+
+    /**
+      * Clears the value of the 'booleanFlag4' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearBooleanFlag4() {
+      booleanFlag4 = null;
+      fieldSetFlags()[14] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'subCategory2' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getSubCategory2() {
+      return subCategory2;
+    }
+
+    /**
+      * Sets the value of the 'subCategory2' field.
+      * @param value The value of 'subCategory2'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSubCategory2(java.lang.CharSequence value) {
+      validate(fields()[15], value);
+      this.subCategory2 = value;
+      fieldSetFlags()[15] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'subCategory2' field has been set.
+      * @return True if the 'subCategory2' field has been set, false otherwise.
+      */
+    public boolean hasSubCategory2() {
+      return fieldSetFlags()[15];
+    }
+
+
+    /**
+      * Clears the value of the 'subCategory2' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSubCategory2() {
+      subCategory2 = null;
+      fieldSetFlags()[15] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'intValue5' field.
+      * @return The value.
+      */
+    public java.lang.Integer getIntValue5() {
+      return intValue5;
+    }
+
+    /**
+      * Sets the value of the 'intValue5' field.
+      * @param value The value of 'intValue5'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setIntValue5(java.lang.Integer value) {
+      validate(fields()[16], value);
+      this.intValue5 = value;
+      fieldSetFlags()[16] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'intValue5' field has been set.
+      * @return True if the 'intValue5' field has been set, false otherwise.
+      */
+    public boolean hasIntValue5() {
+      return fieldSetFlags()[16];
+    }
+
+
+    /**
+      * Clears the value of the 'intValue5' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearIntValue5() {
+      intValue5 = null;
+      fieldSetFlags()[16] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue5' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue5() {
+      return someValue5;
+    }
+
+    /**
+      * Sets the value of the 'someValue5' field.
+      * @param value The value of 'someValue5'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue5(java.lang.Float value) {
+      validate(fields()[17], value);
+      this.someValue5 = value;
+      fieldSetFlags()[17] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue5' field has been set.
+      * @return True if the 'someValue5' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue5() {
+      return fieldSetFlags()[17];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue5' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue5() {
+      someValue5 = null;
+      fieldSetFlags()[17] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'booleanFlag5' field.
+      * @return The value.
+      */
+    public java.lang.Boolean getBooleanFlag5() {
+      return booleanFlag5;
+    }
+
+    /**
+      * Sets the value of the 'booleanFlag5' field.
+      * @param value The value of 'booleanFlag5'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setBooleanFlag5(java.lang.Boolean value) {
+      validate(fields()[18], value);
+      this.booleanFlag5 = value;
+      fieldSetFlags()[18] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'booleanFlag5' field has been set.
+      * @return True if the 'booleanFlag5' field has been set, false otherwise.
+      */
+    public boolean hasBooleanFlag5() {
+      return fieldSetFlags()[18];
+    }
+
+
+    /**
+      * Clears the value of the 'booleanFlag5' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearBooleanFlag5() {
+      booleanFlag5 = null;
+      fieldSetFlags()[18] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'intValue6' field.
+      * @return The value.
+      */
+    public java.lang.Integer getIntValue6() {
+      return intValue6;
+    }
+
+    /**
+      * Sets the value of the 'intValue6' field.
+      * @param value The value of 'intValue6'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setIntValue6(java.lang.Integer value) {
+      validate(fields()[19], value);
+      this.intValue6 = value;
+      fieldSetFlags()[19] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'intValue6' field has been set.
+      * @return True if the 'intValue6' field has been set, false otherwise.
+      */
+    public boolean hasIntValue6() {
+      return fieldSetFlags()[19];
+    }
+
+
+    /**
+      * Clears the value of the 'intValue6' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearIntValue6() {
+      intValue6 = null;
+      fieldSetFlags()[19] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue6' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue6() {
+      return someValue6;
+    }
+
+    /**
+      * Sets the value of the 'someValue6' field.
+      * @param value The value of 'someValue6'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue6(java.lang.Float value) {
+      validate(fields()[20], value);
+      this.someValue6 = value;
+      fieldSetFlags()[20] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue6' field has been set.
+      * @return True if the 'someValue6' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue6() {
+      return fieldSetFlags()[20];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue6' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue6() {
+      someValue6 = null;
+      fieldSetFlags()[20] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'booleanFlag6' field.
+      * @return The value.
+      */
+    public java.lang.Boolean getBooleanFlag6() {
+      return booleanFlag6;
+    }
+
+    /**
+      * Sets the value of the 'booleanFlag6' field.
+      * @param value The value of 'booleanFlag6'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setBooleanFlag6(java.lang.Boolean value) {
+      validate(fields()[21], value);
+      this.booleanFlag6 = value;
+      fieldSetFlags()[21] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'booleanFlag6' field has been set.
+      * @return True if the 'booleanFlag6' field has been set, false otherwise.
+      */
+    public boolean hasBooleanFlag6() {
+      return fieldSetFlags()[21];
+    }
+
+
+    /**
+      * Clears the value of the 'booleanFlag6' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearBooleanFlag6() {
+      booleanFlag6 = null;
+      fieldSetFlags()[21] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'intValue7' field.
+      * @return The value.
+      */
+    public java.lang.Integer getIntValue7() {
+      return intValue7;
+    }
+
+    /**
+      * Sets the value of the 'intValue7' field.
+      * @param value The value of 'intValue7'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setIntValue7(java.lang.Integer value) {
+      validate(fields()[22], value);
+      this.intValue7 = value;
+      fieldSetFlags()[22] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'intValue7' field has been set.
+      * @return True if the 'intValue7' field has been set, false otherwise.
+      */
+    public boolean hasIntValue7() {
+      return fieldSetFlags()[22];
+    }
+
+
+    /**
+      * Clears the value of the 'intValue7' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearIntValue7() {
+      intValue7 = null;
+      fieldSetFlags()[22] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue7' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue7() {
+      return someValue7;
+    }
+
+    /**
+      * Sets the value of the 'someValue7' field.
+      * @param value The value of 'someValue7'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue7(java.lang.Float value) {
+      validate(fields()[23], value);
+      this.someValue7 = value;
+      fieldSetFlags()[23] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue7' field has been set.
+      * @return True if the 'someValue7' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue7() {
+      return fieldSetFlags()[23];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue7' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue7() {
+      someValue7 = null;
+      fieldSetFlags()[23] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'booleanFlag7' field.
+      * @return The value.
+      */
+    public java.lang.Boolean getBooleanFlag7() {
+      return booleanFlag7;
+    }
+
+    /**
+      * Sets the value of the 'booleanFlag7' field.
+      * @param value The value of 'booleanFlag7'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setBooleanFlag7(java.lang.Boolean value) {
+      validate(fields()[24], value);
+      this.booleanFlag7 = value;
+      fieldSetFlags()[24] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'booleanFlag7' field has been set.
+      * @return True if the 'booleanFlag7' field has been set, false otherwise.
+      */
+    public boolean hasBooleanFlag7() {
+      return fieldSetFlags()[24];
+    }
+
+
+    /**
+      * Clears the value of the 'booleanFlag7' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearBooleanFlag7() {
+      booleanFlag7 = null;
+      fieldSetFlags()[24] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue8' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue8() {
+      return someValue8;
+    }
+
+    /**
+      * Sets the value of the 'someValue8' field.
+      * @param value The value of 'someValue8'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue8(java.lang.Float value) {
+      validate(fields()[25], value);
+      this.someValue8 = value;
+      fieldSetFlags()[25] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue8' field has been set.
+      * @return True if the 'someValue8' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue8() {
+      return fieldSetFlags()[25];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue8' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue8() {
+      someValue8 = null;
+      fieldSetFlags()[25] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'booleanFlag8' field.
+      * @return The value.
+      */
+    public java.lang.Boolean getBooleanFlag8() {
+      return booleanFlag8;
+    }
+
+    /**
+      * Sets the value of the 'booleanFlag8' field.
+      * @param value The value of 'booleanFlag8'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setBooleanFlag8(java.lang.Boolean value) {
+      validate(fields()[26], value);
+      this.booleanFlag8 = value;
+      fieldSetFlags()[26] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'booleanFlag8' field has been set.
+      * @return True if the 'booleanFlag8' field has been set, false otherwise.
+      */
+    public boolean hasBooleanFlag8() {
+      return fieldSetFlags()[26];
+    }
+
+
+    /**
+      * Clears the value of the 'booleanFlag8' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearBooleanFlag8() {
+      booleanFlag8 = null;
+      fieldSetFlags()[26] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'intValue9' field.
+      * @return The value.
+      */
+    public java.lang.Integer getIntValue9() {
+      return intValue9;
+    }
+
+    /**
+      * Sets the value of the 'intValue9' field.
+      * @param value The value of 'intValue9'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setIntValue9(java.lang.Integer value) {
+      validate(fields()[27], value);
+      this.intValue9 = value;
+      fieldSetFlags()[27] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'intValue9' field has been set.
+      * @return True if the 'intValue9' field has been set, false otherwise.
+      */
+    public boolean hasIntValue9() {
+      return fieldSetFlags()[27];
+    }
+
+
+    /**
+      * Clears the value of the 'intValue9' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearIntValue9() {
+      intValue9 = null;
+      fieldSetFlags()[27] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue9' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue9() {
+      return someValue9;
+    }
+
+    /**
+      * Sets the value of the 'someValue9' field.
+      * @param value The value of 'someValue9'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue9(java.lang.Float value) {
+      validate(fields()[28], value);
+      this.someValue9 = value;
+      fieldSetFlags()[28] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue9' field has been set.
+      * @return True if the 'someValue9' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue9() {
+      return fieldSetFlags()[28];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue9' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue9() {
+      someValue9 = null;
+      fieldSetFlags()[28] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'intValue10' field.
+      * @return The value.
+      */
+    public java.lang.Integer getIntValue10() {
+      return intValue10;
+    }
+
+    /**
+      * Sets the value of the 'intValue10' field.
+      * @param value The value of 'intValue10'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setIntValue10(java.lang.Integer value) {
+      validate(fields()[29], value);
+      this.intValue10 = value;
+      fieldSetFlags()[29] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'intValue10' field has been set.
+      * @return True if the 'intValue10' field has been set, false otherwise.
+      */
+    public boolean hasIntValue10() {
+      return fieldSetFlags()[29];
+    }
+
+
+    /**
+      * Clears the value of the 'intValue10' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearIntValue10() {
+      intValue10 = null;
+      fieldSetFlags()[29] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'someValue10' field.
+      * @return The value.
+      */
+    public java.lang.Float getSomeValue10() {
+      return someValue10;
+    }
+
+    /**
+      * Sets the value of the 'someValue10' field.
+      * @param value The value of 'someValue10'.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder setSomeValue10(java.lang.Float value) {
+      validate(fields()[30], value);
+      this.someValue10 = value;
+      fieldSetFlags()[30] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'someValue10' field has been set.
+      * @return True if the 'someValue10' field has been set, false otherwise.
+      */
+    public boolean hasSomeValue10() {
+      return fieldSetFlags()[30];
+    }
+
+
+    /**
+      * Clears the value of the 'someValue10' field.
+      * @return This builder.
+      */
+    public eu.ideata.streaming.core.UserInfo.Builder clearSomeValue10() {
+      someValue10 = null;
+      fieldSetFlags()[30] = false;
+      return this;
+    }
+
     @Override
     public UserInfo build() {
       try {
@@ -517,6 +2242,31 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
         record.subCategory = fieldSetFlags()[3] ? this.subCategory : (java.lang.CharSequence) defaultValue(fields()[3]);
         record.someValue = fieldSetFlags()[4] ? this.someValue : (java.lang.Float) defaultValue(fields()[4]);
         record.intValue = fieldSetFlags()[5] ? this.intValue : (java.lang.Integer) defaultValue(fields()[5]);
+        record.intValue2 = fieldSetFlags()[6] ? this.intValue2 : (java.lang.Integer) defaultValue(fields()[6]);
+        record.someValue2 = fieldSetFlags()[7] ? this.someValue2 : (java.lang.Float) defaultValue(fields()[7]);
+        record.booleanFlag2 = fieldSetFlags()[8] ? this.booleanFlag2 : (java.lang.Boolean) defaultValue(fields()[8]);
+        record.intValue3 = fieldSetFlags()[9] ? this.intValue3 : (java.lang.Integer) defaultValue(fields()[9]);
+        record.someValue3 = fieldSetFlags()[10] ? this.someValue3 : (java.lang.Float) defaultValue(fields()[10]);
+        record.booleanFlag3 = fieldSetFlags()[11] ? this.booleanFlag3 : (java.lang.Boolean) defaultValue(fields()[11]);
+        record.intValue4 = fieldSetFlags()[12] ? this.intValue4 : (java.lang.Integer) defaultValue(fields()[12]);
+        record.someValue4 = fieldSetFlags()[13] ? this.someValue4 : (java.lang.Float) defaultValue(fields()[13]);
+        record.booleanFlag4 = fieldSetFlags()[14] ? this.booleanFlag4 : (java.lang.Boolean) defaultValue(fields()[14]);
+        record.subCategory2 = fieldSetFlags()[15] ? this.subCategory2 : (java.lang.CharSequence) defaultValue(fields()[15]);
+        record.intValue5 = fieldSetFlags()[16] ? this.intValue5 : (java.lang.Integer) defaultValue(fields()[16]);
+        record.someValue5 = fieldSetFlags()[17] ? this.someValue5 : (java.lang.Float) defaultValue(fields()[17]);
+        record.booleanFlag5 = fieldSetFlags()[18] ? this.booleanFlag5 : (java.lang.Boolean) defaultValue(fields()[18]);
+        record.intValue6 = fieldSetFlags()[19] ? this.intValue6 : (java.lang.Integer) defaultValue(fields()[19]);
+        record.someValue6 = fieldSetFlags()[20] ? this.someValue6 : (java.lang.Float) defaultValue(fields()[20]);
+        record.booleanFlag6 = fieldSetFlags()[21] ? this.booleanFlag6 : (java.lang.Boolean) defaultValue(fields()[21]);
+        record.intValue7 = fieldSetFlags()[22] ? this.intValue7 : (java.lang.Integer) defaultValue(fields()[22]);
+        record.someValue7 = fieldSetFlags()[23] ? this.someValue7 : (java.lang.Float) defaultValue(fields()[23]);
+        record.booleanFlag7 = fieldSetFlags()[24] ? this.booleanFlag7 : (java.lang.Boolean) defaultValue(fields()[24]);
+        record.someValue8 = fieldSetFlags()[25] ? this.someValue8 : (java.lang.Float) defaultValue(fields()[25]);
+        record.booleanFlag8 = fieldSetFlags()[26] ? this.booleanFlag8 : (java.lang.Boolean) defaultValue(fields()[26]);
+        record.intValue9 = fieldSetFlags()[27] ? this.intValue9 : (java.lang.Integer) defaultValue(fields()[27]);
+        record.someValue9 = fieldSetFlags()[28] ? this.someValue9 : (java.lang.Float) defaultValue(fields()[28]);
+        record.intValue10 = fieldSetFlags()[29] ? this.intValue10 : (java.lang.Integer) defaultValue(fields()[29]);
+        record.someValue10 = fieldSetFlags()[30] ? this.someValue10 : (java.lang.Float) defaultValue(fields()[30]);
         return record;
       } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

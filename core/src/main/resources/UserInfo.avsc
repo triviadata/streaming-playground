@@ -8,6 +8,32 @@
            { "name" : "booleanFlag", "type": "boolean" },
            { "name" : "subCategory", "type": "string" },
            { "name" : "someValue", "type": "float" },
-           { "name" : "intValue", "type": "int" }
+           { "name" : "intValue", "type": "int" },
+           { "name" : "intValue2", "type": ["null", "int"]},
+           { "name" : "someValue2", "type": ["null", "float"] },
+           { "name" : "booleanFlag2", "type": ["null", "boolean"] },
+           { "name" : "intValue3", "type": ["null", "int"]},
+           { "name" : "someValue3", "type": ["null", "float"] },
+           { "name" : "booleanFlag3", "type": ["null", "boolean"] },
+           { "name" : "intValue4", "type": ["null", "int"]},
+           { "name" : "someValue4", "type": ["null", "float"] },
+           { "name" : "booleanFlag4", "type": ["null", "boolean"] },
+           { "name" : "subCategory2", "type": ["null", "string"] },
+           { "name" : "intValue5", "type": ["null", "int"]},
+           { "name" : "someValue5", "type": ["null", "float"] },
+           { "name" : "booleanFlag5", "type": ["null", "boolean"] },
+           { "name" : "intValue6", "type": ["null", "int"]},
+           { "name" : "someValue6", "type": ["null", "float"] },
+           { "name" : "booleanFlag6", "type": ["null", "boolean"] },
+           { "name" : "intValue7", "type": ["null", "int"]},
+           { "name" : "someValue7", "type": ["null", "float"] },
+           { "name" : "booleanFlag7", "type": ["null", "boolean"] },
+           { "name" : "someValue8", "type": ["null", "float"] },
+           { "name" : "booleanFlag8", "type": ["null", "boolean"] },
+           { "name" : "intValue9", "type": ["null", "int"]},
+           { "name" : "someValue9", "type": ["null", "float"] },
+           { "name" : "intValue10", "type": ["null", "int"]},
+           { "name" : "someValue10", "type": ["null", "float"] }
+
        ]
    }

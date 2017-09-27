@@ -117,7 +117,8 @@ class DataGenerators(val userIdFrom: Int, val userIdTo: Int, categoryModulo: Int
 
   def randomUserInfo(user: String): UserInfoWrapper = {
     val subCategory = r.nextInt(3).toString
-    UserInfoWrapper(user, Instant.now().toEpochMilli, r.nextBoolean(), subCategory, r.nextFloat(), r.nextInt(1000), 0l)
+    //UserInfoWrapper(String, Long,                     Boolean,        String        Float         Int             Long Int,             Float,          Boolean       Int                 Float        Boolean           Int            Float         Boolean           String          Int          Float           Boolean         Int            Float         Boolean         Int         Float         Boolean           Float             Boolean       Int         Float         Int               Float)
+    UserInfoWrapper(user, Instant.now().toEpochMilli, r.nextBoolean(), subCategory, r.nextFloat(), r.nextInt(1000), 0l,r.nextInt(10000), r.nextFloat(), r.nextBoolean(), r.nextInt(1000), r.nextFloat(), r.nextBoolean(), r.nextInt(), r.nextFloat(), r.nextBoolean(), r.nextString(10), r.nextInt(), r.nextFloat(), r.nextBoolean(), r.nextInt(), r.nextFloat(), r.nextBoolean(), r.nextInt(), r.nextFloat(), r.nextBoolean(), r.nextFloat(), r.nextBoolean(), r.nextInt(), r.nextFloat(), r.nextInt(), r.nextFloat())
   }
 
   def generateInitialUpdate: List[UserCategoryUpdateWrapper] = r.shuffle(users).take((users.size * 0.95).toInt).map(randomUserCategory)

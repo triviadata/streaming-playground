@@ -98,7 +98,7 @@ object ToUserInfo extends RichMapFunction[(String, GenericRecord), UserInfoWrapp
 
   def map(in: (String, GenericRecord)): UserInfoWrapper = {
     val data = spec.deepCopy(UserInfo.getClassSchema, in._2).asInstanceOf[UserInfo]
-    UserInfoWrapper.fromJava(data)
+    UserInfoWrapper.fromJavaInitializeReadTimestamp(data)
   }
 }
 
@@ -136,9 +136,7 @@ class StateMap(val runId: String) extends RichCoFlatMapFunction[UserInfoWrapper,
 
     val category = if(userCategoryState.contains(value.userId)) userCategoryState.get(value.userId) else ""
 
-    val UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue, readTimeStamp) = value
-
-    val enriched = UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, runId, readTimeStamp)
+    val enriched = UserInfoWithCategoryWrapper(value.userId, category, value.timestamp, value.booleanFlag, value.subCategory, value.someValue, value.intValue, Instant.now().toEpochMilli, runId, value.readTimeStamp)
 
     out.collect(enriched)
     out.close()

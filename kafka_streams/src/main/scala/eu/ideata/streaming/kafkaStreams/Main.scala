@@ -25,7 +25,7 @@ class UserInfoCategoryJoiner(val streamingSource: String) extends ValueJoiner[Us
   }
 
 object UserInfoValueMapper extends ValueMapper[UserInfo, UserInfoWrapper] {
-  override def apply(value: UserInfo) = UserInfoWrapper.fromJava(value)
+  override def apply(value: UserInfo) = UserInfoWrapper.fromJavaInitializeReadTimestamp(value)
 }
 
 object Pipe {
