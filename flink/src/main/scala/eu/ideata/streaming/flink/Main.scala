@@ -63,12 +63,12 @@ object Main {
     val userInfoStream = env
       .addSource(userInfo)
       .map(ToUserInfo)
-      .keyBy("userId")
+      .keyBy(_._1.getUserId)
 
     val userCategoryStream = env
       .addSource(userCategory)
       .map(ToUserCategoryUpdate)
-      .keyBy("userId")
+      .keyBy(_.getUserId)
 
 
     val StateMap = new StateMap(applicationId)
@@ -88,7 +88,7 @@ object Main {
     sink.setFlushOnCheckpoint(flushOnCheckpoint)
 
     env.enableCheckpointing(checkpointingInterval)
-    env.setStateBackend(new FsStateBackend(stateLocation))
+    env.setStateBackend(new FsStateBackend(stateLocation + applicationId))
     env.execute("Flink stateful streaming example")
   }
 }
