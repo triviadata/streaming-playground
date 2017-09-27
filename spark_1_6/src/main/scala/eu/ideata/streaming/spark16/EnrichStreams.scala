@@ -49,13 +49,13 @@ object EnrichStreams {
       producerProperties
     }
 
-    def updateStateForUsers(batchTime: Time, key: String, value: Option[(Option[(UserInfo, Long)], Option[UserCategoryUpdateWrapper])], state: State[String]): Option[UserInfoWithCategoryWrapper] = {
+    def updateStateForUsers(batchTime: Time, key: String, value: Option[(Option[(UserInfo, Long)], Option[UserCategoryUpdate])], state: State[String]): Option[UserInfoWithCategory] = {
       value.flatMap{ case(ui, uu) => {
-        uu.foreach(u => state.update(u.category))
+        uu.foreach(u => state.update(u.getCategory.toString))
 
         val category = state.getOption().getOrElse("")
 
-        ui.map{ case (u, t) =>  UserInfoWithCategoryWrapper(u.getUserId.toString, category, u.getTimestamp, u.getBooleanFlag, u.getSubCategory.toString, u.getSomeValue, u.getIntValue, Instant.now().toEpochMilli, sparkGroup.value, t) }
+        ui.map{ case (u, t) =>  new UserInfoWithCategory(u.getUserId, category.toCharArray, u.getTimestamp, u.getBooleanFlag, u.getSubCategory, u.getSomeValue, u.getIntValue, Instant.now().toEpochMilli, sparkGroup.value.toCharArray, t) }
 
         }
       }
@@ -73,7 +73,7 @@ object EnrichStreams {
 
     val targetTopic = ssc.sparkContext.broadcast(appConf.kafkaTargetTopic)
 
-    val userUpdateStateSpec: StateSpec[String, (Option[(UserInfo, Long)], Option[UserCategoryUpdateWrapper]), String, UserInfoWithCategoryWrapper] = StateSpec.function(updateStateForUsers _)
+    val userUpdateStateSpec: StateSpec[String, (Option[(UserInfo, Long)], Option[UserCategoryUpdate]), String, UserInfoWithCategory] = StateSpec.function(updateStateForUsers _)
       .initialState(ssc.sparkContext.emptyRDD[(String,String)])
       .numPartitions(appConf.statePartitionCount)
 
@@ -86,12 +86,12 @@ object EnrichStreams {
       }}
     })
 
-    val s2: DStream[(String, UserCategoryUpdateWrapper)] = userUpdateStream.mapPartitions(itr => {
+    val s2: DStream[(String, UserCategoryUpdate)] = userUpdateStream.mapPartitions(itr => {
       lazy val spec = new SpecificData()
 
       itr.map{ case (k,v) => {
-        val u = UserCategoryUpdateWrapper.fromJava(spec.deepCopy(UserCategoryUpdate.getClassSchema, v).asInstanceOf[UserCategoryUpdate])
-        u.userId -> u
+        val u = spec.deepCopy(UserCategoryUpdate.getClassSchema, v).asInstanceOf[UserCategoryUpdate]
+        u.getUserId.toString -> u
       }}
     })
 
@@ -108,7 +108,7 @@ object EnrichStreams {
         val producer = new KafkaProducer[String, Object](kafkaParams)
 
         partition.foreach(record => {
-            val message = new ProducerRecord[String, Object](topic, record.userId, record.asJava)
+            val message = new ProducerRecord[String, Object](topic, record.getUserId.toString, record)
             producer.send(message)
           })
         })
