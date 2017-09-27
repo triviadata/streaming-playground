@@ -13,9 +13,6 @@ import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig
 import org.apache.kafka.streams.kstream.{KStream, KStreamBuilder, KTable, ValueJoiner, ValueMapper}
 
 import scala.collection.JavaConverters._
-import org.apache.kafka.streams._
-
-import scala.collection.JavaConverters.asJavaIterableConverter
 
 class UserInfoCategoryJoiner(val streamingSource: String) extends ValueJoiner[UserInfoWrapper, UserCategoryUpdate, UserInfoWithCategory] {
   override def apply(value1: UserInfoWrapper, value2: UserCategoryUpdate): UserInfoWithCategory = {
