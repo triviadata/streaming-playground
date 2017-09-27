@@ -140,7 +140,7 @@ class StateMap(val runId: String) extends RichCoFlatMapFunction[(UserInfo, Long)
   }
 
   override def flatMap2(value: UserCategoryUpdate, out: Collector[UserInfoWithCategory]) = {
-    userCategoryState.put(value.getUserId.toString, value.getUserId.toString)
+    userCategoryState.put(value.getUserId.toString, value.getCategory.toString)
     out.close()
   }
 }
