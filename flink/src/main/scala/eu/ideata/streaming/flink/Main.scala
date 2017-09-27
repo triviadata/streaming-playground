@@ -93,31 +93,31 @@ object Main {
   }
 }
 
-object ToUserInfo extends RichMapFunction[(String, GenericRecord), UserInfoWrapper] {
+object ToUserInfo extends RichMapFunction[(String, GenericRecord), (UserInfo, Long)] {
   @transient lazy val spec = new SpecificData()
 
-  def map(in: (String, GenericRecord)): UserInfoWrapper = {
+  def map(in: (String, GenericRecord)): (UserInfo, Long) = {
     val data = spec.deepCopy(UserInfo.getClassSchema, in._2).asInstanceOf[UserInfo]
-    UserInfoWrapper.fromJavaInitializeReadTimestamp(data)
+    (data, Instant.now().toEpochMilli)
   }
 }
 
-object ToUserCategoryUpdate extends RichMapFunction[(String, GenericRecord), UserCategoryUpdateWrapper] {
+object ToUserCategoryUpdate extends RichMapFunction[(String, GenericRecord), UserCategoryUpdate] {
   @transient lazy val spec = new SpecificData()
 
-  def map(in: (String, GenericRecord)): UserCategoryUpdateWrapper ={
+  def map(in: (String, GenericRecord)): UserCategoryUpdate ={
     val data = spec.deepCopy(UserCategoryUpdate.getClassSchema, in._2).asInstanceOf[UserCategoryUpdate]
-    UserCategoryUpdateWrapper.fromJava(data)
+    data
   }
 }
 
-object ToUserWithCategory extends RichMapFunction[UserInfoWithCategoryWrapper, KafkaKV] {
+object ToUserWithCategory extends RichMapFunction[UserInfoWithCategory, KafkaKV] {
 
-  def map(in: UserInfoWithCategoryWrapper): KafkaKV = KafkaKV(in.userId, in.asJava)
+  def map(in: UserInfoWithCategory): KafkaKV = KafkaKV(in.getUserId.toString, in)
 
 }
 
-class StateMap(val runId: String) extends RichCoFlatMapFunction[UserInfoWrapper, UserCategoryUpdateWrapper, UserInfoWithCategoryWrapper]{
+class StateMap(val runId: String) extends RichCoFlatMapFunction[(UserInfo, Long), UserCategoryUpdate, UserInfoWithCategory]{
 
   private var userCategoryState: MapState[String, String] = _
 
@@ -127,18 +127,20 @@ class StateMap(val runId: String) extends RichCoFlatMapFunction[UserInfoWrapper,
     )
   }
 
-  override def flatMap2(value: UserCategoryUpdateWrapper, out: Collector[UserInfoWithCategoryWrapper]): Unit = {
-    userCategoryState.put(value.userId, value.userId)
+  override def flatMap1(value: (UserInfo, Long), out: Collector[UserInfoWithCategory]): Unit = {
+
+    val (u, t) = value
+
+    val category = if(userCategoryState.contains(u.getUserId.toString)) userCategoryState.get(u.getUserId.toString) else ""
+
+    val enriched = new UserInfoWithCategory(u.getUserId, category, u.getTimestamp, u.getBooleanFlag, u.getSubCategory, u.getSomeValue, u.getIntValue, Instant.now().toEpochMilli, runId, t)
+
+    out.collect(enriched)
     out.close()
   }
 
-  override def flatMap1(value: UserInfoWrapper, out: Collector[UserInfoWithCategoryWrapper]): Unit = {
-
-    val category = if(userCategoryState.contains(value.userId)) userCategoryState.get(value.userId) else ""
-
-    val enriched = UserInfoWithCategoryWrapper(value.userId, category, value.timestamp, value.booleanFlag, value.subCategory, value.someValue, value.intValue, Instant.now().toEpochMilli, runId, value.readTimeStamp)
-
-    out.collect(enriched)
+  override def flatMap2(value: UserCategoryUpdate, out: Collector[UserInfoWithCategory]) = {
+    userCategoryState.put(value.getUserId.toString, value.getUserId.toString)
     out.close()
   }
 }
