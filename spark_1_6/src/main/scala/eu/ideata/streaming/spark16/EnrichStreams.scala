@@ -49,13 +49,13 @@ object EnrichStreams {
       producerProperties
     }
 
-    def updateStateForUsers(batchTime: Time, key: String, value: Option[(Option[UserInfoWrapper], Option[UserCategoryUpdateWrapper])], state: State[String]): Option[UserInfoWithCategoryWrapper] = {
+    def updateStateForUsers(batchTime: Time, key: String, value: Option[(Option[(UserInfo, Long)], Option[UserCategoryUpdateWrapper])], state: State[String]): Option[UserInfoWithCategoryWrapper] = {
       value.flatMap{ case(ui, uu) => {
         uu.foreach(u => state.update(u.category))
 
         val category = state.getOption().getOrElse("")
 
-        ui.map{ case UserInfoWrapper(userId, timestamp, booleanFlag, subCategory, someValue, intValue, readTimeStamp) =>  UserInfoWithCategoryWrapper(userId, category, timestamp, booleanFlag, subCategory, someValue, intValue, Instant.now().toEpochMilli, sparkGroup.value, readTimeStamp) }
+        ui.map{ case (u, t) =>  UserInfoWithCategoryWrapper(u.getUserId.toString, category, u.getTimestamp, u.getBooleanFlag, u.getSubCategory.toString, u.getSomeValue, u.getIntValue, Instant.now().toEpochMilli, sparkGroup.value, t) }
 
         }
       }
@@ -73,16 +73,16 @@ object EnrichStreams {
 
     val targetTopic = ssc.sparkContext.broadcast(appConf.kafkaTargetTopic)
 
-    val userUpdateStateSpec: StateSpec[String, (Option[UserInfoWrapper], Option[UserCategoryUpdateWrapper]), String, UserInfoWithCategoryWrapper] = StateSpec.function(updateStateForUsers _)
+    val userUpdateStateSpec: StateSpec[String, (Option[(UserInfo, Long)], Option[UserCategoryUpdateWrapper]), String, UserInfoWithCategoryWrapper] = StateSpec.function(updateStateForUsers _)
       .initialState(ssc.sparkContext.emptyRDD[(String,String)])
       .numPartitions(appConf.statePartitionCount)
 
-    val s1: DStream[(String, UserInfoWrapper)] = userInfoStream.mapPartitions(itr => {
+    val s1: DStream[(String, (UserInfo, Long))] = userInfoStream.mapPartitions(itr => {
       lazy val spec = new SpecificData()
 
       itr.map { case (k,v) => {
-        val u = UserInfoWrapper.fromJava(spec.deepCopy(UserInfo.getClassSchema, v).asInstanceOf[UserInfo])
-        u.userId -> u
+        val u = spec.deepCopy(UserInfo.getClassSchema, v).asInstanceOf[UserInfo]
+        u.getUserId.toString -> (u, Instant.now().toEpochMilli)
       }}
     })
 
