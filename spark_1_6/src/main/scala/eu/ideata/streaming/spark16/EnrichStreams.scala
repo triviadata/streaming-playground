@@ -115,7 +115,7 @@ object EnrichStreams {
       }
     )
 
-    ssc.checkpoint(appConf.checkpointDir)
+    ssc.checkpoint(if(appConf.checkpointDir.endsWith("/")) appConf.checkpointDir + appConf.applicationId else appConf.checkpointDir + "/" + appConf.applicationId)
 
     ssc.start()
 
