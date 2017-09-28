@@ -20,8 +20,8 @@ object EnrichStreams {
 
   def main(args: Array[String]): Unit = {
     val (sparkConf, appConf) = {
-      val conf = new SparkConf().setAppName("kafka-streaming-test")
       val appConf = EnrichStreamsConfig.getConfig(args)
+      val conf = new SparkConf().setAppName("kafka-streaming-test").set("spark.streaming.backpressure.enabled","true").set("spark.streaming.kafka.maxRatePerPartition", appConf.messagesPerSecondPerPartition.toString)
       if(appConf.local) (conf.setMaster("local[*]").set("spark.driver.allowMultipleContexts", "true"), appConf) else (conf, appConf)
     }
 
