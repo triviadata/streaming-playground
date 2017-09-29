@@ -30,6 +30,7 @@ case class ConfluentRegistryDeserializationUserInfo(topic: String, schemaRegistr
 }
 
 
+
 case class ConfluentRegistryDeserializationUserCategory(topic: String, schemaRegistryUrl: String) extends KeyedDeserializationSchema[UserCategoryUpdate] {
 
 
