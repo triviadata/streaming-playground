@@ -26,3 +26,4 @@ case class ConfluentRegistrySerialization(topic: String, schemaRegistryUrl: Stri
   override def serializeValue(keyedMessages: KafkaKV): Array[Byte] =
     valueSerializer.serialize(topic, keyedMessages.value)
 }
+

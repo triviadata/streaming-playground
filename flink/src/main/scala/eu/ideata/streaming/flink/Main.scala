@@ -8,7 +8,7 @@ import java.time.Instant
 import java.util.Properties
 
 import eu.ideata.streaming.core._
-import eu.ideata.streaming.flink.schemaregistry.{ConfluentRegistryDeserialization, ConfluentRegistrySerialization, KafkaKV}
+import eu.ideata.streaming.flink.schemaregistry.{ConfluentRegistryDeserializationUserCategory, ConfluentRegistryDeserializationUserInfo, ConfluentRegistrySerialization, KafkaKV}
 import org.apache.flink.streaming.api.scala._
 import org.apache.avro.generic.GenericRecord
 import org.apache.avro.specific.SpecificData
@@ -36,7 +36,7 @@ object Main {
     val userCategoryUpdateTopic = params.get("userCategoryUpdateTopic", "user_update")
     val targetTopic = params.get("kafkaTargetTopic", "enriched_user")
     val flushOnCheckpoint = params.getBoolean("flushOnCheckpoint", false)
-    val checkpointingInterval = params.getInt("checkpointingInterval", 1000)
+    val checkpointingInterval = params.getInt("checkpointingInterval", 60000)
     val stateLocation = params.get("stateLocation", "file:///Users/mbarak/projects/ideata/streaming-playground/checkpoints")
     val fromBeginning = params.getBoolean("fromBeginning", false)
     val applicationId = params.get("applicationId", "flink")
@@ -53,23 +53,21 @@ object Main {
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
-    val userInfo = new FlinkKafkaConsumer010(userInfoTopic, new ConfluentRegistryDeserialization(userInfoTopic,  schemaRegistryUrl), sourcePropertis)
+    val userInfo = new FlinkKafkaConsumer010(userInfoTopic, new ConfluentRegistryDeserializationUserInfo(userInfoTopic,  schemaRegistryUrl), sourcePropertis)
 
-    val userCategory = new FlinkKafkaConsumer010(userCategoryUpdateTopic, new ConfluentRegistryDeserialization(userCategoryUpdateTopic,  schemaRegistryUrl), sourcePropertis)
+    val userCategory = new FlinkKafkaConsumer010(userCategoryUpdateTopic, new ConfluentRegistryDeserializationUserCategory(userCategoryUpdateTopic,  schemaRegistryUrl), sourcePropertis)
 
     if(fromBeginning) userInfo.setStartFromEarliest()
     if(fromBeginning) userCategory.setStartFromEarliest()
 
     val userInfoStream = env
       .addSource(userInfo)
-      .map(ToUserInfo)
-      .keyBy(_._1.getUserId)
+      .map( i => (i, Instant.now().toEpochMilli))
+      .keyBy(_._1.getUserId.toString)
 
     val userCategoryStream = env
       .addSource(userCategory)
-      .map(ToUserCategoryUpdate)
-      .keyBy(_.getUserId)
-
+      .keyBy(_.getUserId.toString)
 
     val StateMap = new StateMap(applicationId)
 
@@ -93,15 +91,6 @@ object Main {
   }
 }
 
-object ToUserInfo extends RichMapFunction[(String, GenericRecord), (UserInfo, Long)] {
-  @transient lazy val spec = new SpecificData()
-
-  def map(in: (String, GenericRecord)): (UserInfo, Long) = {
-    val data = spec.deepCopy(UserInfo.getClassSchema, in._2).asInstanceOf[UserInfo]
-    (data, Instant.now().toEpochMilli)
-  }
-}
-
 object ToUserCategoryUpdate extends RichMapFunction[(String, GenericRecord), UserCategoryUpdate] {
   @transient lazy val spec = new SpecificData()
 
@@ -117,7 +106,7 @@ object ToUserWithCategory extends RichMapFunction[UserInfoWithCategory, KafkaKV]
 
 }
 
-class StateMap(val runId: String) extends RichCoFlatMapFunction[(UserInfo, Long), UserCategoryUpdate, UserInfoWithCategory]{
+class StateMap(val runId: String) extends RichCoFlatMapFunction[(UserInfo, Long),UserCategoryUpdate, UserInfoWithCategory]{
 
   private var userCategoryState: MapState[String, String] = _
 
