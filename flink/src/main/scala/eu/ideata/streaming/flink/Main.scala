@@ -8,7 +8,7 @@ import java.time.Instant
 import java.util.Properties
 
 import eu.ideata.streaming.core._
-import eu.ideata.streaming.flink.schemaregistry.{ConfluentRegistryDeserializationUserCategory, ConfluentRegistryDeserializationUserInfo, ConfluentRegistrySerialization, KafkaKV}
+import eu.ideata.streaming.flink.schemaregistry._
 import org.apache.flink.streaming.api.scala._
 import org.apache.avro.generic.GenericRecord
 import org.apache.avro.specific.SpecificData
@@ -53,9 +53,9 @@ object Main {
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
 
-    val userInfo = new FlinkKafkaConsumer010(userInfoTopic, new ConfluentRegistryDeserializationUserInfo(userInfoTopic,  schemaRegistryUrl), sourcePropertis)
+    val userInfo = new FlinkKafkaConsumer010(userInfoTopic, new ConfluentRegistryDeserialization[UserInfo](userInfoTopic,  schemaRegistryUrl, classOf[UserInfo]), sourcePropertis)
 
-    val userCategory = new FlinkKafkaConsumer010(userCategoryUpdateTopic, new ConfluentRegistryDeserializationUserCategory(userCategoryUpdateTopic,  schemaRegistryUrl), sourcePropertis)
+    val userCategory = new FlinkKafkaConsumer010(userCategoryUpdateTopic, new ConfluentRegistryDeserialization[UserCategoryUpdate](userCategoryUpdateTopic,  schemaRegistryUrl, classOf[UserCategoryUpdate]), sourcePropertis)
 
     if(fromBeginning) userInfo.setStartFromEarliest()
     if(fromBeginning) userCategory.setStartFromEarliest()

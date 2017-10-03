@@ -14,20 +14,16 @@ import org.apache.kafka.streams.kstream.{KStream, KStreamBuilder, KTable, ValueJ
 
 import scala.collection.JavaConverters._
 
-class UserInfoCategoryJoiner(val streamingSource: String) extends ValueJoiner[(UserInfo, Long), String, UserInfoWithCategory] {
-  override def apply(value1: (UserInfo, Long), value2: String): UserInfoWithCategory = {
-
-      val category = if(value2 != null) value2 else ""
-      new UserInfoWithCategory(value1._1.getUserId, category, value1._1.getTimestamp, value1._1.getBooleanFlag, value1._1.getSubCategory, value1._1.getSomeValue, value1._1.getIntValue, Instant.now().toEpochMilli, streamingSource, value1._2)
+class UserInfoCategoryJoiner(val streamingSource: String) extends ValueJoiner[(UserInfo, Long), UserCategoryUpdate, UserInfoWithCategory] {
+  override def apply(value1: (UserInfo, Long), value2: UserCategoryUpdate): UserInfoWithCategory = {
+      val (u, t) = value1
+      val category = Option(value2).map(_.getCategory).getOrElse("")
+      new UserInfoWithCategory(u.getUserId, category, u.getTimestamp, u.getBooleanFlag, u.getSubCategory, u.getSomeValue, u.getIntValue, Instant.now().toEpochMilli, streamingSource, t)
     }
   }
 
 object UserInfoValueMapper extends ValueMapper[UserInfo, (UserInfo, Long)] {
   override def apply(value: UserInfo) = (value, Instant.now().toEpochMilli)
-}
-
-object UserCategoryValueMapper extends ValueMapper[UserCategoryUpdate, String] {
-  override def apply(value: UserCategoryUpdate) = value.toString
 }
 
 object Pipe {
@@ -65,7 +61,7 @@ object Pipe {
 
     val userInfoStream: KStream[String, (UserInfo, Long)] = builder.stream(keySerde, userInfoSerde, conf.userInfoTopic).mapValues(UserInfoValueMapper)
 
-    val userCategoryTable: KTable[String, String] = builder.table(keySerde, categoryUpdateSerde, conf.userCategoryUpdateTopic, "user_category_compacted").mapValues(UserCategoryValueMapper)
+    val userCategoryTable: KTable[String, UserCategoryUpdate] = builder.table(keySerde, categoryUpdateSerde, conf.userCategoryUpdateTopic, "user_category_compacted")
 
     val userInfoCategoryJoiner = new UserInfoCategoryJoiner(conf.streamingSource)
 
