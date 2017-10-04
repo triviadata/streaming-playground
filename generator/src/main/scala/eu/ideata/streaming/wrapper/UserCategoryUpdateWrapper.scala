@@ -1,6 +1,9 @@
-package eu.ideata.streaming.core
+package eu.ideata.streaming.wrapper
+
 
 import java.time.Instant
+
+import eu.ideata.streaming.core.{UserCategoryUpdate, UserInfo, UserInfoWithCategory}
 
 case class UserCategoryUpdateWrapper(userId: String, category: String, timestamp: Long){
   def asJava: UserCategoryUpdate = new UserCategoryUpdate(userId.toCharArray, category.toCharArray, timestamp)

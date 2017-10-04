@@ -16,7 +16,9 @@ lazy val core = (project in file ("core"))
     .settings(shared: _*)
     .settings(
       name := "core",
-      libraryDependencies ++= avro
+      libraryDependencies ++= avro,
+      crossPaths := false,
+      autoScalaLibrary := false
     )
 
 lazy val generator = (project in file("generator"))

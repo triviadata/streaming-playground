@@ -6,7 +6,7 @@ import java.util.Properties
 import scala.util.Random
 import akka.actor.Actor
 import akka.event.{Logging, LoggingAdapter}
-import eu.ideata.streaming.core.{UserCategoryUpdateWrapper, UserInfoWrapper}
+import eu.ideata.streaming.wrapper.{UserCategoryUpdateWrapper, UserInfoWrapper}
 import eu.ideata.streaming.main.{AvroMessage, JsonMessage, MessageFormat}
 import eu.ideata.streaming.messages.{GenerateUserCategoryUpdate, GenerateUserInfo, InitialUpdate}
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
