@@ -8,7 +8,8 @@ lazy val shared = List(
     libraryDependencies += scalaTest % Test,
     resolvers ++= Seq(
       "confluent" at "http://packages.confluent.io/maven/",
-      Resolver.sonatypeRepo("public")
+      Resolver.sonatypeRepo("public"),
+      Resolver.mavenLocal
     )
   )
 
