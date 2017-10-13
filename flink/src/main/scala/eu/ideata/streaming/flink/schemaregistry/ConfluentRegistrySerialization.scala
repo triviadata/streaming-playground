@@ -8,13 +8,13 @@ case class ConfluentRegistrySerialization(topic: String, schemaRegistryUrl: Stri
 
   @transient lazy val valueSerializer = {
     val serializer = new KafkaAvroSerializer()
-    serializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, false)
+    serializer.configure(Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, false)
     serializer
   }
 
   @transient lazy val keySerializer = {
     val serializer = new KafkaAvroSerializer()
-    serializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, true)
+    serializer.configure(Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, true)
     serializer
   }
 
