@@ -1,7 +1,7 @@
 package eu.ideata.streaming.flink.schemaregistry
 
 import eu.ideata.streaming.flink.serialization.SpecificAvroDeserializer
-import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig
+import io.confluent.kafka.serializers.{AbstractKafkaAvroSerDeConfig, KafkaAvroDeserializerConfig}
 import org.apache.avro.specific.SpecificRecord
 import org.apache.flink.api.common.typeinfo.TypeInformation
 import org.apache.flink.api.java.typeutils.TypeExtractor
@@ -15,11 +15,16 @@ case class ConfluentRegistryDeserialization[T <: SpecificRecord](topic: String, 
 
   @transient lazy val valueDeserializer = {
     val deserializer = new SpecificAvroDeserializer[T]()
-    deserializer.configure( Map(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl).asJava, false)
+
+    val customConfig = Map(
+      AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG -> schemaRegistryUrl,
+      KafkaAvroDeserializerConfig.AVRO_FORCE_NEW_SPECIFIC_DATA_CONFIG -> true).asJava
+
+    deserializer.configure(customConfig, false)
     deserializer
   }
 
-  override def isEndOfStream(nextElement:  T): Boolean = false
+  override def isEndOfStream(nextElement: T): Boolean = false
 
   override def deserialize(messageKey: Array[Byte], message: Array[Byte], topic: String, partition: Int, offset: Long): T = valueDeserializer.deserialize(topic, message)
 

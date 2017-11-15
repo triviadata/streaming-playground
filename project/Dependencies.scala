@@ -44,7 +44,7 @@ object Dependencies {
 
   val kafkaAvroSerde = {
     val confluentVersion = "3.1.2"
-    Seq("io.confluent" % "kafka-avro-serializer" % confluentVersion excludeAll ExclusionRule(name = "jackson-databind"),
+    Seq("io.confluent" % "kafka-avro-serializer" % "3.1.2-hotfixed" excludeAll ExclusionRule(name = "jackson-databind"),
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.4.4"
     )
   }
@@ -57,7 +57,7 @@ object Dependencies {
       Seq("org.apache.kafka" % "kafka-clients" % kafkaVersion),
       Seq(
         "org.apache.kafka" % "kafka-streams" % kafkaVersion,
-        "io.confluent" % "kafka-avro-serializer" % "3.1.2"
+        "io.confluent" % "kafka-avro-serializer" % "3.1.2-hotfixed"
       )
     )
   }
